@@ -2,22 +2,29 @@
 
 
 Authors:
-Mario Alberto Rodriguez-Meza (ININ, Mexico), marioalberto.rodriguez@inin.gob.mx
+
+Mario Alberto Rodriguez-Meza (ININ, Mexico), 
+marioalberto.rodriguez@inin.gob.mx
 
 Alejandro Aviles (Conacyt/ININ, Mexico),
 alejandro.aviles.conacyt@inin.gob.mx, avilescervantes@gmail.com 
 
+#
 
 
 MGPT (Modified Gravity Perturbation Theory) code computes 2-point statistics for Hu-Sawicky-Starobinsky f(R) gravity.  It is easily modifiable to other models. 
 
 Specifically, it computes:
 
-A. SPT matter power spectrum
-B. SPT Lagrangian-biased tracers power spectrum
-C. CLPT matter correlation function
-D. CLPT Lagrangian-biased tracers correlation function
-E. A set of Q and R functions (extensions to that of Matsubara 2008) from which other statistics, as leading bispectrum can be constructed. 
+- A. SPT matter power spectrum
+
+- B. SPT Lagrangian-biased tracers power spectrum
+
+- C. CLPT matter correlation function
+
+- D. CLPT Lagrangian-biased tracers correlation function
+
+- E. A set of Q and R functions (extensions to that of Matsubara 2008b) from which other statistics, as leading bispectrum can be constructed. 
 
 The code units are Mpc/h. The power spectrum convention is 
 
@@ -27,13 +34,14 @@ The code units are Mpc/h. The power spectrum convention is
 The code is divided in three pieces: MGPT-PS, MGPT-qfunctions and MGPT-CLPT
 
 
-####################################################################
+II MGPT_PS
 
-I. MGPT_PS: A C code that computes the matter and biased SPT power spectra. It computes the kernels in LPT by solving the set of differential equations of arXiv:1705.10719 and from them the functions Q(k) and R(k) of arXiv:1808.XXXXX 
+A C code that computes the matter and biased SPT power spectra. It computes the kernels in LPT by solving the set of differential equations of arXiv:1705.10719 and from them the functions Q(k) and R(k) of arXiv:1808.XXXXX 
 
 DOWNLOAD:
 
 Git clone
+
 ```
 git clone https://github.com/cosmoinin/MGPT.git
 ```
@@ -43,20 +51,29 @@ or download it from http://www.github.com/cosmoinin/MGPT
 
 Compile:
 
-/MGPT/src/$ make
-
+```
+/MGPT/src$ make
+```
 
 Run:
-/MGPT/$ ./mgpt
 
+```
+/MGPT$ ./mgpt
+```
 For help:
-/MGPT/$ ./mgpt -help
+
+```
+/MGPT$ ./mgpt -help
+```
+
 
 In help you can see how to change parameters, for example:
 
+```
 /MGPT/$ ./mgpt om=0.3 h=0.7 fR0=1.0e-6 
+```
 
-computes for Hu-Sawicky f_R0 = -10^-6, and background cosmology h=0.7, Omega_m = 0.3.
+computes Hu-Sawicky f_R0 = -10^-6, and background cosmology h=0.7, Omega_m = 0.3.
 
 The input of the code is the LCDM linear power spectrum extrapolated to present time in raw ascii format with columns 
 
