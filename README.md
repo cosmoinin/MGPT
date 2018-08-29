@@ -24,14 +24,15 @@ Specifically, it computes:
 
 - CLPT Lagrangian-biased tracers correlation function
 
-- A set of Q and R functions (extensions to that of Matsubara 2008b) from which other statistics, as leading bispectrum can be constructed. 
+- A set of Q and R functions (extensions to those of Matsubara 2008b) from which other statistics, as leading bispectrum can be constructed. 
 
-The code units are Mpc/h. The power spectrum convention is 
+The code units are Mpc/h. 
 
+The power spectrum convention is 
 (2pi)^3 delta_D(k+k') P(k) = <delta(k) delta(k')> 
 
 
-The code is divided in three pieces: MGPT-PS, MGPT-qfunctions and MGPT-CLPT
+The code is divided in three pieces: I. MGPT-PS; II. MGPT-qfunctions; and III. MGPT-CLPT
 
 
 ## II. MGPT_PS
