@@ -78,10 +78,10 @@ typedef struct {
 
 // Modified gravity model parameters:
     string mgmodel;
-    string model_paramfile;
+//    string model_paramfile;
     int nHS;
     real fR0;
-    string beta2str;
+//    string beta2str;
     real omegaBD;
     real screening;
 //

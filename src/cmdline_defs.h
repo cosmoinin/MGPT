@@ -36,18 +36,18 @@ string defv[] = {  ";"HEAD1": " HEAD2 "\n\t " HEAD3,
 // Power spectrum table:
     "fnamePS=psLCDM.in",		    ";Filename with power spectrum table",
     "kmin=1e-4",                    ";kmin to analyse from the power spectrum table",
-    "kmax=30",                      ";kmax to analyse from the power spectrum table",
-    "Nk=500",                       ";Total number of k´s analyse from the power spectrum table",
+    "kmax=100",                      ";kmax to analyse from the power spectrum table",
+    "Nk=300",                       ";Total number of k´s analyse from the power spectrum table",
 //
 // Modified gravity model parameters:
     "mgmodel=HS",                   ";Modified gravity model to study, default f(R) Hu-Sawicki", ":mgm",
     "nHS=1",                        ";Hu-Sawicki index",
     "fR0=1.0e-5",                   ";Hu-Sawicki f_R0",
-    "beta2=1/6",                    ";Hu-Sawicki beta^2",
-    "omegaBD=0.0",                  ";Omega Brans-Dicke",
+//    "beta2=1/6",                    ";Hu-Sawicki beta^2",
+//    "omegaBD=0.0",                  ";Omega Brans-Dicke",
     "screening=1.0",                ";Hu-Sawicki screening", ":sc",
 //
-    "model_paramfile=fofRHS.in",	";If mgmodel is not the default, give its parameter file name", ":mpfn",
+//    "model_paramfile=fofRHS.in",	";If mgmodel is not the default, give its parameter file name", ":mpfn",
 //
     "om=0.281",                     ";Omega matter value (z=0)",
     "h=0.697",                      ";Hubble parameter value (z=0)",
@@ -68,7 +68,7 @@ string defv[] = {  ";"HEAD1": " HEAD2 "\n\t " HEAD3,
     "postprocessing=false",			";Post processing options", ":pp",
     "options=",                     ";Various control options", ":opt",
 //
-    "Version=1.0.0",                ";Mario A. Rodríguez-Meza 2005-2018",
+    "Version=1.0.0",                ";Mario A. Rodríguez-Meza/Alejandro Aviles 2005-2018",
     NULL,
 };
 

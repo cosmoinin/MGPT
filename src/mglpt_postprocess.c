@@ -155,6 +155,9 @@ local real *R1plus2T2;
 local real *RIT;
 local real *RIT2;
 
+#define FMTBIASTERMDAT    \
+"%10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e\n"
+
 global void biasterms_processing(void)
 {
 // P22 = 9./98. Q1T[[ii, 2]] + 3./7. Q2T[[ii, 2]] + 1./2. Q3T[[ii, 2]]
@@ -187,6 +190,17 @@ global void biasterms_processing(void)
 
     fprintf(stdout,"\n\nWriting bias terms and the power spectrum to file %s...\n",fpfnamebiasterms);
     outstr = stropen(fpfnamebiasterms,"w!");
+
+    fprintf(outstr,"%1s%5s%12s%11s%11s%11s%11s%11s%11s%11s",
+            "#","k","<PSLT>","<P22>","<P13>",
+            "<a10>","<a01>","<a20>","<a11>",
+            "<a02>\n");
+    
+    fprintf(outstr,
+            "%1s%6s%11s%11s%11s%11s%11s%11s%11s%11s",
+            "#","<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>","<9>\n");
+
+
     for (p=PQsRstab; p<PQsRstab+nQsRsTable; p++) {
 
         k = kQsRs(p);
@@ -201,15 +215,15 @@ global void biasterms_processing(void)
         a11 = 2.*Q12QsRs(p);
         a02 = (1./2.)*Q13QsRs(p) - a02Off;
         Ploop = PSLT + P22 + P13;
-        fprintf(outstr,"%g %g %g %g %g %g %g %g %g %g\n",
-                k, PSLT,
-                P22, rabs(P13), a10, rabs(a01), a20, a11, rabs(a02), Ploop
+        fprintf(outstr,FMTBIASTERMDAT,
+                k, PSLT, P22, P13, a10, a01, a20, a11, a02
                 );
     }
     fclose(outstr);
     //
     free(PQsRstab);
 }
+#undef FMTBIASTERMDAT
 
 local void InputQsRsTable(void)
 {

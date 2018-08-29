@@ -26,8 +26,8 @@
 #include "globaldefs.h"
 #include "protodefs.h"
 
-local void ReadMGModelParameterFile(char *);
-local void PrintMGModelParameterFile(char *);
+//local void ReadMGModelParameterFile(char *);
+//local void PrintMGModelParameterFile(char *);
 
 local void ReadParameterFile(char *);
 local void PrintParameterFile(char *);
@@ -90,11 +90,11 @@ local void ReadParametersCmdline(void)
 {
 // Modified gravity model parameters:
     cmd.mgmodel = GetParam("mgmodel");
-    cmd.model_paramfile = GetParam("model_paramfile");
+//    cmd.model_paramfile = GetParam("model_paramfile");
     cmd.nHS = GetiParam("nHS");
     cmd.fR0 = GetdParam("fR0");
-    cmd.beta2str = GetParam("beta2");
-    cmd.omegaBD = GetdParam("omegaBD");
+//    cmd.beta2str = GetParam("beta2");
+//    cmd.omegaBD = GetdParam("omegaBD");
     cmd.screening = GetdParam("screening");
 //
 // Power spectrum table:
@@ -136,10 +136,10 @@ local void startrun_Common(void)
 		error("\nstart_Common: error opening file '%s' \n",gd.logfilePath);
 
 // Modified gravity model parameters:
-    gd.beta2 = (sscanf(cmd.beta2str, "%lf/%lf", &dx1, &dx2) == 2 ?
-             dx1/dx2 : atof(cmd.beta2str));
-    if ( dx2 == 0. )
-        error("\n\nstartrun_Common: beta2 denominator : must be finite\n");
+//    gd.beta2 = (sscanf(cmd.beta2str, "%lf/%lf", &dx1, &dx2) == 2 ?
+//             dx1/dx2 : atof(cmd.beta2str));
+//    if ( dx2 == 0. )
+//        error("\n\nstartrun_Common: beta2 denominator : must be finite\n");
 //
     gd.dx = (sscanf(cmd.dxstr, "%lf/%lf", &dx1, &dx2) == 2 ?
 				dx1/dx2 : atof(cmd.dxstr));
@@ -163,11 +163,11 @@ local void startrun_Common(void)
         PSLTable();
     }
 
-    if (!strnull(cmd.model_paramfile) && !(strcmp(cmd.mgmodel,"HS") == 0) ) {
-        fprintf(stdout,"\n\nNot default model, using parameter file: %s\n",cmd.model_paramfile);
-        ReadMGModelParameterFile(cmd.model_paramfile);
-        PrintMGModelParameterFile(cmd.model_paramfile);
-    }
+//    if (!strnull(cmd.model_paramfile) && !(strcmp(cmd.mgmodel,"HS") == 0) ) {
+//        fprintf(stdout,"\n\nNot default model, using parameter file: %s\n",cmd.model_paramfile);
+//        ReadMGModelParameterFile(cmd.model_paramfile);
+//        PrintMGModelParameterFile(cmd.model_paramfile);
+//    }
 }
 
 local void startrun_ParamStat(void)
@@ -178,13 +178,13 @@ local void startrun_ParamStat(void)
         cmd.fnamePS = GetParam("fnamePS");
 
 // Modified gravity model parameters:
-    if (GetParamStat("beta2") & ARGPARAM) {
-        cmd.beta2str = GetParam("beta2");
-        gd.beta2 = (sscanf(cmd.beta2str, "%lf/%lf", &dx1, &dx2) == 2 ?
-                 dx1/dx2 : atof(cmd.beta2str));
-        if ( dx2 == 0. )
-            error("\n\nstartrun_ParamStat: beta2 : denominator must be finite\n");
-    }
+//    if (GetParamStat("beta2") & ARGPARAM) {
+//        cmd.beta2str = GetParam("beta2");
+//        gd.beta2 = (sscanf(cmd.beta2str, "%lf/%lf", &dx1, &dx2) == 2 ?
+//                 dx1/dx2 : atof(cmd.beta2str));
+//        if ( dx2 == 0. )
+//            error("\n\nstartrun_ParamStat: beta2 : denominator must be finite\n");
+//    }
 //
 
 	if (GetParamStat("eta0") & ARGPARAM)
@@ -222,8 +222,8 @@ local void startrun_ParamStat(void)
 local void CheckParameters(void)
 {
 // Modified gravity model parameters:
-    if (gd.beta2 < 0.0)
-        error("CheckParameters: beta2 can not be less than zero :: %g\n",gd.beta2);
+//    if (gd.beta2 < 0.0)
+//        error("CheckParameters: beta2 can not be less than zero :: %g\n",gd.beta2);
 //
 // Power spectrum table:
     if (strnull(cmd.fnamePS))
@@ -296,11 +296,11 @@ local void ReadParameterFile(char *fname)
 //
 // Modified gravity model parameters:
     SPName(cmd.mgmodel,"mgmodel",100);
-    SPName(cmd.model_paramfile,"model_paramfile",100);
+//    SPName(cmd.model_paramfile,"model_paramfile",100);
     IPName(cmd.nHS,"nHS");
     RPName(cmd.fR0,"fR0");
-    SPName(cmd.beta2str,"beta2",100);
-    RPName(cmd.omegaBD,"omegaBD");
+//    SPName(cmd.beta2str,"beta2",100);
+//    RPName(cmd.omegaBD,"omegaBD");
     RPName(cmd.screening,"screening");
 //
     RPName(cmd.om,"om");
@@ -419,11 +419,11 @@ local void PrintParameterFile(char *fname)
 //
 // Modified gravity model parameters:
         fprintf(fdout,FMTT,"mgmodel",cmd.mgmodel);
-        fprintf(fdout,FMTT,"model_paramfile",cmd.model_paramfile);
+//        fprintf(fdout,FMTT,"model_paramfile",cmd.model_paramfile);
         fprintf(fdout,FMTI,"nHS",cmd.nHS);
         fprintf(fdout,FMTR,"fR0",cmd.fR0);
-        fprintf(fdout,FMTT,"beta2",cmd.beta2str);
-        fprintf(fdout,FMTR,"omegaBD",cmd.omegaBD);
+//        fprintf(fdout,FMTT,"beta2",cmd.beta2str);
+//        fprintf(fdout,FMTR,"omegaBD",cmd.omegaBD);
         fprintf(fdout,FMTR,"screening",cmd.screening);
 //
         fprintf(fdout,FMTR,"om",cmd.om);
@@ -453,7 +453,7 @@ local void PrintParameterFile(char *fname)
 
 //=============================================================
 // Begin: Modified gravity model reading and writing parameters
-
+/*
 local void ReadMGModelParameterFile(char *fname)
 {
 #define DOUBLE 1
@@ -544,7 +544,9 @@ local void ReadMGModelParameterFile(char *fname)
 #undef BOOLEAN
 #undef MAXTAGS
 }
+*/
 
+/*
 #define FMTT	"%-35s%s\n"
 #define FMTI	"%-35s%d\n"
 #define FMTR	"%-35s%g\n"
@@ -584,6 +586,7 @@ local void PrintMGModelParameterFile(char *fname)
 #undef FMTT
 #undef FMTI
 #undef FMTR
+*/
 
 // End: Modified gravity model reading and writing parameters
 //=============================================================

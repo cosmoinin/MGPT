@@ -96,6 +96,8 @@ local void Model_HS(void)
 //    beta2=1.0/6.0;
 //    omegaBD = 0.0;
 //    screening = 1.0;
+    gd.beta2 = 1.0/6.0;
+    cmd.omegaBD = 0.0;
 }
 
 global real mass(real eta)
