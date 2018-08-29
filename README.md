@@ -1,13 +1,10 @@
 # MGPT code
 
 
-Authors://
-Mario Alberto Rodriguez-Meza// 
-ININ, Mexico//
-marioalberto.rodriguez@inin.gob.mx
+Authors:
+Mario Alberto Rodriguez-Meza (ININ, Mexico), marioalberto.rodriguez@inin.gob.mx
 
-Alejandro Aviles
-Conacyt/ININ, Mexico
+Alejandro Aviles (Conacyt/ININ, Mexico),
 alejandro.aviles.conacyt@inin.gob.mx, avilescervantes@gmail.com 
 
 
@@ -36,7 +33,12 @@ I. MGPT_PS: A C code that computes the matter and biased SPT power spectra. It c
 
 DOWNLOAD:
 
-download or clone it from http://www.github.com/cosmoinin/MGPT
+Git clone
+```
+git clone https://github.com/cosmoinin/MGPT.git
+```
+
+or download it from http://www.github.com/cosmoinin/MGPT
 
 
 Compile:
