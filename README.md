@@ -79,14 +79,13 @@ Option sc=1 is the default with screenings, set sc=0 if you want no screenings.
 
 The input of the code is the LCDM linear power spectrum extrapolated to present time in with columns 
 
-| Left-Aligned  | Center Aligned  |
+| column  | function  |
 | ------------: |:---------------| 
-| #1            | k [in h/Mpc]|
-| #2            | P_L [in (h/Mpc)^3]        |  
+| #1            | k   (in h/Mpc)|
+| #2            | P_L   (in (h/Mpc)^3)        |  
 
 
--column1= k [in h/Mpc], 
--column2= P_L [in (h/Mpc)^3].
+
 
 By default it is located in /MGPT/Input/psLCDM.in
 
@@ -106,6 +105,19 @@ column  function
 #7      a20
 #8      a11
 #9      a02
+
+
+| column  | function  |
+| ------------: |:---------------| 
+| #1            | k   |
+| #2            | PSL   (linear power spectrum in MG)        |  
+| #3            | P22        |  
+| #4            | P13        |  
+| #5            | a10        |  
+| #6            | a01        |  
+| #7            | a20        |  
+| #8            | a11        | 
+| #9            | a02        | 
 
 By default the range of wavenumbers is very large, because it is necessary to afterwards compute the CLPT correlation function. To reduce the range run the code as
 
