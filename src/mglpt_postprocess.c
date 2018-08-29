@@ -160,16 +160,6 @@ local real *RIT2;
 
 global void biasterms_processing(void)
 {
-// P22 = 9./98. Q1T[[ii, 2]] + 3./7. Q2T[[ii, 2]] + 1./2. Q3T[[ii, 2]]
-// P13 = 10./21. R1T[[ii, 2]] + 6./7. Q2T[[ii, 2]] - sigma2L kT[[ii]] kT[[ii]] PSLT[[ii, 2]]
-// a10 = 10./21. R1T[[ii, 2]] + 6./7. R1plus2T[[ii, 2]] + 6./7. R2T[[ii, 2]]
-//       + 6./7. Q5T[[ii, 2]] + 2 Q7T[[ii, 2]] + 2. (1. - sigma2L kT[[ii]] kT[[ii]]) PSLT[[ii, 2]]
-// a01 = Q9T[[ii, 2]] + 3./7. Q8T[[ii, 2]]
-// a20 = Q11T[[ii, 2]] + (1. - sigma2L kT[[ii]] kT[[ii]] ) PSLT[[ii, 2]]
-//       + Q9T[[ii, 2]] + 6./7. R1plus2T[[ii, 2]]
-// a11 = 2. Q12T[[ii, 2]]
-// a02 = 1./2. Q13T[[ii, 2]]
-//
     stream outstr;
     pointQsRsTableptr p;
     real sigma2L;
