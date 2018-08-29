@@ -56,7 +56,7 @@ Compile:
 /MGPT/src$ make
 ```
 
-Run:
+Run: in the parent directory
 
 ```
 /MGPT$ ./mgpt
@@ -113,7 +113,7 @@ with structure
 By default the range of wavenumbers is very large, because is necessary to compute the CLPT correlation function. To reduce the range, run the code as
 
 ```
-/MGPT/$ ./mgpt Nk=100 kmin=0.001 kmax=0.2
+/MGPT$ ./mgpt Nk=100 kmin=0.001 kmax=0.2
 ```
 
 so the output will contain 100 k-points equally spaced in log intervals, from k=0.001 to kmax=0.2 h/Mpc
@@ -181,7 +181,7 @@ The output is the file qfunctionsT.dat, with columns structure
 
 | column  | function  |
 | ------------: |:---------------| 
-| #1            | q   (in units Mpc/h   |
+| #1            | q      |
 | #2            | X_linear          |  
 | #3            | Y_linear        |  
 | #4            | X_loop        |  
@@ -215,7 +215,7 @@ Output: CorrelationFunction.dat, with columns structure
 
 | column  | function  |
 | ------------: |:---------------| 
-| #1            | r   (in units Mpc/h   |
+| #1            | r     |
 | #2            |  xi_L     (linear correlation function)          |  
 | #3            |  xi_ZA    (Zel'dovich approximation correlation function)        |  
 | #4            | xi_A       |  
