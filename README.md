@@ -16,15 +16,15 @@ MGPT (Modified Gravity Perturbation Theory) code computes 2-point statistics for
 
 Specifically, it computes:
 
-- A. SPT matter power spectrum
+- SPT matter power spectrum
 
-- B. SPT Lagrangian-biased tracers power spectrum
+- SPT Lagrangian-biased tracers power spectrum
 
-- C. CLPT matter correlation function
+- CLPT matter correlation function
 
-- D. CLPT Lagrangian-biased tracers correlation function
+- CLPT Lagrangian-biased tracers correlation function
 
-- E. A set of Q and R functions (extensions to that of Matsubara 2008b) from which other statistics, as leading bispectrum can be constructed. 
+- A set of Q and R functions (extensions to that of Matsubara 2008b) from which other statistics, as leading bispectrum can be constructed. 
 
 The code units are Mpc/h. The power spectrum convention is 
 
@@ -70,10 +70,12 @@ For help:
 In help you can see how to change parameters, for example:
 
 ```
-/MGPT/$ ./mgpt om=0.3 h=0.7 fR0=1.0e-6 
+/MGPT$ ./mgpt om=0.3 h=0.7 fR0=1.0e-6 
 ```
 
 computes Hu-Sawicky f_R0 = -10^-6, and background cosmology h=0.7, Omega_m = 0.3.
+
+Option sc=1 is the default with screenings, set sc=0 if you want no screenings.
 
 The input of the code is the LCDM linear power spectrum extrapolated to present time in raw ascii format with columns 
 
