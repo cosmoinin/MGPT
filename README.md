@@ -92,7 +92,7 @@ By default it is located in /MGPT/Input/psLCDM.in
 
 The code gives two files as outputs: 
 
-a) SPTPowerSpectrum.dat 
+### output a) SPTPowerSpectrum.dat 
 
 which columns are
 column  function
@@ -138,6 +138,7 @@ Ploop_X = PSL + P22 + P13 + b1 * a10 + b2 * a01 + b1^2 * a20 +  b1 * b2 * a11 + 
 
 for b1 and b2 local Lagrangian biases.
 
+
 The bias b_{01} from operator (\nabla^2 \delta) can be introduced by adding 
 
 Ploop_X = Ploop_X - 2 (1 + b1)b_{01} k^2 PSL + b_{01}^2 k^4 PSL  
@@ -145,7 +146,7 @@ Ploop_X = Ploop_X - 2 (1 + b1)b_{01} k^2 PSL + b_{01}^2 k^4 PSL
 In this notation b_{01} = - b_{\nabla^2}
 
 
-b) MGPT/CLPT/kfunctionsT.dat
+### output b) MGPT/CLPT/kfunctionsT.dat
 
 kfunctionsT.dat file contains all the Q(k) and R(k) functions. It is the input of the code MGPT-qfunctions.
 
@@ -169,6 +170,29 @@ Column    Function
 #17        Dpk  (D+(k): linear growth function as a function of k)
 #18        PSL  (Linear power spectrum in MG)
 
+
+
+
+| column  | function  |
+| ------------: |:---------------| 
+| #1            | k   |
+| #2            | Q1          |  
+| #3            | Q2        |  
+| #4            | Q3        |  
+| #5            | Q5        |  
+| #6            | Q7        |  
+| #7            | Q8        |  
+| #8            | Q9        | 
+| #9            | Q11        | 
+| #10           | Q12        | 
+| #11           | Q13        | 
+| #12           | QI        | 
+| #13           | R1        | 
+| #14           | R2        | 
+| #15           | R1plus2        | 
+| #16           | RI   | 
+| #17           | Dpk  (D+(k): linear growth function as a function of k)         | 
+| #18           | PSL  (Linear power spectrum in MG)       | 
 
 ## II. MGPT_qfunctions
 
