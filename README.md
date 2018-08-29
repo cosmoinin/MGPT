@@ -12,7 +12,7 @@ alejandro.aviles.conacyt@inin.gob.mx, avilescervantes@gmail.com
 #
 
 
-MGPT (Modified Gravity Perturbation Theory) code computes 2-point statistics for for LCDM model and Hu-Sawicky-Starobinsky f(R) gravity. It is easily modifiable to other models. 
+MGPT (Modified Gravity Perturbation Theory) code computes 2-point statistics for LCDM model and Hu-Sawicky-Starobinsky f(R) gravity. It is easily modifiable to other models. 
 
 Specifically, it computes:
 
@@ -35,7 +35,7 @@ The power spectrum convention is
 The code is divided in three pieces: I. MGPT-PS; II. MGPT-qfunctions; and III. MGPT-CLPT
 
 
-## II. MGPT_PS
+## I. MGPT_PS
 
 A C code that computes the matter and biased SPT power spectra. It computes the kernels in LPT by solving the set of differential equations of arXiv:1705.10719 and from them the functions Q(k) and R(k) of arXiv:1808.XXXXX 
 
@@ -95,17 +95,7 @@ The code gives two files as outputs:
 
 ### output a) SPTPowerSpectrum.dat 
 
-which columns are
-column  function
-#1      k  
-#2      PSL  (linear power spectrum in MG)
-#3      P22
-#4      P13
-#5      a10
-#6      a01
-#7      a20
-#8      a11
-#9      a02
+with structure
 
 
 | column  | function  |
@@ -120,20 +110,21 @@ column  function
 | #8            | a11        | 
 | #9            | a02        | 
 
-By default the range of wavenumbers is very large, because it is necessary to afterwards compute the CLPT correlation function. To reduce the range run the code as
+By default the range of wavenumbers is very large, because is necessary to compute the CLPT correlation function. To reduce the range, run the code as
 
 ```
-/MGPT/$ ./mgpt Nk=200 kmin=0.001 kmax=1
+/MGPT/$ ./mgpt Nk=100 kmin=0.001 kmax=0.2
 ```
 
-so the output will contain 200 k-points equally spaced in log intervals, from k=0.001 to kmax=1 h/Mpc
+so the output will contain 100 k-points equally spaced in log intervals, from k=0.001 to kmax=0.2 h/Mpc
 
 
-The 1-loop matter power spectrum is given by
+
+The 1-loop matter power spectrum is 
 
 Ploop_m = PSL + P22 + P13 
 
-and the 1-loop Lagrangian-biased tracers (X) power spectrum is given by
+and the 1-loop Lagrangian-biased tracers (X) power spectrum is 
 
 Ploop_X = PSL + P22 + P13 + b1 * a10 + b2 * a01 + b1^2 * a20 +  b1 * b2 * a11 + b2^2 a02 
 
@@ -150,27 +141,6 @@ In this notation b_{01} = - b_{\nabla^2}
 ### output b) MGPT/CLPT/kfunctionsT.dat
 
 kfunctionsT.dat file contains all the Q(k) and R(k) functions. It is the input of the code MGPT-qfunctions.
-
-Column    Function
-#1         k
-#2         Q1
-#3         Q2
-#4         Q3
-#5         Q5
-#6         Q7
-#7         Q8
-#8         Q9
-#9         Q11
-#10        Q12
-#11        Q13
-#12        QI
-#13        R1
-#14        R2
-#15        R1plus2
-#16        RI
-#17        Dpk  (D+(k): linear growth function as a function of k)
-#18        PSL  (Linear power spectrum in MG)
-
 
 
 
@@ -204,23 +174,7 @@ The input is the file kfunctionsT.dat obtained with MGPT-PS (or by other code of
 
 The output is the file qfunctionsT.dat, with columns structure
 
-column     function
-#1         q (in units Mpc/h)
-#2         X_linear
-#3         Y_linear
-#4         X_loop         
-#5         Y_loop
-#6         V
-#7         T
-#8         X10
-#9         Y10
-#10        U_linear
-#11        U_loop 
-#12        U11
-#13        U20
-#14        xi_linear   (linear correlation function)
-#15        nabla2_xi_linear   (The laplacian of the linear correlation function)
-#16        nabla4_xi_linear   (The \nabla^4 of the linear correlation function)
+
 
 
 
@@ -255,21 +209,7 @@ Input: qfunctions.dat obtained from MGPT_qfunctions.nb (or by other means)
 
 Output: CorrelationFunction.dat, with columns structure
 
-column   function
-#1       r (in Mpc/h units) 
-#2       xi_L     (linear correlation function)
-#3       xi_ZA    (Zel'dovich approximation correlation function)
-#4       xi_A  
-#5       xi_W     
-#6       xi10_linear
-#7       xi10_loop
-#8       xi20_linear
-#9       xi20_loop
-#10      xi01
-#11      xi02
-#12      xi11
-#13      xi_nabla2  
-#14      xi_nabla4
+
 
 
 
