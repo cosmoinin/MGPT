@@ -37,15 +37,8 @@ void rk4(double y[], double dydx[], int n, double x, double h, double yout[],
 
 // ODEINT
 //
-//#include <math.h>
-//#define NRANSI
-//#include "nrutil_nransi.h"
 #define MAXSTP 10000
 #define TINY 1.0e-30
-
-//local int kmax,kount;
-//local double *xp,**yp,dxsav;
-
 
 void odeint(double ystart[], int nvar, double x1, double x2, double eps, double h1,
             double hmin, int *nok, int *nbad, int maxnsteps,
@@ -65,8 +58,6 @@ void odeint(double ystart[], int nvar, double x1, double x2, double eps, double 
     *nok = (*nbad) = kount = 0;
     for (i=1;i<=nvar;i++) y[i]=ystart[i];
     if (kmax > 0) xsav=x-dxsav*2.0;
-//    for (nstp=1;nstp<=MAXSTP;nstp++) {
-//    for (nstp=1;nstp<=cmd.maxnsteps;nstp++) {
     for (nstp=1;nstp<=maxnsteps;nstp++) {
         (*derivsin)(x,y,dydx);
         for (i=1;i<=nvar;i++)
@@ -77,7 +68,6 @@ void odeint(double ystart[], int nvar, double x1, double x2, double eps, double 
             xsav=x;
         }
         if ((x+h-x2)*(x+h-x1) > 0.0) h=x2-x;
-//        (*rkqsin)(y,dydx,nvar,&x,h,eps,yscal,&hdid,&hnext,derivsSecondOrder);
         (*rkqsin)(y,dydx,nvar,&x,h,eps,yscal,&hdid,&hnext,derivsin);
         if (hdid == h) ++(*nok); else ++(*nbad);
         if ((x-x2)*(x2-x1) >= 0.0) {
@@ -98,13 +88,9 @@ void odeint(double ystart[], int nvar, double x1, double x2, double eps, double 
 }
 #undef MAXSTP
 #undef TINY
-#undef NRANSI
 
 // rkqs
 //
-//#include <math.h>
-//#define NRANSI
-//#include "nrutil_nransi.h"
 #define SAFETY 0.9
 #define PGROW -0.2
 #define PSHRNK -0.25
@@ -144,13 +130,10 @@ void rkqs(double y[], double dydx[], int n, double *x, double htry, double eps,
 #undef PGROW
 #undef PSHRNK
 #undef ERRCON
-#undef NRANSI
 
 
 // rkck
 //
-//#define NRANSI
-//#include "nrutil_nransi.h"
 
 void rkck(double y[], double dydx[], int n, double x, double h, double yout[],
           double yerr[], void (*derivs)(double, double [], double []))
@@ -199,13 +182,9 @@ void rkck(double y[], double dydx[], int n, double x, double h, double yout[],
     free_dvector(ak3,1,n);
     free_dvector(ak2,1,n);
 }
-//#undef NRANSI
 
 
 //
-//#include <math.h>
-//#define NRANSI
-//#include "nrutil.h"
 #define KMAXX 8
 #define IMAXX (KMAXX+1)
 #define SAFE1 0.25
@@ -342,13 +321,7 @@ void bsstep(double y[], double dydx[], int nv, double *xx, double htry, double e
 #undef REDMIN
 #undef TINY
 #undef SCALMX
-#undef NRANSI
 
-
-// mmid
-//
-//#define NRANSI
-//#include "nrutil_nransi.h"
 
 void mmid(double y[], double dydx[], int nvar, double xs, double htot, int nstep,
           double yout[], void (*derivs)(double, double[], double[]))
@@ -380,14 +353,7 @@ void mmid(double y[], double dydx[], int nvar, double xs, double htot, int nstep
     free_dvector(yn,1,nvar);
     free_dvector(ym,1,nvar);
 }
-#undef NRANSI
 
-// pzextr
-//
-//#define NRANSI
-//#include "nrutil_nransi.h"
-
-//extern float **d,*x;
 
 void pzextr(int iest, double xest, double yest[], double yz[], double dy[], int nv)
 {
@@ -418,5 +384,4 @@ void pzextr(int iest, double xest, double yest[], double yz[], double dy[], int 
     }
     free_dvector(c,1,nv);
 }
-//#undef NRANSI
 

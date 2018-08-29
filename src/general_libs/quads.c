@@ -91,10 +91,6 @@ double qromo(double (*func)(double), double a, double b,
 // polint
 
 
-//#include <math.h>
-//#define NRANSI
-//#include "nrutil_nransi.h"
-
 void polint(double xa[], double ya[], int n, double x, double *y, double *dy)
 {
     int i,m,ns=1;
@@ -128,7 +124,6 @@ void polint(double xa[], double ya[], int n, double x, double *y, double *dy)
     free_dvector(d,1,n);
     free_dvector(c,1,n);
 }
-//#undef NRANSI
 
 // END polint
 
@@ -136,7 +131,6 @@ void polint(double xa[], double ya[], int n, double x, double *y, double *dy)
 
 // BEGIN midexp
 
-//#include <math.h>
 #define FUNC(x) ((*funk)(-log(x))/(x))
 
 double midexp(double (*funk)(double), double aa, double bb, int n)
@@ -360,34 +354,4 @@ void splint(double xa[], double ya[], double y2a[], int n, double x, double *y)
     b=(x-xa[klo])/h;
     *y=a*ya[klo]+b*ya[khi]+((a*a*a-a)*y2a[klo]+(b*b*b-b)*y2a[khi])*(h*h)/6.0;
 }
-
-
-
-/*
- double *vector(long nl, long nh)
- {
- double *v;
- 
- v=(double *)malloc((size_t) ((nh-nl+1+1)*sizeof(double)));
- if (!v) nrerror("allocation error in vector()");
- return v-nl+1;
- }
- 
- void free_vector(double *v, long nl, long nh)
- {
- free((char*) (v+nl-1));
- }
- 
- 
- void nrerror(char error_text[])
- {
- fprintf(stderr,"Run-time error...\n");
- fprintf(stderr,"%s\n",error_text);
- fprintf(stderr,"...exit...\n");
- exit(1);
- }
- */
-
-//#undef NRANSI
-// FIN DE QROMO
 

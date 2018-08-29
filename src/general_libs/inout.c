@@ -23,11 +23,6 @@
 	and he disclaims all liability from any consequences arising from their	use.
 ==============================================================================*/
 
-//#include <stdio.h>
-//#include <stddef.h>
-//#include <stdlib.h>
-//#include <math.h>
-
 #include "stdinc.h"
 #include "vectmath.h"
 #include "inout.h"
@@ -273,38 +268,6 @@ void in_vector_ndim(stream str, double *vec, int ndim)
 }
 
 
-// Routines for binary gdgt in/out
-/*
-size_t my_fread(void *ptr, size_t size, size_t nmemb, FILE *stream)
-{
-  size_t nread;
-
-  if((nread=fread(ptr, size, nmemb, stream))!=nmemb)
-    {
-      printf("my_fread: I/O error (fread) has occured.\n");
-      fflush(stdout);
-      endrun(778);
-    }
-  return nread;
-}
-
-size_t my_fwrite(void *ptr, size_t size, size_t nmemb, FILE *stream)
-{
-  size_t nwritten;
-
-  if((nwritten=fwrite(ptr, size, nmemb, stream))!=nmemb)
-    {
-      printf("my_fwrite: I/O error (fwrite) on has occured.\n");
-      fflush(stdout);
-      endrun(777);
-    }
-  return nwritten;
-}
-*/
-
-// Pasar todas las invocaciones de "my_fread" y "my_fwrite" 
-// a "gdgt_fread" y "gdgt_fwrite" respectivamente.
-// Entonces borrar las definiciones de "my_fread" y "my_fwrite".
 size_t gdgt_fread(void *ptr, size_t size, size_t nmemb, FILE *stream)
 {
   size_t nread;
@@ -344,8 +307,8 @@ void ReadInString(stream instr, char *path)
 		if (c==' ' || c=='\n' || c=='\t') break;
 		word[i++]=c;
 	}
-    // Removing the warning:
-    // warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+// Removing the warning:
+// warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
 //    word[i] = (char)NULL;
     word[i] = '\0';
 	strcpy(path, word);

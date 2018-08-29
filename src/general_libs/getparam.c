@@ -300,23 +300,6 @@ local param *FindParam(string name, param *pvec)
     return (NULL);
 }
 
-/*
-local string ParName(string arg)
-{
-    char *ap, *ep;
-    static char namebuf[64];
-
-    ap = (char *) arg;
-    if (*ap == '<' || *ap == '>')
-        ap++;
-    strncpy(namebuf, ap, 63);
-    namebuf[63] = (char)NULL;
-    ep = strchr(namebuf, '=');
-    if (ep == NULL)
-        return (NULL);
-    *ep = (char)NULL;
-    return (namebuf);
-} */
 
 // Removing the warning:
 // warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]

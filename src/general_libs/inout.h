@@ -82,9 +82,6 @@ void in_vector_ndim(stream, real *, int);
 
 // Macros and routines for binary gdgt in/out
 
-// Pasar todas las invocaciones de "my_fread" y "my_fwrite" 
-// a "gdgt_fread" y "gdgt_fwrite" respectivamente.
-// Entonces borrar las definiciones de "my_fread" y "my_fwrite".
 
 size_t my_fread(void *ptr, size_t size, size_t nmemb, FILE *stream);
 size_t my_fwrite(void *ptr, size_t size, size_t nmemb, FILE *stream);
