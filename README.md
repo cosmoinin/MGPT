@@ -222,6 +222,29 @@ column     function
 #16        nabla4_xi_linear   (The \nabla^4 of the linear correlation function)
 
 
+
+
+| column  | function  |
+| ------------: |:---------------| 
+| #1            | q   (in units Mpc/h   |
+| #2            | X_linear          |  
+| #3            | Y_linear        |  
+| #4            | X_loop        |  
+| #5            | Y_loop        |  
+| #6            | V        |  
+| #7            | T        |  
+| #8            | X10        | 
+| #9            | Y10        | 
+| #10           | U_linear        | 
+| #11           | U_loop        | 
+| #12           | U11        | 
+| #13           | U20        | 
+| #14           | xi_linear    (linear correlation function)     | 
+| #15           | nabla2_xi_linear   (The laplacian of the linear correlation function)      | 
+| #16           | nabla4_xi_linear   (The \nabla^4 of the linear correlation function)   | 
+
+
+
 ## III. MGPT_CLPT
 
 
@@ -247,6 +270,26 @@ column   function
 #13      xi_nabla2  
 #14      xi_nabla4
 
+
+
+| column  | function  |
+| ------------: |:---------------| 
+| #1            | r   (in units Mpc/h   |
+| #2            |  xi_L     (linear correlation function)          |  
+| #3            |  xi_ZA    (Zel'dovich approximation correlation function)        |  
+| #4            | xi_A       |  
+| #5            | xi_W        |  
+| #6            | xi10_linear        |  
+| #7            | xi10_loop       |  
+| #8            | xi20_linear       | 
+| #9            | xi20_loop       | 
+| #10           | xi01        | 
+| #11           | xi02        | 
+| #12           | xi11        | 
+| #13           | xi_nabla2        | 
+| #14           | xi_nabla4    | 
+
+
 The matter CLPT correlation function is given by 
 
 xi_CLPTm = xi_ZA + xi_A + xi_W
@@ -256,6 +299,8 @@ The biased tracers CLPT correlation function is
 xi_CLPT_X = xi_CLPTm + b1 * (xi10_linear + xi10_loop)  + b2 * xi01 + b1^2 * (xi20_linear + xi20_loop) +  b1 * b2 * xi11 + b2^2 xi02 
 
 for b1 and b2 local Lagrangian biases.
+
+
 
 The bias b_{01} from operator (\nabla^2 \delta) can be introduced by adding 
 
