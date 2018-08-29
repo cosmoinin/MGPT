@@ -34,7 +34,7 @@ The code units are Mpc/h. The power spectrum convention is
 The code is divided in three pieces: MGPT-PS, MGPT-qfunctions and MGPT-CLPT
 
 
-## II MGPT_PS
+## II. MGPT_PS
 
 A C code that computes the matter and biased SPT power spectra. It computes the kernels in LPT by solving the set of differential equations of arXiv:1705.10719 and from them the functions Q(k) and R(k) of arXiv:1808.XXXXX 
 
@@ -77,7 +77,13 @@ computes Hu-Sawicky f_R0 = -10^-6, and background cosmology h=0.7, Omega_m = 0.3
 
 Option sc=1 is the default with screenings, set sc=0 if you want no screenings.
 
-The input of the code is the LCDM linear power spectrum extrapolated to present time in raw ascii format with columns 
+The input of the code is the LCDM linear power spectrum extrapolated to present time in with columns 
+
+| Left-Aligned  | Center Aligned  | Right Aligned |
+| :------------ |:---------------:| -----:|
+| col 3 is      | some wordy text | $1600 |
+| col 2 is      | centered        |   $12 |
+| zebra stripes | are neat        |    $1 |
 
 -column1= k [in h/Mpc], 
 -column2= P_L [in (h/Mpc)^3].
