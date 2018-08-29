@@ -12,7 +12,7 @@ alejandro.aviles.conacyt@inin.gob.mx, avilescervantes@gmail.com
 #
 
 
-MGPT (Modified Gravity Perturbation Theory) code computes 2-point statistics for Hu-Sawicky-Starobinsky f(R) gravity.  It is easily modifiable to other models. 
+MGPT (Modified Gravity Perturbation Theory) code computes 2-point statistics for for LCDM model and Hu-Sawicky-Starobinsky f(R) gravity. It is easily modifiable to other models. 
 
 Specifically, it computes:
 
@@ -34,7 +34,7 @@ The code units are Mpc/h. The power spectrum convention is
 The code is divided in three pieces: MGPT-PS, MGPT-qfunctions and MGPT-CLPT
 
 
-II MGPT_PS
+## II MGPT_PS
 
 A C code that computes the matter and biased SPT power spectra. It computes the kernels in LPT by solving the set of differential equations of arXiv:1705.10719 and from them the functions Q(k) and R(k) of arXiv:1808.XXXXX 
 
@@ -77,8 +77,8 @@ computes Hu-Sawicky f_R0 = -10^-6, and background cosmology h=0.7, Omega_m = 0.3
 
 The input of the code is the LCDM linear power spectrum extrapolated to present time in raw ascii format with columns 
 
-column1= k [in h/Mpc], 
-column2= P_L [in (h/Mpc)^3].
+-column1= k [in h/Mpc], 
+-column2= P_L [in (h/Mpc)^3].
 
 By default it is located in /MGPT/Input/psLCDM.in
 
@@ -101,9 +101,11 @@ column  function
 
 By default the range of wavenumbers is very large, because it is necessary to afterwards compute the CLPT correlation function. To reduce the range run the code as
 
+```
 /MGPT/$ ./mgpt Nk=200 kmin=0.001 kmax=1
+```
 
-and the output will contain 200 k-points equally spaced in log intervals, from k=0.001 to kmax=1 h/Mpc
+so the output will contain 200 k-points equally spaced in log intervals, from k=0.001 to kmax=1 h/Mpc
 
 
 The 1-loop matter power spectrum is given by
@@ -125,7 +127,7 @@ In this notation b_{01} = - b_{\nabla^2}
 
 b) MGPT/CLPT/kfunctionsT.dat
 
-This file contains all the Q(k) and R(k) functions. It is the input of the code MGPT-qfunctions.
+kfunctionsT.dat file contains all the Q(k) and R(k) functions. It is the input of the code MGPT-qfunctions.
 
 Column    Function
 #1         k
@@ -147,12 +149,13 @@ Column    Function
 #17        Dpk  (D+(k): linear growth function as a function of k)
 #18        PSL  (Linear power spectrum in MG)
 
-#######################################################################
 
-II. CLPT/MGPT_qfunctions.nb is a Mathematica notebook that post-process the file kfunctionsT.dat to obtain a set of q-functions
-that are the building blocks of the CLPT correlation function. This code is independent of the gravitational or dark energy model, just fed it with the appropiat kfunctions.dat file. 
+## II. MGPT_qfunctions
 
-The input is the file kfunctionsT.dat obtained with MGPT-PS (or by other code)
+CLPT/MGPT_qfunctions.nb is a Mathematica notebook that post-process the file kfunctionsT.dat to obtain a set of q-functions
+that are the building blocks of the CLPT correlation function. This code is independent of the gravitational or dark energy model, just fed it with the appropiate kfunctions.dat file. 
+
+The input is the file kfunctionsT.dat obtained with MGPT-PS (or by other code of your preference)
 
 The output is the file qfunctionsT.dat, with columns structure
 
@@ -174,9 +177,9 @@ column     function
 #15        nabla2_xi_linear   (The laplacian of the linear correlation function)
 #16        nabla4_xi_linear   (The \nabla^4 of the linear correlation function)
 
-####################################################################
 
-III. MGPT_CLPT.nb
+## III. MGPT_CLPT
+
 
 CLPT/MGPT_CLPT.nb is Mathematica notebook post-process the ouput of MGPT_qfunctions.nb to compute the Zel'dovich approximation, and CLPT correlation function for both matter and biased tracers. 
 
@@ -206,16 +209,16 @@ xi_CLPTm = xi_ZA + xi_A + xi_W
 
 The biased tracers CLPT correlation function is
 
-xi_CLPT_tracers = xi_CLPTm + b1 * (xi10_linear + xi10_loop)  + b2 * xi01 + b1^2 * (xi20_linear + xi20_loop) +  b1 * b2 * xi11 + b2^2 xi02 
+xi_CLPT_X = xi_CLPTm + b1 * (xi10_linear + xi10_loop)  + b2 * xi01 + b1^2 * (xi20_linear + xi20_loop) +  b1 * b2 * xi11 + b2^2 xi02 
 
 for b1 and b2 local Lagrangian biases.
 
 The bias b_{01} from operator (\nabla^2 \delta) can be introduced by adding 
 
-xi_CLPT_tracers = xi_CLPT_tracers  + 2 (1 + b1)b_{01} xi_nabla2 + b_{01}^2 xi_nabla4.
+xi_CLPT_X = xi_CLPT_X  + 2 (1 + b1)b_{01} xi_nabla2 + b_{01}^2 xi_nabla4.
 
-####################################################################
-####################################################################
+
+## References
 
 If you use this code please cite the following papers:
 
