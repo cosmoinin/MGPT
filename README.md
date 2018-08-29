@@ -79,11 +79,11 @@ Option sc=1 is the default with screenings, set sc=0 if you want no screenings.
 
 The input of the code is the LCDM linear power spectrum extrapolated to present time in with columns 
 
-| Left-Aligned  | Center Aligned  | Right Aligned |
-| :------------ |:---------------:| -----:|
-| col 3 is      | some wordy text | $1600 |
-| col 2 is      | centered        |   $12 |
-| zebra stripes | are neat        |    $1 |
+| Left-Aligned  | Center Aligned  |
+| ------------: |:---------------| 
+| #1            | k [in h/Mpc]|
+| #2            | P_L [in (h/Mpc)^3]        |  
+
 
 -column1= k [in h/Mpc], 
 -column2= P_L [in (h/Mpc)^3].
