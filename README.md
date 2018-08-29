@@ -1,9 +1,9 @@
 # MGPT code
 
 
-Authors:
-Mario Alberto Rodriguez-Meza 
-ININ, Mexico
+Authors://
+Mario Alberto Rodriguez-Meza// 
+ININ, Mexico//
 marioalberto.rodriguez@inin.gob.mx
 
 Alejandro Aviles
