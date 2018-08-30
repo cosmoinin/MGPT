@@ -96,6 +96,7 @@ typedef struct {
     real xnow;
     real xout;
     real xoutinfo;
+    real xstop;
 
 	char mode[2];
 
