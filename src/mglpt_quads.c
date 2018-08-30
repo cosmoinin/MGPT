@@ -105,7 +105,7 @@ local real Q1_function(real eta, real ki)
     real result;
     real pmin, pmax, ymin, ymax;
 
-    cmd.xstop = eta;
+    gd.xstop = eta;
     gd.k = ki;
     
     pmin = kPos(PSLCDMtab+10);
@@ -185,7 +185,7 @@ local real Q2_function(real eta, real ki)
     real result;
     real pmin, pmax, ymin, ymax;
     
-    cmd.xstop = eta;
+    gd.xstop = eta;
     gd.k = ki;
     
     pmin = kPos(PSLCDMtab+10);
@@ -262,7 +262,7 @@ local real Q3_function(real eta, real ki)
     real result;
     real pmin, pmax, ymin, ymax;
     
-    cmd.xstop = eta;
+    gd.xstop = eta;
     gd.k = ki;
     
     pmin = kPos(PSLCDMtab+10);
@@ -348,7 +348,7 @@ local real Q8_function(real eta, real ki)
     real result;
     real pmin, pmax, ymin, ymax;
     
-    cmd.xstop = eta;
+    gd.xstop = eta;
     gd.k = ki;
     
     pmin = kPos(PSLCDMtab+10);
@@ -432,7 +432,7 @@ local real Q9_function(real eta, real ki)
     real result;
     real pmin, pmax, ymin, ymax;
     
-    cmd.xstop = eta;
+    gd.xstop = eta;
     gd.k = ki;
     
     pmin = kPos(PSLCDMtab+10);
@@ -515,7 +515,7 @@ local real Q13_function(real eta, real ki)
     real result;
     real pmin, pmax, ymin, ymax;
     
-    cmd.xstop = eta;
+    gd.xstop = eta;
     gd.k = ki;
     
     pmin = kPos(PSLCDMtab+10);
@@ -601,7 +601,7 @@ local real QI_function(real eta, real ki)
     real result;
     real pmin, pmax, ymin, ymax;
     
-    cmd.xstop = eta;
+    gd.xstop = eta;
     gd.k = ki;
     
     pmin = kPos(PSLCDMtab+10);
@@ -668,7 +668,7 @@ local real Q5_function(real eta, real ki)
     real result;
     real pmin, pmax, ymin, ymax;
     
-    cmd.xstop = eta;
+    gd.xstop = eta;
     gd.k = ki;
     
     pmin = kPos(PSLCDMtab+10);
@@ -732,7 +732,7 @@ local real Q7_function(real eta, real ki)
     real result;
     real pmin, pmax, ymin, ymax;
     
-    cmd.xstop = eta;
+    gd.xstop = eta;
     gd.k = ki;
     
     pmin = kPos(PSLCDMtab+10);
@@ -796,7 +796,7 @@ local real Q11_function(real eta, real ki)
     real result;
     real pmin, pmax, ymin, ymax;
     
-    cmd.xstop = eta;
+    gd.xstop = eta;
     gd.k = ki;
     
     pmin = kPos(PSLCDMtab+10);
@@ -860,7 +860,7 @@ local real Q12_function(real eta, real ki)
     real result;
     real pmin, pmax, ymin, ymax;
     
-    cmd.xstop = eta;
+    gd.xstop = eta;
     gd.k = ki;
     
     pmin = kPos(PSLCDMtab+10);
@@ -907,7 +907,7 @@ local real R1_function(real eta, real ki)
     real result;
     real pmin, pmax, ymin, ymax;
     
-    cmd.xstop = eta;
+    gd.xstop = eta;
     gd.k = ki;
 
     pmin = kPos(PSLCDMtab+10);
@@ -1000,7 +1000,7 @@ local real R2_function(real eta, real ki)
     real result;
     real pmin, pmax, ymin, ymax;
     
-    cmd.xstop = eta;
+    gd.xstop = eta;
     gd.k = ki;
     
     pmin = kPos(PSLCDMtab+10);
@@ -1067,7 +1067,7 @@ local real RI_function(real eta, real ki)
     real pmin, pmax, ymin, ymax;
     real PSL;
     
-    cmd.xstop = eta;
+    gd.xstop = eta;
     gd.k = ki;
     PSL = psInterpolation_nr(ki, kPS, pPS, nPSLT);
     
@@ -1136,7 +1136,7 @@ local real R1p2_function(real eta, real ki)
     real pmin, pmax, ymin, ymax;
     real PSL;
 
-    cmd.xstop = eta;
+    gd.xstop = eta;
     gd.k = ki;
     PSL = psInterpolation_nr(ki, kPS, pPS, nPSLT);
 
@@ -1684,10 +1684,10 @@ global global_QRs QsR1R2_functions_driver(real eta, real ki)
 {
     global_QRs qrs;
 
-//    qrs = QsR1R2_functions(cmd.xstop, ki);
+//    qrs = QsR1R2_functions(gd.xstop, ki);
 //    qrs = QsR1R2_functions(eta, ki);
 //    qrs = QsR1R2_functions_ver2(eta, ki);
-    qrs = QsR1R2_functions_ver3(cmd.xstop, ki);
+    qrs = QsR1R2_functions_ver3(gd.xstop, ki);
 
     return qrs;
 }
