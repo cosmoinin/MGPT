@@ -145,7 +145,7 @@ Ploop_X = Ploop_X - 2 (1 + b1)b_{01} k^2 PSL + b_{01}^2 k^4 PSL
 In this notation b_{01} = - b_{\nabla^2}
 
 
-### output b) MGPT/CLPT/kfunctionsT.dat
+### output b) MGPT/CLPT/kfunctions.dat
 
 kfunctionsT.dat file contains all the Q(k) and R(k) functions. It is the input of the code MGPT-qfunctions.
 
@@ -177,9 +177,9 @@ kfunctionsT.dat file contains all the Q(k) and R(k) functions. It is the input o
 CLPT/MGPT_qfunctions.nb is a Mathematica notebook that post-process the file kfunctionsT.dat to obtain a set of q-functions
 that are the building blocks of the CLPT correlation function. This code is independent of the gravitational or dark energy model, just fed it with the appropriate file structure. 
 
-The input is the file kfunctionsT.dat obtained with MGPT-PS (or by other code of your preference)
+The input is the file kfunctions.dat obtained with MGPT-PS (or by other code of your preference)
 
-The output is the file qfunctionsT.dat, with columns structure
+The output is the file qfunctions.dat, with columns structure
 
 
 
