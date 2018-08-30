@@ -13,11 +13,11 @@ Nk                                 500
 %
 % Modified gravity model parameters:
 mgmodel                            HS
-model_paramfile                    fofRHS.in
 nHS                                1
 fR0                                1e-05
 screening                          1
 %
+% Background cosmology:
 om                                 0.281
 h                                  0.697
 %
