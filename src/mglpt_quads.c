@@ -941,7 +941,7 @@ local real R1_function_ver4(real eta, real ki)
     real pmin, pmax, ymin, ymax;
     int j;
     
-    cmd.xstop = eta;
+    gd.xstop = eta;
     gd.k = ki;
     
     pmin = kPos(PSLCDMtab+10);
