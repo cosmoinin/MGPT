@@ -141,8 +141,8 @@ global  real psInterpolation_nr(real k, double kPS[], double pPS[], int nPS)
     pi = PSLCDMtab;
     pf = PSLCDMtab+nPSTable-1;
 
-    if ( k < kPos(pi) || k > kPos(pf) )
-        fprintf(gd.outlog,"\n\npsInterpolation_nr: warning! :: k is out of range... %g\n",k);
+//    if ( k < kPos(pi) || k > kPos(pf) )
+//        fprintf(gd.outlog,"\n\npsInterpolation_nr: warning! :: k is out of range... %g\n",k);
 
     splint(kPS,pPS,pPS2,nPS,k,&psftmp);
 
