@@ -612,7 +612,7 @@ local void PSLTable(void)
         PS(p) *= fac;
     }
     
-    sprintf(namebuf,"%s/%s_%s",gd.tmpDir,cmd.fnamePS, "ext2.dat");
+    sprintf(namebuf,"tmp/%s_%s",cmd.fnamePS,"ext2.dat");
     outstr = stropen(namebuf,"w!");
     for (p=PSLCDMtab; p<PSLCDMtab+nPSTable; p++) {
         fprintf(outstr,"%g %g\n",
