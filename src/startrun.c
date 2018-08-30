@@ -80,7 +80,7 @@ local void ReadParametersCmdline(void)
     cmd.h = GetdParam("h");
 //
 // Differential equations evolution parameters:
-    cmd.x = GetdParam("eta0");
+    cmd.x = GetdParam("etaini");
     cmd.dxstr = GetParam("deta");
     cmd.dxmin = GetdParam("detamin");
     cmd.eps = GetdParam("eps");
@@ -140,8 +140,8 @@ local void startrun_ParamStat(void)
     if (GetParamStat("fnamePS") & ARGPARAM)
         cmd.fnamePS = GetParam("fnamePS");
 
-	if (GetParamStat("eta0") & ARGPARAM)
-		cmd.x = GetdParam("eta0");
+	if (GetParamStat("etaini") & ARGPARAM)
+		cmd.x = GetdParam("etaini");
 	if (GetParamStat("deta") & ARGPARAM) {
 		cmd.dxstr = GetParam("deta");
 		gd.dx = (sscanf(cmd.dxstr, "%lf/%lf", &dx1, &dx2) == 2 ?
@@ -194,7 +194,7 @@ local void CheckParameters(void)
     if (gd.dx == 0)
         error("CheckParameters: absurd value for deta\n");
     if(cmd.x == cmd.xstop)
-        error("\n\nstartrun_Common: eta0 and etastop must be different\n");
+        error("\n\nstartrun_Common: etaini and etastop must be different\n");
 
     if (cmd.maxnsteps < 1)
         error("CheckParameters: absurd value for maxnsteps\n");
@@ -253,7 +253,7 @@ local void ReadParameterFile(char *fname)
     RPName(cmd.h,"h");
 //
 // Differential equations evolution parameters:
-    RPName(cmd.x,"eta0");
+    RPName(cmd.x,"etaini");
 	SPName(cmd.dxstr,"deta",100);
     RPName(cmd.dxmin,"detamin");
     RPName(cmd.eps,"eps");
@@ -373,7 +373,7 @@ local void PrintParameterFile(char *fname)
         fprintf(fdout,FMTR,"h",cmd.h);
 //
 // Differential equations evolution parameters:
-        fprintf(fdout,FMTR,"eta0",cmd.x);
+        fprintf(fdout,FMTR,"etaini",cmd.x);
         fprintf(fdout,FMTR,"detamin",cmd.dxmin);
         fprintf(fdout,FMTR,"eps",cmd.eps);
         fprintf(fdout,FMTT,"deta",cmd.dxstr);
@@ -396,7 +396,7 @@ local void PrintParameterFile(char *fname)
 
 #define NPT 100
 #define SPREAD 1.0
-#define fpfnametmpext		"pstabletmpext.dat"
+//#define fpfnametmpext		"pstabletmpext.dat"
 local void InputPSTable(void)
 {
     stream outstr;
@@ -573,7 +573,7 @@ local void InputPSTable(void)
 }
 #undef NPT
 #undef SPREAD
-#undef fpfnametmpext
+//#undef fpfnametmpext
 
 
 local void PSLTable(void)
