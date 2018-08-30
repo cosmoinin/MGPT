@@ -103,6 +103,7 @@ typedef struct {
 // 
     char fnamePSPath[100];
     char logfilePath[100];
+    char tmpDir[100];
 
     real kf;
     real k1;
