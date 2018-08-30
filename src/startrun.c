@@ -594,8 +594,33 @@ local void PSLTable(void)
     stream outstr;
     real kmin, Dpkmin, Dpk;
     pointPSTableptr p, pn;
-    global_D2v2_ptr ptmp;
+//    global_D2v2_ptr ptmp;
     int i;
+//
+    real xstoptmp, Dp0, Dpzout, fac;
+
+    xstoptmp = gd.xstop;
+    gd.xstop = 0.;
+    Dp0 = DpFunction(0.);
+    fprintf(gd.outlog,"\n\n Dp(0) = %g\n",Dp0);
+    gd.xstop = xstoptmp;
+    Dpzout = DpFunction(0.);
+    fprintf(gd.outlog,"\n\n Dp(zout) = %g\n",Dpzout);
+    
+    fac = rsqr(Dpzout/Dp0);
+    for (p = PSLCDMtab; p<PSLCDMtab+nPSTable; p++) {
+        PS(p) *= fac;
+    }
+    
+    sprintf(namebuf,"%s/%s_%s",gd.tmpDir,cmd.fnamePS, "ext2.dat");
+    outstr = stropen(namebuf,"w!");
+    for (p=PSLCDMtab; p<PSLCDMtab+nPSTable; p++) {
+        fprintf(outstr,"%g %g\n",
+                kPos(p),PS(p));
+    }
+    fclose(outstr);
+
+//
 
     kmin = kPos(PSLCDMtab);
     Dpkmin = DpFunction(kmin);
