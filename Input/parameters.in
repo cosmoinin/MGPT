@@ -1,0 +1,40 @@
+%-------------------------------------------------------------------
+% Parameter input file for: mgpt
+%
+% NagBody: mgpt Code for the Modified Gravity-Perturbation Theory.
+%	    ...
+%-------------------------------------------------------------------
+%
+% Power spectrum table:
+fnamePS                            psLCDM.in
+kmin                               0.0001
+kmax                               30
+Nk                                 500
+%
+% Modified gravity model parameters:
+mgmodel                            HS
+model_paramfile                    fofRHS.in
+nHS                                1
+fR0                                1e-05
+screening                          1
+%
+om                                 0.281
+h                                  0.697
+%
+% Differential equations evolution parameters:
+eta0                               -4
+detamin                            0
+eps                                0.0001
+deta                               2/5
+etastop                            0
+maxnsteps                          10000
+integration_method                 bsstep
+%
+% Integration parameters:
+ngausslegpoints                    10
+%
+% Post processing parameters:
+postprocessing                     false
+options                            
+
+
