@@ -43,11 +43,7 @@ string defv[] = {  ";"HEAD1": " HEAD2 "\n\t " HEAD3,
     "mgmodel=HS",                   ";Modified gravity model to study, default f(R) Hu-Sawicki", ":mgm",
     "nHS=1",                        ";Hu-Sawicki index",
     "fR0=1.0e-5",                   ";Hu-Sawicki f_R0",
-//    "beta2=1/6",                    ";Hu-Sawicki beta^2",
-//    "omegaBD=0.0",                  ";Omega Brans-Dicke",
     "screening=1.0",                ";Hu-Sawicki screening", ":sc",
-//
-//    "model_paramfile=fofRHS.in",	";If mgmodel is not the default, give its parameter file name", ":mpfn",
 //
     "om=0.281",                     ";Omega matter value (z=0)",
     "h=0.697",                      ";Hubble parameter value (z=0)",
