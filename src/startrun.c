@@ -84,7 +84,7 @@ local void ReadParametersCmdline(void)
     cmd.dxstr = GetParam("deta");
     cmd.dxmin = GetdParam("detamin");
     cmd.eps = GetdParam("eps");
-    cmd.xstop = GetdParam("etastop");
+    cmd.xstop = GetdParam("zout");
     cmd.maxnsteps = GetiParam("maxnsteps");
 	cmd.integration_method = GetParam("integration_method");
 //
@@ -121,6 +121,8 @@ local void startrun_Common(void)
     gd.xout = gd.xnow;
     gd.xoutinfo = gd.xnow;
 
+    gd.xstop = rexp(-cmd.xstop) - 1.0;
+
     set_model();
 
     if (!strnull(cmd.fnamePS)) {
@@ -149,8 +151,8 @@ local void startrun_ParamStat(void)
 		if ( dx2 == 0. )
 			error("\n\nstartrun_ParamStat: deta : deta2 must be finite\n");
 	}
-	if (GetParamStat("etastop") & ARGPARAM)
-		cmd.xstop = GetdParam("etastop");
+	if (GetParamStat("zout") & ARGPARAM)
+		cmd.xstop = GetdParam("zout");
 
 	if (GetParamStat("maxnsteps") & ARGPARAM) 
 		cmd.maxnsteps = GetiParam("maxnsteps");
@@ -193,8 +195,8 @@ local void CheckParameters(void)
 
     if (gd.dx == 0)
         error("CheckParameters: absurd value for deta\n");
-    if(cmd.x == cmd.xstop)
-        error("\n\nstartrun_Common: etaini and etastop must be different\n");
+    if(cmd.x == rexp(-cmd.xstop) - 1.0 )
+        error("\n\nstartrun_Common: etaini and etastop=exp(-zout)-1 must be different\n");
 
     if (cmd.maxnsteps < 1)
         error("CheckParameters: absurd value for maxnsteps\n");
@@ -257,7 +259,7 @@ local void ReadParameterFile(char *fname)
 	SPName(cmd.dxstr,"deta",100);
     RPName(cmd.dxmin,"detamin");
     RPName(cmd.eps,"eps");
-	RPName(cmd.xstop,"etastop");
+	RPName(cmd.xstop,"zout");
     IPName(cmd.maxnsteps,"maxnsteps");
 	SPName(cmd.integration_method,"integration_method",100);
 //
@@ -377,7 +379,7 @@ local void PrintParameterFile(char *fname)
         fprintf(fdout,FMTR,"detamin",cmd.dxmin);
         fprintf(fdout,FMTR,"eps",cmd.eps);
         fprintf(fdout,FMTT,"deta",cmd.dxstr);
-        fprintf(fdout,FMTR,"etastop",cmd.xstop);
+        fprintf(fdout,FMTR,"zout",cmd.xstop);
         fprintf(fdout,FMTI,"maxnsteps",cmd.maxnsteps);
         fprintf(fdout,FMTT,"integration_method",cmd.integration_method);
 //
