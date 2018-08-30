@@ -416,6 +416,7 @@ local void InputPSTable(void)
     char namebuf[256];
     real kminext, kmaxext, dktmp, kmn, kmx;
     int Nkext=600, NkL=50, NkU=50;
+    real kminT=1.0e-6, kmaxT=350.0;
 
 
     fprintf(gd.outlog,"\n\nReading power spectrum from file %s...\n",gd.fnamePSPath);
@@ -525,6 +526,15 @@ local void InputPSTable(void)
     dktmp = (rlog10(kmax) - rlog10(kmin))/((real)(nPSTabletmp - 1));
     kminext = rpow(10.0, rlog10(kmin)-((real)NkL)*dktmp);
     kmaxext = rpow(10.0, rlog10(kmax)+((real)NkU)*dktmp);
+//
+    fprintf(gd.outlog,"\n\nNkL, NkU: %d %d\n",NkL, NkU);
+    NkL = rlog10(kmin/kminT)/dktmp;
+    NkU = rlog10(kmaxT/kmax)/dktmp;
+    fprintf(gd.outlog,"\n\nNkL, NkU targets: %d %d\n",NkL,NkU);
+    kminext = rpow(10.0, rlog10(kmin)-((real)NkL)*dktmp);
+    kmaxext = rpow(10.0, rlog10(kmax)+((real)NkU)*dktmp);
+//
+
     fprintf(gd.outlog,"\nkmin, kmax of the extended power spectrum (first try): %g %g",
             kminext, kmaxext);
 
