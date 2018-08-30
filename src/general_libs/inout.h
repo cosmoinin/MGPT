@@ -1,26 +1,5 @@
 /*==============================================================================
 	HEADER: inout.h				[General_libs]
-	Written by: M.A. Rodriguez-Meza
-	Starting date:	January, 2005
-	Purpose: Headers of utilities for input and output data
-	Language: C
-	Use:
-	Routines and functions:
-	External modules, routines and headers:
-	Comments and notes:
-	Info: M.A. Rodriguez-Meza
-		Depto. de Fisica, ININ
-		Apdo. Postal 18-1027 Mexico D.F. 11801 Mexico
-		e-mail: marioalberto.rodriguez@inin.gob.mx
-		http://www.astro.inin.mx/mar
-
-	Major revisions:
-	Copyright: (c) 2005-2010 Mar.  All Rights Reserved
-================================================================================
-	Legal matters:
-	The author does not warrant that the program and routines it contains
-	listed below are free from error or suitable for particular applications,
-	and he disclaims all liability from any consequences arising from their use.
 ==============================================================================*/
 
 #ifndef _inout_h
