@@ -1,27 +1,6 @@
 /*==============================================================================
  HEADER: cmdline_defs.h		[mgpt]
- Written by: Mario A. Rodriguez-Meza
- Starting date: January 2018
- Purpose: Definitions for importing arguments from the command line
- Language: C
- Use: '#include "cmdline_defs.h"
- Use in routines and functions: (main)
- External headers: stdinc.h
- Comments and notes:
- Info: Mario A. Rodriguez-Meza
- Depto. de Fisica, ININ
- Apdo. Postal 18-1027 Mexico D.F. 11801 Mexico
- e-mail: marioalberto.rodriguez@inin.gob.mx
- http://www.inin.gob.mx/
- 
- Major revisions:
- Copyright: (c) 2005-2018 Mar.  All Rights Reserved
- ================================================================================
- Legal matters:
- The author does not warrant that the program and routines it contains 
- listed below are free from error or suitable for particular applications, 
- and he disclaims all liability from any consequences arising from their use.
- ==============================================================================*/
+*/
 
 #ifndef _cmdline_defs_h
 #define _cmdline_defs_h
