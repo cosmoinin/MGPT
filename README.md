@@ -168,7 +168,7 @@ kfunctionsT.dat file contains all the Q(k) and R(k) functions. It is the input o
 ## II. MGPT_qfunctions
 
 CLPT/MGPT_qfunctions.nb is a Mathematica notebook that post-process the file kfunctionsT.dat to obtain a set of q-functions
-that are the building blocks of the CLPT correlation function. This code is independent of the gravitational or dark energy model, just fed it with the appropiate kfunctions.dat file. 
+that are the building blocks of the CLPT correlation function. This code is independent of the gravitational or dark energy model, just fed it with the appropriate file structure. 
 
 The input is the file kfunctionsT.dat obtained with MGPT-PS (or by other code of your preference)
 
@@ -257,7 +257,7 @@ If you use this code please cite the following papers:
 2. Alejandro Aviles, Mario Alberto Rodriguez-Meza, Josue De-Santiago, and Jorge-Luis Cervantes-Cota [arXiv:1809.XXXXX]
 
 
-You may also want to cite (LCDM case) the following papers:
+For the theory in LCDM  see the following papers:
 
 1. https://arxiv.org/abs/0807.1733
 2. https://arxiv.org/abs/1209.0780
