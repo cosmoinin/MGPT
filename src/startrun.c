@@ -26,9 +26,6 @@
 #include "globaldefs.h"
 #include "protodefs.h"
 
-//local void ReadMGModelParameterFile(char *);
-//local void PrintMGModelParameterFile(char *);
-
 local void ReadParameterFile(char *);
 local void PrintParameterFile(char *);
 
@@ -135,11 +132,6 @@ local void startrun_Common(void)
 	if(!(gd.outlog=fopen(gd.logfilePath, gd.mode)))
 		error("\nstart_Common: error opening file '%s' \n",gd.logfilePath);
 
-// Modified gravity model parameters:
-//    gd.beta2 = (sscanf(cmd.beta2str, "%lf/%lf", &dx1, &dx2) == 2 ?
-//             dx1/dx2 : atof(cmd.beta2str));
-//    if ( dx2 == 0. )
-//        error("\n\nstartrun_Common: beta2 denominator : must be finite\n");
 //
     gd.dx = (sscanf(cmd.dxstr, "%lf/%lf", &dx1, &dx2) == 2 ?
 				dx1/dx2 : atof(cmd.dxstr));
@@ -163,11 +155,6 @@ local void startrun_Common(void)
         PSLTable();
     }
 
-//    if (!strnull(cmd.model_paramfile) && !(strcmp(cmd.mgmodel,"HS") == 0) ) {
-//        fprintf(stdout,"\n\nNot default model, using parameter file: %s\n",cmd.model_paramfile);
-//        ReadMGModelParameterFile(cmd.model_paramfile);
-//        PrintMGModelParameterFile(cmd.model_paramfile);
-//    }
 }
 
 local void startrun_ParamStat(void)
@@ -176,16 +163,6 @@ local void startrun_ParamStat(void)
 
     if (GetParamStat("fnamePS") & ARGPARAM)
         cmd.fnamePS = GetParam("fnamePS");
-
-// Modified gravity model parameters:
-//    if (GetParamStat("beta2") & ARGPARAM) {
-//        cmd.beta2str = GetParam("beta2");
-//        gd.beta2 = (sscanf(cmd.beta2str, "%lf/%lf", &dx1, &dx2) == 2 ?
-//                 dx1/dx2 : atof(cmd.beta2str));
-//        if ( dx2 == 0. )
-//            error("\n\nstartrun_ParamStat: beta2 : denominator must be finite\n");
-//    }
-//
 
 	if (GetParamStat("eta0") & ARGPARAM)
 		cmd.x = GetdParam("eta0");
@@ -221,10 +198,6 @@ local void startrun_ParamStat(void)
 
 local void CheckParameters(void)
 {
-// Modified gravity model parameters:
-//    if (gd.beta2 < 0.0)
-//        error("CheckParameters: beta2 can not be less than zero :: %g\n",gd.beta2);
-//
 // Power spectrum table:
     if (strnull(cmd.fnamePS))
         error("CheckParameters: You should give a power spectrum filename\n");
@@ -296,11 +269,8 @@ local void ReadParameterFile(char *fname)
 //
 // Modified gravity model parameters:
     SPName(cmd.mgmodel,"mgmodel",100);
-//    SPName(cmd.model_paramfile,"model_paramfile",100);
     IPName(cmd.nHS,"nHS");
     RPName(cmd.fR0,"fR0");
-//    SPName(cmd.beta2str,"beta2",100);
-//    RPName(cmd.omegaBD,"omegaBD");
     RPName(cmd.screening,"screening");
 //
     RPName(cmd.om,"om");
@@ -419,11 +389,8 @@ local void PrintParameterFile(char *fname)
 //
 // Modified gravity model parameters:
         fprintf(fdout,FMTT,"mgmodel",cmd.mgmodel);
-//        fprintf(fdout,FMTT,"model_paramfile",cmd.model_paramfile);
         fprintf(fdout,FMTI,"nHS",cmd.nHS);
         fprintf(fdout,FMTR,"fR0",cmd.fR0);
-//        fprintf(fdout,FMTT,"beta2",cmd.beta2str);
-//        fprintf(fdout,FMTR,"omegaBD",cmd.omegaBD);
         fprintf(fdout,FMTR,"screening",cmd.screening);
 //
         fprintf(fdout,FMTR,"om",cmd.om);
@@ -449,147 +416,6 @@ local void PrintParameterFile(char *fname)
 #undef FMTT
 #undef FMTI
 #undef FMTR
-
-
-//=============================================================
-// Begin: Modified gravity model reading and writing parameters
-/*
-local void ReadMGModelParameterFile(char *fname)
-{
-#define DOUBLE 1
-#define STRING 2
-#define INT 3
-#define BOOLEAN 4
-#define MAXTAGS 300
-    
-    FILE *fd,*fdout;
-    
-    char buf[200],buf1[200],buf2[200],buf3[200];
-    int  i,j,nt;
-    int  id[MAXTAGS];
-    void *addr[MAXTAGS];
-    char tag[MAXTAGS][50];
-    int  errorFlag=0;
-    
-    nt=0;
-
-// Modified gravity model parameters:
-    IPName(cmd.nHS,"nHS");
-    RPName(cmd.fR0,"fR0");
-    SPName(cmd.beta2str,"beta2",100);
-    RPName(cmd.omegaBD,"omegaBD");
-    RPName(cmd.screening,"screening");
-//
-    if((fd=fopen(fname,"r"))) {
-        while(!feof(fd)) {
-            fgets(buf,200,fd);
-            if(sscanf(buf,"%s%s%s",buf1,buf2,buf3)<1)
-                continue;
-            if(sscanf(buf,"%s%s%s",buf1,buf2,buf3)<2)
-                *buf2='\0';
-            if(buf1[0]=='%')
-                continue;
-            for(i=0,j=-1;i<nt;i++)
-                if(strcmp(buf1,tag[i])==0) {
-                    j=i;
-                    tag[i][0]=0;
-                    break;
-                }
-            if(j>=0) {
-                switch(id[j]) {
-                    case DOUBLE:
-                        *((double*)addr[j])=atof(buf2);
-                        break;
-                    case STRING:
-                        strcpy(addr[j],buf2);
-                        break;
-                    case INT:
-                        *((int*)addr[j])=atoi(buf2);
-                        break;
-                    case BOOLEAN:
-                        if (strchr("tTyY1", *buf2) != NULL) {
-                            *((bool*)addr[j])=TRUE;
-                        } else
-                            if (strchr("fFnN0", *buf2) != NULL)  {
-                                *((bool*)addr[j])=FALSE;
-                            } else {
-                                error("getbparam: %s=%s not bool\n",buf1,buf2);
-                            }
-                        break;
-                }
-            } else {
-                fprintf(stdout, "Error in file %s: Tag '%s' %s.\n",
-                        fname, buf1, "not allowed or multiple defined");
-                errorFlag=1;
-            }
-        }
-        fclose(fd);
-    } else {
-        fprintf(stdout,"Parameter file %s not found.\n", fname);
-        errorFlag=1;
-        exit(1);
-    }
-    
-    for(i=0;i<nt;i++) {
-        if(*tag[i]) {
-            fprintf(stdout,
-                    "Error. I miss a value for tag '%s' in parameter file '%s'.\n",
-                    tag[i],fname);
-            exit(0);
-        }
-    }
-#undef DOUBLE
-#undef STRING
-#undef INT
-#undef BOOLEAN
-#undef MAXTAGS
-}
-*/
-
-/*
-#define FMTT	"%-35s%s\n"
-#define FMTI	"%-35s%d\n"
-#define FMTR	"%-35s%g\n"
-
-local void PrintMGModelParameterFile(char *fname)
-{
-    FILE *fdout;
-    char buf[200];
-    
-    sprintf(buf,"%s%s",fname,"-usedvalues");
-    if(!(fdout=fopen(buf,"w"))) {
-        fprintf(stdout,"error opening file '%s' \n",buf);
-        exit(0);
-    } else {
-        fprintf(fdout,"%s\n",
-                "%-------------------------------------------------------------------");
-        fprintf(fdout,"%s %s\n","% Modified gravity parameter model input file for:",gd.headline0);
-        fprintf(fdout,"%s\n","%");
-        fprintf(fdout,"%s %s: %s\n%s\t    %s\n","%",gd.headline1,gd.headline2,"%",
-                gd.headline3);
-        fprintf(fdout,"%s\n%s\n",
-                "%-------------------------------------------------------------------",
-                "%");
-//
-// Modified gravity model parameters:
-        fprintf(fdout,FMTI,"nHS",cmd.nHS);
-        fprintf(fdout,FMTR,"fR0",cmd.fR0);
-        fprintf(fdout,FMTT,"beta2",cmd.beta2str);
-        fprintf(fdout,FMTR,"omegaBD",cmd.omegaBD);
-        fprintf(fdout,FMTR,"screening",cmd.screening);
-//
-        fprintf(fdout,"\n\n");
-    }
-    fclose(fdout);
-}
-
-#undef FMTT
-#undef FMTI
-#undef FMTR
-*/
-
-// End: Modified gravity model reading and writing parameters
-//=============================================================
 
 
 #define NPT 100
