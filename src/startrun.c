@@ -230,11 +230,11 @@ local void setFilesDirs(void)
     char buf[200];
 
     sprintf(buf,"if [ ! -d tmp ]; then mkdir tmp; fi");
-    fprintf(stdout,"system: %s\n",buf);
+//    fprintf(stdout,"system: %s\n",buf);
     system(buf);
 
     sprintf(gd.logfilePath,"tmp/%s",logfile);
-    printf("Log file Path and file name: %s\n",gd.logfilePath);
+//    fprintf(stdout,"Log file Path and file name: %s\n",gd.logfilePath);
 }
 
 #undef logfile
@@ -469,7 +469,7 @@ local void InputPSTable(void)
     fprintf(gd.outlog,"\nTotal numbers in Log PS: %d %d\n",nPSLogT,plog-PSLCDMLogtab);
     fprintf(gd.outlog,"Total numbers in Normal PS: %d %d\n\n",nPSTabletmp,p-PSLCDMtabtmp);
 
-    fprintf(stdout,"\n\nLinear fit (a + b x) to log-log power spectrum at minset and maxset...\n");
+    fprintf(gd.outlog,"\n\nLinear fit (a + b x) to log-log power spectrum at minset and maxset...\n");
     fprintf(gd.outlog,"\n\nLinear fit to log-log power spectrum at minset and maxset...\n");
 
     x=dvector(1,NPT);
@@ -489,19 +489,19 @@ local void InputPSTable(void)
     for (mwt=0;mwt<=1;mwt++) {
         fit(x,y,NPT,sig,mwt,&al,&bl,&siga,&sigb,&chi2,&q);
         if (mwt == 0)
-            printf("\nIgnoring standard deviations\n");
+            fprintf(gd.outlog,"\nIgnoring standard deviations\n");
         else
-            printf("\nIncluding standard deviations\n");
-        printf("%12s %9.6f %18s %9.6f \n",
+            fprintf(gd.outlog,"\nIncluding standard deviations\n");
+        fprintf(gd.outlog,"%12s %9.6f %18s %9.6f \n",
                "a  =  ",al,"uncertainty:",siga);
-        printf("%12s %9.6f %18s %9.6f \n",
+        fprintf(gd.outlog,"%12s %9.6f %18s %9.6f \n",
                "b  =  ",bl,"uncertainty:",sigb);
-        printf("%19s %14.6f \n","chi-squared: ",chi2);
-        printf("%23s %10.6f \n","goodness-of-fit: ",q);
+        fprintf(gd.outlog,"%19s %14.6f \n","chi-squared: ",chi2);
+        fprintf(gd.outlog,"%23s %10.6f \n","goodness-of-fit: ",q);
     }
 
 // Upper part of the PS
-    fprintf(stdout,"\nAt upper part of the spectrum...\n");
+    fprintf(gd.outlog,"\nAt upper part of the spectrum...\n");
 
     plog = PSLCDMLogtab+nPSLogT-1;
     for (i=1;i<=NPT;i++) {
@@ -513,15 +513,15 @@ local void InputPSTable(void)
     for (mwt=0;mwt<=1;mwt++) {
         fit(x,y,NPT,sig,mwt,&au,&bu,&siga,&sigb,&chi2,&q);
         if (mwt == 0)
-            printf("\nIgnoring standard deviations\n");
+            fprintf(gd.outlog,"\nIgnoring standard deviations\n");
         else
-            printf("\nIncluding standard deviations\n");
-        printf("%12s %9.6f %18s %9.6f \n",
+            fprintf(gd.outlog,"\nIncluding standard deviations\n");
+        fprintf(gd.outlog,"%12s %9.6f %18s %9.6f \n",
                "a  =  ",au,"uncertainty:",siga);
-        printf("%12s %9.6f %18s %9.6f \n",
+        fprintf(gd.outlog,"%12s %9.6f %18s %9.6f \n",
                "b  =  ",bu,"uncertainty:",sigb);
-        printf("%19s %14.6f \n","chi-squared: ",chi2);
-        printf("%23s %10.6f \n","goodness-of-fit: ",q);
+        fprintf(gd.outlog,"%19s %14.6f \n","chi-squared: ",chi2);
+        fprintf(gd.outlog,"%23s %10.6f \n","goodness-of-fit: ",q);
     }
 
 // Extending power spectrum
@@ -544,12 +544,12 @@ local void InputPSTable(void)
     dktmp = (rlog10(kmax) - rlog10(kmin))/((real)(nPSTabletmp - 1));
     kminext = rpow(10.0, rlog10(kmin)-((real)NkL)*dktmp);
     kmaxext = rpow(10.0, rlog10(kmax)+((real)NkU)*dktmp);
-    fprintf(stdout,"\nkmin, kmax of the extended power spectrum (first try): %g %g",
+    fprintf(gd.outlog,"\nkmin, kmax of the extended power spectrum (first try): %g %g",
             kminext, kmaxext);
 
     kmn = MIN(kminext,cmd.kmin);
     kmx = MAX(kmaxext,cmd.kmax);
-    fprintf(stdout,"\nkmin, kmax of the extended power spectrum (second try): %g %g\n",
+    fprintf(gd.outlog,"\nkmin, kmax of the extended power spectrum (second try): %g %g\n",
             kmn, kmx);
 
     nPSTable = Nkext;
