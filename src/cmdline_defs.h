@@ -68,7 +68,7 @@ string defv[] = {  ";"HEAD1": " HEAD2 "\n\t " HEAD3,
     "postprocessing=false",			";Post processing options", ":pp",
     "options=",                     ";Various control options", ":opt",
 //
-    "Version=1.0.0",                ";Mario A. Rodríguez-Meza/Alejandro Aviles 2005-2018",
+    "Version=1.0.0",                ";Mario A. Rodríguez-Meza/Alejandro Aviles 2018",
     NULL,
 };
 
