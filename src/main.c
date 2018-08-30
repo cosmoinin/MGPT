@@ -4,11 +4,8 @@
  Alejandro Aviles
  ================================================================================ 
  Use: mgpt -help
- Input: 	Command line parameters, Parameters file and/or icfile
- Output: ...
- Units:
- History:
- Comments and notes:
+ Input: 	Command line parameters or Parameters file
+ Output: kfunctions and SPTPowerSpectrum.
  References:
  ==============================================================================*/
 
