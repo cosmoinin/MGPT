@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define copyright	"Copyright (c) 2000-2018 Mario A. Rodriguez-Meza, MEXICO."
+#define copyright	"Copyright (c) .... "
 
 long idum;				// seed for random generators
 
