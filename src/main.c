@@ -6,7 +6,8 @@
  Use: mgpt -help
  Input: 	Command line parameters or Parameters file
  Output: kfunctions and SPTPowerSpectrum.
- References:
+ References: For MG: arXiv:1705.10719, arXiv:1809.XXXXX
+ For LCDM: arXiv:0807.1733, arXiv:1209.0780
  ==============================================================================*/
 
 #define global
