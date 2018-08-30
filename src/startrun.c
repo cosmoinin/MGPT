@@ -574,7 +574,7 @@ local void InputPSTable(void)
         p++;
     }
 
-    sprintf(namebuf,"tmp/%s_%s", gd.fnamePSPath, "ext.dat");
+    sprintf(namebuf,"tmp/%s_%s", cmd.fnamePS, "ext.dat");
     outstr = stropen(namebuf,"w!");
     for (p=PSLCDMtab; p<PSLCDMtab+nPSTable; p++) {
         fprintf(outstr,"%g %g\n",
