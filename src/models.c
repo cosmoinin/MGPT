@@ -1,26 +1,5 @@
 /*==============================================================================
 	MODULE: models.c			[mgpt]
-	Written by: Mario A. Rodriguez-Meza
-	Starting date: January 2018
-	Purpose: Rutines to create several types of models
-	Language: C
-	Use: 'set_model();'
-	Routines and functions:
-	Modules, routines and external headers:
-	Coments and notes:
-	Info: Mario A. Rodriguez-Meza
-		Depto. de Fisica, ININ
-		Apdo. Postal 18-1027 Mexico D.F. 11801 Mexico
-		e-mail: marioalberto.rodriguez@inin.gob.mx
-		http://www.inin.gob.mx
-
-	Mayor revisions: January 22, 2018
-	Copyright: (c) 2005-2018 Mario A. Rodriguez-Meza.  All Rights Reserved
-================================================================================
-	Legal matters:
-	The author does not warrant that the program and routines it contains
-	listed below are free from error or suitable for particular applications,
-	and he disclaims all liability from any consequences arising from their	use.
 ==============================================================================*/
 
 #define global // check the behaviour of this
