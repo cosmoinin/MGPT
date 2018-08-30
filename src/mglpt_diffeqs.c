@@ -185,9 +185,9 @@ global real DpFunction(real k)
 
     nrhs=0;
     kmax=100;
-    dxsav=(cmd.xstop-gd.xnow)/20.0;
+    dxsav=(gd.xstop-gd.xnow)/20.0;
 //
-    integration(ystart,NEQS1Order,gd.xnow,cmd.xstop,cmd.eps,gd.dx,cmd.dxmin,
+    integration(ystart,NEQS1Order,gd.xnow,gd.xstop,cmd.eps,gd.dx,cmd.dxmin,
                  &nok,&nbad,cmd.maxnsteps,derivsFirstOrder);
 
     Dptmp = yp[1][kount];
@@ -228,9 +228,9 @@ global global_D2_ptr DsSecondOrder_func(real kf, real k1, real k2)
 
     nrhs=0;
     kmax=100;
-    dxsav=(cmd.xstop-gd.xnow)/100.0;
+    dxsav=(gd.xstop-gd.xnow)/100.0;
 
-    integration(ystart,NEQS2Order,gd.xnow,cmd.xstop,cmd.eps,gd.dx,cmd.dxmin,
+    integration(ystart,NEQS2Order,gd.xnow,gd.xstop,cmd.eps,gd.dx,cmd.dxmin,
                 &nok,&nbad,cmd.maxnsteps,derivsSecondOrder);
 
     ptmp = (global_D2_ptr) allocate(1 * sizeof(global_D2));
@@ -275,9 +275,9 @@ global global_D2v2_ptr DsSecondOrder_func_ver2(real kf, real k1, real k2)
     
     nrhs=0;
     kmax=100;
-    dxsav=(cmd.xstop-gd.xnow)/20.0;
+    dxsav=(gd.xstop-gd.xnow)/20.0;
 
-    integration(ystart,NEQS2Orderv2,gd.xnow,cmd.xstop,cmd.eps,gd.dx,cmd.dxmin,
+    integration(ystart,NEQS2Orderv2,gd.xnow,gd.xstop,cmd.eps,gd.dx,cmd.dxmin,
                 &nok,&nbad,cmd.maxnsteps,derivsSecondOrder_ver2);
     
     ptmp = (global_D2v2_ptr) allocate(1 * sizeof(global_D2v2));
@@ -337,8 +337,8 @@ local global_D3_ptr DsThirdOrder_func(real kf, real k1, real k2)
 //
     nrhs=0;
     kmax=100;
-    dxsav=(cmd.xstop-gd.xnow)/100.0;
-    integration(ystart,NEQS3Order,gd.xnow,cmd.xstop,cmd.eps,gd.dx,cmd.dxmin,
+    dxsav=(gd.xstop-gd.xnow)/100.0;
+    integration(ystart,NEQS3Order,gd.xnow,gd.xstop,cmd.eps,gd.dx,cmd.dxmin,
                 &nok,&nbad,cmd.maxnsteps,derivsThirdOrder);
     
     ptmp = (global_D3_ptr) allocate(1 * sizeof(global_D3));
@@ -401,8 +401,8 @@ global global_D3v2_ptr DsThirdOrder_func_ver2(real x, real k, real p)
 //
     nrhs=0;
     kmax=100;
-    dxsav=(cmd.xstop-gd.xnow)/20.0;
-    integration(ystart,NEQS3Orderv2,gd.xnow,cmd.xstop,cmd.eps,gd.dx,cmd.dxmin,
+    dxsav=(gd.xstop-gd.xnow)/20.0;
+    integration(ystart,NEQS3Orderv2,gd.xnow,gd.xstop,cmd.eps,gd.dx,cmd.dxmin,
                 &nok,&nbad,cmd.maxnsteps,derivsThirdOrder_ver2);
 
     ptmp = (global_D3v2_ptr) allocate(1 * sizeof(global_D3v2));
@@ -431,22 +431,22 @@ global void integration(double ystart[], int nvar, double x1, double x2, double 
 {
     switch (gd.method_int) {
         case BSSTEP:
-            odeint(ystart,nvar,gd.xnow,cmd.xstop,cmd.eps,gd.dx,cmd.dxmin,
+            odeint(ystart,nvar,gd.xnow,gd.xstop,cmd.eps,gd.dx,cmd.dxmin,
                    nok,nbad,maxnsteps,derivsin,bsstep);
             break;
 //
         case RKQS:
-            odeint(ystart,nvar,gd.xnow,cmd.xstop,cmd.eps,gd.dx,cmd.dxmin,
+            odeint(ystart,nvar,gd.xnow,gd.xstop,cmd.eps,gd.dx,cmd.dxmin,
                    nok,nbad,maxnsteps,derivsin,rkqs);
             break;
 //
         case NULLMETHOD:
-            odeint(ystart,nvar,gd.xnow,cmd.xstop,cmd.eps,gd.dx,cmd.dxmin,
+            odeint(ystart,nvar,gd.xnow,gd.xstop,cmd.eps,gd.dx,cmd.dxmin,
                    nok,nbad,maxnsteps,derivsin,bsstep);
             break;
 //
         default:
-            odeint(ystart,nvar,gd.xnow,cmd.xstop,cmd.eps,gd.dx,cmd.dxmin,
+            odeint(ystart,nvar,gd.xnow,gd.xstop,cmd.eps,gd.dx,cmd.dxmin,
                    nok,nbad,maxnsteps,derivsin,bsstep);
             break;
     }
