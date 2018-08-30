@@ -196,7 +196,7 @@ local void CheckParameters(void)
     if (gd.dx == 0)
         error("CheckParameters: absurd value for deta\n");
     if(cmd.x == rexp(-cmd.xstop) - 1.0 )
-        error("\n\nstartrun_Common: etaini and etastop=exp(-zout)-1 must be different\n");
+        error("\n\nstartrun_Common: etaini and etaout=exp(-zout)-1 must be different\n");
 
     if (cmd.maxnsteps < 1)
         error("CheckParameters: absurd value for maxnsteps\n");
