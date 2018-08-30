@@ -1,5 +1,4 @@
 # ----- MAKE FILE FOR mglpt CODE -----
-# Copyright (c) 2006-2018  Mario A. Rodriguez-Meza
 #
 
 OPT1    =  -DNOGNU
