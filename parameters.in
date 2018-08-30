@@ -26,7 +26,7 @@ etaini                            -4
 detamin                            0
 eps                                0.0001
 deta                               2/5
-etastop                            0
+zout                               0
 maxnsteps                          10000
 integration_method                 bsstep
 %
