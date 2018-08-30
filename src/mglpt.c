@@ -67,7 +67,11 @@ local void computingQRs(void)
 
     fprintf(stdout,"\nTesting Nk values from kmin to kmax of the power spectrum: %d %g %g\n\n",
             cmd.Nk, cmd.kmin, cmd.kmax);
-    dk = (rlog10(cmd.kmax) - rlog10(cmd.kmin))/((real)(cmd.Nk - 1));
+    if (cmd.Nk==1) {
+        dk = 0.;
+    } else
+        dk = (rlog10(cmd.kmax) - rlog10(cmd.kmin))/((real)(cmd.Nk - 1));
+ 
     for (i=1; i<=cmd.Nk; i++) {
         aTime = cputime();
         kval = rlog10(cmd.kmin) + dk*((real)(i - 1));
