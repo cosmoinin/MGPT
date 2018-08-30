@@ -133,7 +133,7 @@ local void postprocess_string_to_int(string process_str,int *process_int)
 #undef BIASTERMS
 
 #define fpfnameQsRs "CLPT/kfunctions.dat"
-#define fpfnamebiasterms "CLPT/SPTPowerSpectrum.dat"
+#define fpfnamebiasterms "SPTPowerSpectrum.dat"
 
 local real *kTab;
 local real *Q1T;
