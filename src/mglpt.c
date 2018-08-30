@@ -20,9 +20,6 @@ local void computingQRs(void);
 
 void MainLoop(void)
 {
-//    if (cmd.postprocessing)
-//        PostProcessing();
-//    else
     computingQRs();
     biasterms_processing();
 
@@ -54,8 +51,6 @@ local void computingQRs(void)
 
     bTime = cputime();
 
-//    sprintf(namebuf,"%s_%s", cmd.mgmodel, fpfnameQsRs);
-//    outstrQsRs = stropen(namebuf,"w!");
     outstrQsRs = stropen(fpfnameQsRs,"w!");
 
     fprintf(outstrQsRs,"%1s%5s%12s%11s%11s%11s%11s%11s%11s%11s%11s%11s%11s%11s%11s%11s%12s%12s%12s",
