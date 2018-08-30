@@ -76,9 +76,16 @@ In help you can see how to change parameters, for example:
 
 computes Hu-Sawicky f_R0 = -10^-6, and background cosmology h=0.7, Omega_m = 0.3.
 
-Option sc=1 is the default with screenings, set sc=0 if you want no screenings.
+Option screening=1 is the default with screenings, set to screening=0 if you want no screenings.
 
-The input of the code is the LCDM linear power spectrum extrapolated to present time in with columns 
+Alternatively you can run the code with a parameters file, for example
+
+```
+/MGPT$ ./mgpt parameters.in
+```
+
+
+The input of the code is the LCDM linear power spectrum extrapolated to present time with two columns 
 
 | column  | function  |
 | ------------: |:---------------| 
