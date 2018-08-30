@@ -477,7 +477,7 @@ local void InputPSTable(void)
     sig=dvector(1,NPT);
     
 // Lower part of the PS
-    fprintf(stdout,"\nAt lower part of the spectrum...\n");
+    fprintf(gd.outlog,"\nAt lower part of the spectrum...\n");
 
     plog = PSLCDMLogtab;
     for (i=1;i<=NPT;i++) {
@@ -540,7 +540,7 @@ local void InputPSTable(void)
 
     kmin = kPos(PSLCDMtabtmp);
     kmax = kPos(PSLCDMtabtmp+nPSTabletmp-1);
-    fprintf(stdout,"\nkmin, kmax of the given power spectrum: %g %g",kmin, kmax);
+    fprintf(stdout,"\nkmin, kmax of the given power spectrum (with %d values): %g %g",kmin, kmax, nPSTabletmp);
     dktmp = (rlog10(kmax) - rlog10(kmin))/((real)(nPSTabletmp - 1));
     kminext = rpow(10.0, rlog10(kmin)-((real)NkL)*dktmp);
     kmaxext = rpow(10.0, rlog10(kmax)+((real)NkU)*dktmp);
@@ -553,6 +553,7 @@ local void InputPSTable(void)
             kmn, kmx);
 
     nPSTable = Nkext;
+    fprintf(gd.outlog,"\n\nCreating new PSTable with %d values\n",nPSTable);
     PSLCDMtab = (pointPSTableptr) allocate(nPSTable * sizeof(pointPSTable));
     dk = (rlog10(kmx) - rlog10(kmn))/((real)(nPSTable - 1));
     p = PSLCDMtab;
