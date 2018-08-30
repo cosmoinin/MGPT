@@ -87,11 +87,8 @@ local void ReadParametersCmdline(void)
 {
 // Modified gravity model parameters:
     cmd.mgmodel = GetParam("mgmodel");
-//    cmd.model_paramfile = GetParam("model_paramfile");
     cmd.nHS = GetiParam("nHS");
     cmd.fR0 = GetdParam("fR0");
-//    cmd.beta2str = GetParam("beta2");
-//    cmd.omegaBD = GetdParam("omegaBD");
     cmd.screening = GetdParam("screening");
 //
 // Power spectrum table:
