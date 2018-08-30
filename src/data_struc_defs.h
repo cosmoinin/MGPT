@@ -28,7 +28,7 @@
 #define _data_struc_defs_h
 
 
-#if !defined(global)					// global def question must be here
+#if !defined(global)	
 #  define global extern
 #endif
 
