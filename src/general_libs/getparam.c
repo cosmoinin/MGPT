@@ -1,27 +1,5 @@
 /*==============================================================================
 	MODULE: getparam.c			[General_libs]
-	Written by: M.A. Rodriguez-Meza
-	Starting date: May 2006
-	Purpose: routines to initialize the parameters code
-	Language: C
-	Use: 'InitParam();', 'GetParam(pname);', 'GetdParam(pname);', 
-		'GetiParam(pname);', 'GetbParam(pname);'
-	Routines and functions:
-	Modules, routines and external headers: stdinc.h, getparam.h, <string.h>
-	Coments and notes:
-	Info: M.A. Rodriguez-Meza
-		Depto. de Fisica, ININ
-		Apdo. Postal 18-1027 Mexico D.F. 11801 Mexico
-		e-mail: marioalberto.rodriguez@inin.gob.mx
-		http://www.astro.inin.mx/mar
-
-	Mayor revisions: January 2007;
-	Copyright: (c) 2005-2018 Mar.  All Rights Reserved
-================================================================================
-	Legal matters:
-	The author does not warrant that the program and routines it contains
-	listed below are free from error or suitable for particular applications,
-	and he disclaims all liability from any consequences arising from their use.
 ==============================================================================*/
 
 #include "stdinc.h"
