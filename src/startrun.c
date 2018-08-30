@@ -364,7 +364,7 @@ local void PrintParameterFile(char *fname)
     FILE *fdout;
     char buf[200];
     
-    sprintf(buf,"%s%s",fname,"-usedvalues");
+    sprintf(buf,"tmp/%s%s",fname,"-usedvalues");
     if(!(fdout=fopen(buf,"w"))) {
         fprintf(stdout,"error opening file '%s' \n",buf);
         exit(0);
