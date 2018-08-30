@@ -1,7 +1,7 @@
 /*==============================================================================
  NAME: main.c				[mgpt]
- Mario A. Rodriguez-Meza
- Alejandro Aviles
+ Mario A. Rodriguez-Meza (marioalberto.rodriguez@inin.gob.mx)
+ Alejandro Aviles (avilescervantes@gmail.com)
  ================================================================================ 
  Use: mgpt -help
  Input: 	Command line parameters or Parameters file
