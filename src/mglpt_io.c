@@ -13,9 +13,9 @@ void StartOutput(void)
 //
     fprintf(stdout,"  \t -- %s --\n\n", gd.integration_method_comment);
 
-    fprintf(gd.outlog,"\n%8s%8s%8s", "maxnsteps", "eta0", "deta");
-    fprintf(gd.outlog,"%8s\n","etastop");
-    fprintf(gd.outlog,"%8d%8.2f%8.4f%8.4f",cmd.maxnsteps,cmd.x,gd.dx,cmd.xstop);
+    fprintf(gd.outlog,"\n%8s%8s%8s", "maxnsteps", "etaini", "deta");
+    fprintf(gd.outlog,"%8s\n","etaout");
+    fprintf(gd.outlog,"%8d%8.2f%8.4f%8.4f",cmd.maxnsteps,cmd.x,gd.dx,gd.xstop);
     if (! strnull(cmd.options))
         fprintf(stdout,"\n\toptions: %s\n", cmd.options);
     
