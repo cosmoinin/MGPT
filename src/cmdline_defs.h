@@ -28,7 +28,7 @@ string defv[] = {  ";"HEAD1": " HEAD2 "\n\t " HEAD3,
     "h=0.697",                      ";Hubble parameter value (z=0)",
 //
 // Differential equations evolution parameters:
-    "eta0=-4.0",                    ";Initial eta value :: Log[1/(1 + z0)]",
+    "etaini=-4.0",                  ";Initial eta value :: Log[1/(1 + zini)]",
     "deta=2/5",                     ";deta integration step",
     "detamin=0.",                   ";Min eta integration step size",
     "eps=1.0e-4",                   ";Error parameter",
