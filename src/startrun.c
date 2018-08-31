@@ -550,6 +550,8 @@ local void InputPSTable(void)
     
     for (i=1; i<=nPSTable; i++) {
         kval = rlog10(kmn) + dk*((real)(i - 1));
+//
+/*
         if (rpow(10.0,kval) < cmd.kmin) {
             PSval = al + bl*kval;
         } else {
@@ -560,6 +562,19 @@ local void InputPSTable(void)
 
             }
         }
+*/
+//
+        if (rpow(10.0,kval) > kmin && rpow(10.0,kval) < kmax)
+            PSval = psInterpolation_nr(kval, kPStmp, pPStmp, nPSLogT);
+        else
+            if (rpow(10.0,kval) < kmin)
+                PSval = al + bl*kval;
+            else
+                if (rpow(10.0,kval) > kmax)
+                    PSval = au + bu*kval;
+                else
+                    error("\n\nError: InputPSTable :: kmin, kmax, kval: %g %g %g", kmin, kmax, kval);
+//
         kPos(p) = rpow(10.0,kval);
         PS(p) = rpow(10.0,PSval);
         p++;
