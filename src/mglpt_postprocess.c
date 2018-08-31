@@ -5,7 +5,7 @@
 #include "globaldefs.h"
 #include "protodefs.h"
 
-#define SIXPI2  59.2176
+//#define SIXPI2  59.2176
 
 //local real Q12_function(real eta, real ki);
 
