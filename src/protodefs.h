@@ -19,9 +19,6 @@ global void PostProcessing(void);
 global void biasterms_processing(void);
 
 // MGLPT DIFFEQS and QUAD
-global void integration(double ystart[], int nvar, double x1, double x2, double eps, double h1,
-                        double hmin, int *nok, int *nbad, int maxnsteps,
-                        void (*derivsin)(double, double [], double []));
 global real DpFunction(real k);
 global global_D2v2_ptr DsSecondOrder_func(real kf, real k1, real k2);
 global global_D3v2_ptr DsThirdOrder_func(real x, real k, real p);
