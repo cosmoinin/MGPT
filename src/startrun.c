@@ -592,7 +592,6 @@ local void PSLTable(void)
     stream outstr;
     real kmin, Dpkmin, Dpk;
     pointPSTableptr p, pn;
-//    global_D2v2_ptr ptmp;
     int i;
 //
     real xstoptmp, Dp0, Dpzout, fac;
