@@ -53,38 +53,6 @@ global real A0(real eta)
     return (A0tmp);
 }
 
-global  real psLCDMf(real k)
-{
-    pointPSTableptr p, pf, pi;
-    int jl, ju, jm;
-    real dk, psftmp;
-    bool ascnd;
-    
-    pi = PSLCDMtab;
-    pf = PSLCDMtab+nPSTable-1;
-
-    if ( k < kPos(pi) || k > kPos(pf) || nPSTable < 2 )
-        error("\n\npsLCDMf: k is out of range or nPSTable is wrong... %g %g %g\n",
-              k,kPos(pi),kPos(pf));
-
-    ascnd = (kPos(pf) >= kPos(pi));
-    
-    jl=0;
-    ju=nPSTable-1;
-    while (ju-jl > 1) {
-        jm = (ju+jl) >> 1;
-        if (k >= kPos(pi+jm) == ascnd)
-            jl=jm;
-        else
-            ju=jm;
-    }
-    
-    p = PSLCDMtab + jl;
-    dk = kPos(p+1)-kPos(p);
-    psftmp = PS(p)+(PS(p+1)-PS(p))*(k-kPos(p))/dk;
-    return (psftmp);
-}
-
 global  real psInterpolation_nr(real k, double kPS[], double pPS[], int nPS)
 {
     pointPSTableptr pf, pi;
