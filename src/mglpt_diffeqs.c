@@ -23,14 +23,14 @@ local void derivsSecondOrder(double x,double y[],double dydx[])
     
     dydx[1] = y[2];
     dydx[2]=f1(x)*mu(x,gd.k1)*y[1]-f2(x)*y[2];
-    //
+//
     dydx[3] = y[4];
     dydx[4]=f1(x)*mu(x,gd.k2)*y[3]-f2(x)*y[4];
-    //
+//
     dydx[5] = y[6];
     dydx[6]=f1(x)*mu(x,gd.kf)*y[5]-f2(x)*y[6]
     + sourceA(x,gd.kf,gd.k1,gd.k2)*y[1]*y[3];
-    //
+//
     dydx[7] = y[8];
     dydx[8]=f1(x)*mu(x,gd.kf)*y[7]-f2(x)*y[8]
     + sourceb(x,gd.kf,gd.k1,gd.k2)*y[1]*y[3];
