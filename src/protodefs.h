@@ -30,7 +30,7 @@ global global_D2v2_ptr DsSecondOrder_func_ver2(real kf, real k1, real k2);
 global global_D3v2_ptr DsThirdOrder_func_ver2(real x, real k, real p);
 
 // MGLPT QUADS
-global_QRs QsR1R2_functions_driver(real eta, real ki);
+global_QRs QsRs_functions_driver(real eta, real ki);
 
 
 // functions (mgpt_fns)
