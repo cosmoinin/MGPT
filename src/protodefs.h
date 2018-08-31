@@ -18,16 +18,13 @@ void EndRun(void);
 global void PostProcessing(void);
 global void biasterms_processing(void);
 
-// MGLPT DIFFEQS
+// MGLPT DIFFEQS and QUAD
 global void integration(double ystart[], int nvar, double x1, double x2, double eps, double h1,
                         double hmin, int *nok, int *nbad, int maxnsteps,
                         void (*derivsin)(double, double [], double []));
-global void derivsFirstOrder(double x,double y[],double dydx[]);
 global real DpFunction(real k);
-global void derivsSecondOrder(double x,double y[],double dydx[]);
-global global_D2_ptr DsSecondOrder_func(real kf, real k1, real k2);
-global global_D2v2_ptr DsSecondOrder_func_ver2(real kf, real k1, real k2);
-global global_D3v2_ptr DsThirdOrder_func_ver2(real x, real k, real p);
+global global_D2v2_ptr DsSecondOrder_func(real kf, real k1, real k2);
+global global_D3v2_ptr DsThirdOrder_func(real x, real k, real p);
 
 // MGLPT QUADS
 global_QRs QsRs_functions_driver(real eta, real ki);
