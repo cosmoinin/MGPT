@@ -1,15 +1,6 @@
 /*==============================================================================
  MODULE: mglpt.c				[mgpt]
- 
- Mario A. Rodriguez-Meza (marioalberto.rodriguez@inin.gob.mx)
- Alejandro Aviles (avilescervantes@gmail.com)
- ================================================================================ 
- Use: mgpt -help
- Input: 	Command line parameters or Parameters file
- Output: kfunctions and SPTPowerSpectrum.
- References: For MG: arXiv:1705.10719, arXiv:1809.XXXXX
- For LCDM: arXiv:0807.1733, arXiv:1209.0780
- ==============================================================================*/
+==============================================================================*/
 
 
 #include "globaldefs.h"
