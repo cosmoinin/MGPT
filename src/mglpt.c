@@ -17,7 +17,7 @@ void MainLoop(void)
 
 }
 
-#define FMTQRDATHD    "%1s%4s%8s%8s%8s%8s%8s%8s%7s%8s%7s%7s%9s%7s%9s%7s%9s"
+//#define FMTQRDATHD    "%1s%4s%8s%8s%8s%8s%8s%8s%7s%8s%7s%7s%9s%7s%9s%7s%9s"
 
 #define FMTQRDAT	\
 "%10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e \
@@ -114,7 +114,7 @@ local void computingQRs(void)
     fprintf(stdout,"\nTotal time to compute all k's: %g",cputime()-bTime);
 }
 
-#undef FMTQRDATHD
+//#undef FMTQRDATHD
 #undef FMTQRDAT
 #undef fpfnameQsRs
 
