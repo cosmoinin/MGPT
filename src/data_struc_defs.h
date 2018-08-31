@@ -13,24 +13,24 @@
 
 
 #define IPName(param,paramtext)										\
-  {strcpy(tag[nt],paramtext);										\
-  addr[nt]=&(param);												\
+  {strcpy(tag[nt],paramtext);										  \
+  addr[nt]=&(param);												         \
   id[nt++]=INT;}
 
 #define RPName(param,paramtext)										\
-  {strcpy(tag[nt],paramtext);										\
-  addr[nt]=&param;													\
+  {strcpy(tag[nt],paramtext);										  \
+  addr[nt]=&param;													          \
   id[nt++]=DOUBLE;}
 
 #define BPName(param,paramtext)										\
-  {strcpy(tag[nt],paramtext);										\
-  addr[nt]=&param;													\
+  {strcpy(tag[nt],paramtext);										  \
+  addr[nt]=&param;													          \
   id[nt++]=BOOLEAN;}
 
-#define SPName(param,paramtext,n)									\
-  {strcpy(tag[nt],paramtext);										\
-  param=(string) malloc(n);											\
-  addr[nt]=param;													\
+#define SPName(param,paramtext,n)								\
+  {strcpy(tag[nt],paramtext);										  \
+  param=(string) malloc(n);											   \
+  addr[nt]=param;													           \
   id[nt++]=STRING;}
 
 #endif // ! _data_struc_defs_h
