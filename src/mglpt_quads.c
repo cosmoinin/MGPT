@@ -1127,7 +1127,7 @@ local real R1p2_function(real eta, real ki)
 
 // BEGIN Qs and Rs
 
-global_QRs QsR1R2_functions_ver3(real eta, real ki)
+global_QRs QsRs_functions(real eta, real ki)
 {
     real Q1p, Q2p, Q3p, Q8p, Q9p, Q13p, QIp;
     real Q5p, Q7p, Q11p, Q12p;
