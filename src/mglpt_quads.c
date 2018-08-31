@@ -5,9 +5,7 @@
 #include "globaldefs.h"
 #include "protodefs.h"
 
-local real funcR1int(real x);
-
-global_QRs QsR1R2_functions_ver3(real eta, real ki);
+global_QRs QsRs_functions(real eta, real ki);
 
 local real KQ8_function(real k, real r, real x);
 local real KQ9_function(real k, real r, real x);
@@ -22,22 +20,22 @@ local real KQ12_function(real k, real r, real x);
 local real KRI_function(real k, real r, real x);
 local real KR1p2_function(real k, real r, real x);
 
-local real GaussLegendreQ1_func_ver3(real y);
-local real GaussLegendreQ2_func_ver3(real y);
-local real GaussLegendreQ3_func_ver3(real y);
-local real GaussLegendreQ8_func_ver3(real y);
-local real GaussLegendreQ9_func_ver3(real y);
-local real GaussLegendreQ13_func_ver3(real y);
-local real GaussLegendreQI_func_ver3(real y);
-local real GaussLegendreQ5_func_ver3(real y);
-local real GaussLegendreQ7_func_ver3(real y);
-local real GaussLegendreQ11_func_ver3(real y);
-local real GaussLegendreQ12_func_ver3(real y);
-local real GaussLegendreRI_func_ver3(real y);
-local real GaussLegendreR1p2_func_ver3(real y);
-local real GaussLegendreR1_func_ver3(real y);
-local real GaussLegendreR2_func_ver3(real y);
-local real funcR1int_ver4(real y);
+local real GaussLegendreQ1_func(real y);
+local real GaussLegendreQ2_func(real y);
+local real GaussLegendreQ3_func(real y);
+local real GaussLegendreQ8_func(real y);
+local real GaussLegendreQ9_func(real y);
+local real GaussLegendreQ13_func(real y);
+local real GaussLegendreQI_func(real y);
+local real GaussLegendreQ5_func(real y);
+local real GaussLegendreQ7_func(real y);
+local real GaussLegendreQ11_func(real y);
+local real GaussLegendreQ12_func(real y);
+local real GaussLegendreRI_func(real y);
+local real GaussLegendreR1p2_func(real y);
+local real GaussLegendreR1_func(real y);
+local real GaussLegendreR2_func(real y);
+local real funcR1int(real y);
 
 local real Q1_function(real eta, real ki);
 local real Q2_function(real eta, real ki);
@@ -60,7 +58,7 @@ local real R2_function(real eta, real ki);
 
 // BEGIN Q1
 
-local real GaussLegendreQ1_func_ver3(real y)
+local real GaussLegendreQ1_func(real y)
 {
     global_D2v2_ptr ptmp;
     int j;
@@ -129,7 +127,7 @@ local real Q1_function(real eta, real ki)
     ymax = rlog10(pmax);
     
     result=(rlog(10.0)/FOURPI2)
-            *qromo(GaussLegendreQ1_func_ver3,ymin,ymax,midpnt);
+            *qromo(GaussLegendreQ1_func,ymin,ymax,midpnt);
 
     return result;
 }
@@ -139,7 +137,7 @@ local real Q1_function(real eta, real ki)
 
 // BEGIN Q2
 
-local real GaussLegendreQ2_func_ver3(real y)
+local real GaussLegendreQ2_func(real y)
 {
     global_D2v2_ptr ptmp;
     int j;
@@ -209,7 +207,7 @@ local real Q2_function(real eta, real ki)
     ymax = rlog10(pmax);
     
     result=(rlog(10.0)/FOURPI2)
-        *qromo(GaussLegendreQ2_func_ver3,ymin,ymax,midpnt);
+        *qromo(GaussLegendreQ2_func,ymin,ymax,midpnt);
 
     return result;
 }
@@ -219,7 +217,7 @@ local real Q2_function(real eta, real ki)
 
 // BEGIN Q3
 
-local real GaussLegendreQ3_func_ver3(real y)
+local real GaussLegendreQ3_func(real y)
 {
     global_D2v2_ptr ptmp;
     int j;
@@ -286,7 +284,7 @@ local real Q3_function(real eta, real ki)
     ymax = rlog10(pmax);
     
     result=(rlog(10.0)/FOURPI2)
-    *qromo(GaussLegendreQ3_func_ver3,ymin,ymax,midpnt);
+    *qromo(GaussLegendreQ3_func,ymin,ymax,midpnt);
     
     return result;
 }
@@ -311,7 +309,7 @@ local real KQ8_function(real ki, real rr, real xv)
     return KQ8;
 }
 
-local real GaussLegendreQ8_func_ver3(real y)
+local real GaussLegendreQ8_func(real y)
 {
     int j;
     real *xGL, *wGL;
@@ -372,7 +370,7 @@ local real Q8_function(real eta, real ki)
     ymax = rlog10(pmax);
     
     result=2.0*rlog(10.0)*(rsqr(ki)/FOURPI2)
-    *qromo(GaussLegendreQ8_func_ver3,ymin,ymax,midpnt);
+    *qromo(GaussLegendreQ8_func,ymin,ymax,midpnt);
     
     return result;
 }
@@ -395,7 +393,7 @@ local real KQ9_function(real ki, real rr, real xv)
     return KQ9;
 }
 
-local real GaussLegendreQ9_func_ver3(real y)
+local real GaussLegendreQ9_func(real y)
 {
     int j;
     real *xGL, *wGL;
@@ -456,7 +454,7 @@ local real Q9_function(real eta, real ki)
     ymax = rlog10(pmax);
     
     result=2.0*rlog(10.0)*(rsqr(ki)/FOURPI2)
-    *qromo(GaussLegendreQ9_func_ver3,ymin,ymax,midpnt);
+    *qromo(GaussLegendreQ9_func,ymin,ymax,midpnt);
     
     return result;
 }
@@ -478,7 +476,7 @@ local real KQ13_function(real ki, real rr, real xv)
     return KQ13;
 }
 
-local real GaussLegendreQ13_func_ver3(real y)
+local real GaussLegendreQ13_func(real y)
 {
     int j;
     real *xGL, *wGL;
@@ -539,7 +537,7 @@ local real Q13_function(real eta, real ki)
     ymax = rlog10(pmax);
     
     result=2.0*rlog(10.0)*(rsqr(ki)/FOURPI2)
-    *qromo(GaussLegendreQ13_func_ver3,ymin,ymax,midpnt);
+    *qromo(GaussLegendreQ13_func,ymin,ymax,midpnt);
     
     return result;
 }
@@ -564,7 +562,7 @@ local real KQI_function(real ki, real rr, real xv)
     return KQI;
 }
 
-local real GaussLegendreQI_func_ver3(real y)
+local real GaussLegendreQI_func(real y)
 {
     int j;
     real *xGL, *wGL;
@@ -625,7 +623,7 @@ local real QI_function(real eta, real ki)
     ymax = rlog10(pmax);
     
     result=2.0*rlog(10.0)*(rsqr(ki)/FOURPI2)
-    *qromo(GaussLegendreQI_func_ver3,ymin,ymax,midpnt);
+    *qromo(GaussLegendreQI_func,ymin,ymax,midpnt);
     
     return result;
 }
@@ -650,7 +648,7 @@ local real KQ5_function(real ki, real rr, real xv)
     return KQ5;
 }
 
-local real GaussLegendreQ5_func_ver3(real y)
+local real GaussLegendreQ5_func(real y)
 {
     int j;
     real ki;
@@ -692,7 +690,7 @@ local real Q5_function(real eta, real ki)
     ymax = rlog10(pmax);
 
     result=rlog(10.0)*(rsqr(ki)/FOURPI2)
-    *qromo(GaussLegendreQ5_func_ver3,ymin,ymax,midpnt);
+    *qromo(GaussLegendreQ5_func,ymin,ymax,midpnt);
     
     return result;
 }
@@ -714,7 +712,7 @@ local real KQ7_function(real ki, real rr, real xv)
     return KQ7;
 }
 
-local real GaussLegendreQ7_func_ver3(real y)
+local real GaussLegendreQ7_func(real y)
 {
     int j;
     real ki;
@@ -756,7 +754,7 @@ local real Q7_function(real eta, real ki)
     ymax = rlog10(pmax);
     
     result=rlog(10.0)*(rsqr(ki)/FOURPI2)
-    *qromo(GaussLegendreQ7_func_ver3,ymin,ymax,midpnt);
+    *qromo(GaussLegendreQ7_func,ymin,ymax,midpnt);
     
     return result;
 }
@@ -778,7 +776,7 @@ local real KQ11_function(real ki, real rr, real xv)
     return KQ11;
 }
 
-local real GaussLegendreQ11_func_ver3(real y)
+local real GaussLegendreQ11_func(real y)
 {
     int j;
     real ki;
@@ -820,7 +818,7 @@ local real Q11_function(real eta, real ki)
     ymax = rlog10(pmax);
     
     result=rlog(10.0)*(rsqr(ki)/FOURPI2)
-    *qromo(GaussLegendreQ11_func_ver3,ymin,ymax,midpnt);
+    *qromo(GaussLegendreQ11_func,ymin,ymax,midpnt);
     
     return result;
 }
@@ -842,7 +840,7 @@ local real KQ12_function(real ki, real rr, real xv)
     return KQ12;
 }
 
-local real GaussLegendreQ12_func_ver3(real y)
+local real GaussLegendreQ12_func(real y)
 {
     int j;
     real ki;
@@ -884,7 +882,7 @@ local real Q12_function(real eta, real ki)
     ymax = rlog10(pmax);
     
     result=rlog(10.0)*(rsqr(ki)/FOURPI2)
-    *qromo(GaussLegendreQ12_func_ver3,ymin,ymax,midpnt);
+    *qromo(GaussLegendreQ12_func,ymin,ymax,midpnt);
     
     return result;
 }
@@ -893,51 +891,8 @@ local real Q12_function(real eta, real ki)
 
 
 // BEGIN R1
-/*
-local real funcR1int(real x)
-{
-    real ftmp;
-    global_D3v2_ptr ptmp;
 
-    ptmp = DsThirdOrder_func_ver2(x, gd.k, gd.p);
-    ftmp = (21.0/10.0)*D3symmD3v2(ptmp)/( DpkD3v2(ptmp)*DppD3v2(ptmp)*DppD3v2(ptmp) );
-
-    return ftmp;
-}
-
-local real GaussLegendreR1_func_ver3(real y)
-{
-    real ss, fac;
-    
-    gd.p = rpow(10.0,y);
-    fac = rpow(gd.p,3.0)*psInterpolation(gd.p, PSLT, nPSLT);
-
-    ss=qgauss(funcR1int,x1GL(pGL),x2GL(pGL),xGL(pGL),wGL(pGL),nGL(pGL));
-    
-    return fac*ss;
-}
-
-local real R1_function(real eta, real ki)
-{
-    real result;
-    real pmin, pmax, ymin, ymax;
-    
-    gd.xstop = eta;
-    gd.k = ki;
-
-    pmin = kPos(PSLCDMtab+10);
-    pmax = kPos(PSLCDMtab+nPSTable-10);
-    ymin = rlog10(pmin);
-    ymax = rlog10(pmax);
-
-    result=(rlog(10.0)/FOURPI2)*psInterpolation_nr(gd.k, kPS, pPS, nPSLT)
-    *qromo(GaussLegendreR1_func_ver3,ymin,ymax,midpnt);
-
-    return result;
-}
-*/
-
-global real funcR1int_ver4(real y)
+global real funcR1int(real y)
 {
     real ftmp,fac;
     global_D3v2_ptr ptmp;
@@ -951,7 +906,7 @@ global real funcR1int_ver4(real y)
     return fac*ftmp;
 }
 
-local real R1_function_ver4(real eta, real ki)
+local real R1_function(real eta, real ki)
 {
     real result, fac, s;
     real pmin, pmax, ymin, ymax;
@@ -970,7 +925,7 @@ local real R1_function_ver4(real eta, real ki)
     s=0;
     for (j=1;j<=nGL(pGL)/2;j++) {
         gd.x = xGL(pGL)[j];
-        result = qromo(funcR1int_ver4,ymin,ymax,midpnt);
+        result = qromo(funcR1int,ymin,ymax,midpnt);
         s += 2.0*wGL(pGL)[j]*result;
     }
 
@@ -982,7 +937,7 @@ local real R1_function_ver4(real eta, real ki)
 
 // BEGIN R2
 
-local real GaussLegendreR2_func_ver3(real y)
+local real GaussLegendreR2_func(real y)
 {
     real ss, fac;
     real R2aB, rr, xv, w, k2, KA, KB, KR2;
@@ -1050,7 +1005,7 @@ local real KRI_function(real ki, real rr, real xv)
     return KRI;
 }
 
-local real GaussLegendreRI_func_ver3(real y)
+local real GaussLegendreRI_func(real y)
 {
     int j;
     real ki;
@@ -1119,7 +1074,7 @@ local real KR1p2_function(real ki, real rr, real xv)
     return KR1p2;
 }
 
-local real GaussLegendreR1p2_func_ver3(real y)
+local real GaussLegendreR1p2_func(real y)
 {
     int j;
     real ki;
@@ -1170,8 +1125,8 @@ local real R1p2_function(real eta, real ki)
 // END DE R1p2
 
 
-// BEGIN Qs and Rs
 
+// BEGIN Qs and Rs
 
 global_QRs QsR1R2_functions_ver3(real eta, real ki)
 {
@@ -1221,13 +1176,13 @@ global_QRs QsR1R2_functions_ver3(real eta, real ki)
     return *QRstmp;
 }
 
-// END DE Qs, R1 and R2
+// END DE Qs and Rs
 
-global global_QRs QsR1R2_functions_driver(real eta, real ki)
+global global_QRs QsRs_functions_driver(real eta, real ki)
 {
     global_QRs qrs;
 
-    qrs = QsR1R2_functions_ver3(gd.xstop, ki);
+    qrs = QsRs_functions(gd.xstop, ki);
 
     return qrs;
 }
