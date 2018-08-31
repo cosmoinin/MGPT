@@ -60,7 +60,6 @@ typedef struct {
     string mgmodel;
     int nHS;
     real fR0;
-//    string beta2str;
     real omegaBD;
     real screening;
 //
@@ -118,10 +117,7 @@ global global_data gd;
 global cmdline_data cmd;
 
 global real *yout;
-#define NEQS            2
-#define NEQS3Order      20
 #define NEQS3Orderv2    10
-#define NEQS2Order      12
 #define NEQS2Orderv2    8
 #define NEQS1Order      2
 
