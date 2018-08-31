@@ -111,9 +111,9 @@ global global_D2v2_ptr DsSecondOrder_func(real kf, real k1, real k2)
     gd.k1 = k1;
     gd.k2 = k2;
 //
-    ystart=dvector(1,NEQS2Orderv2);
+    ystart=dvector(1,NEQS2Order);
     xp=dvector(1,200);
-    yp=dmatrix(1,NEQS2Orderv2,1,200);
+    yp=dmatrix(1,NEQS2Order,1,200);
     
     ystart[1]=rexp(gd.xnow);
     ystart[2]=rexp(gd.xnow);
@@ -128,7 +128,7 @@ global global_D2v2_ptr DsSecondOrder_func(real kf, real k1, real k2)
     kmax=100;
     dxsav=(gd.xstop-gd.xnow)/20.0;
 
-    integration(ystart,NEQS2Orderv2,gd.xnow,gd.xstop,cmd.eps,gd.dx,cmd.dxmin,
+    integration(ystart,NEQS2Order,gd.xnow,gd.xstop,cmd.eps,gd.dx,cmd.dxmin,
                 &nok,&nbad,cmd.maxnsteps,derivsSecondOrder);
     
     ptmp = (global_D2v2_ptr) allocate(1 * sizeof(global_D2v2));
@@ -139,9 +139,9 @@ global global_D2v2_ptr DsSecondOrder_func(real kf, real k1, real k2)
     DA2D2(ptmp) = yp[5][kount];
     DB2D2(ptmp) = yp[7][kount];
 //
-    free_dmatrix(yp,1,NEQS2Orderv2,1,200);
+    free_dmatrix(yp,1,NEQS2Order,1,200);
     free_dvector(xp,1,200);
-    free_dvector(ystart,1,NEQS2Orderv2);
+    free_dvector(ystart,1,NEQS2Order);
     
     return ptmp;
 }
@@ -156,9 +156,9 @@ global global_D3v2_ptr DsThirdOrder_func(real x, real k, real p)
     gd.k = k;
     gd.p = p;
 //
-    ystart=dvector(1,NEQS3Orderv2);
+    ystart=dvector(1,NEQS3Order);
     xp=dvector(1,200);
-    yp=dmatrix(1,NEQS3Orderv2,1,200);
+    yp=dmatrix(1,NEQS3Order,1,200);
 //
     ystart[1]=rexp(gd.xnow);
     ystart[2]=rexp(gd.xnow);
@@ -185,7 +185,7 @@ global global_D3v2_ptr DsThirdOrder_func(real x, real k, real p)
     nrhs=0;
     kmax=100;
     dxsav=(gd.xstop-gd.xnow)/20.0;
-    integration(ystart,NEQS3Orderv2,gd.xnow,gd.xstop,cmd.eps,gd.dx,cmd.dxmin,
+    integration(ystart,NEQS3Order,gd.xnow,gd.xstop,cmd.eps,gd.dx,cmd.dxmin,
                 &nok,&nbad,cmd.maxnsteps,derivsThirdOrder);
 
     ptmp = (global_D3v2_ptr) allocate(1 * sizeof(global_D3v2));
@@ -197,9 +197,9 @@ global global_D3v2_ptr DsThirdOrder_func(real x, real k, real p)
     D2mfD3v2(ptmp) = yp[7][kount];
     D3symmD3v2(ptmp) = yp[9][kount];
 //
-    free_dmatrix(yp,1,NEQS3Orderv2,1,200);
+    free_dmatrix(yp,1,NEQS3Order,1,200);
     free_dvector(xp,1,200);
-    free_dvector(ystart,1,NEQS3Orderv2);
+    free_dvector(ystart,1,NEQS3Order);
     
     return ptmp;
 }
