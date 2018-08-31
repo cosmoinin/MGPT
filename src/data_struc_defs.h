@@ -12,9 +12,9 @@
 #endif
 
 
-#define IPName(param,paramtext)										\
-  {strcpy(tag[nt],paramtext);										  \
-  addr[nt]=&(param);												         \
+#define IPName(param,paramtext)	\
+  {strcpy(tag[nt],paramtext);	\
+  addr[nt]=&(param);	\
   id[nt++]=INT;}
 
 #define RPName(param,paramtext)										\
