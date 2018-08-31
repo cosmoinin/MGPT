@@ -21,8 +21,8 @@ int main(int argc, string argv[])
     gd.cpuinit = cputime();
     InitParam(argv, defv);
     StartRun(argv[0], HEAD1, HEAD2, HEAD3);
-	MainLoop();
-	EndRun();
+    MainLoop();
+    EndRun();
     return 0;
 }
 
