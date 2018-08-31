@@ -34,6 +34,7 @@
 
 #define H02     2997.92458
 #define FOURPI2   39.4784176043574
+#define SIXPI2  59.2176
 
 typedef struct {
 	real x;
