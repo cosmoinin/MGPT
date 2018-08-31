@@ -96,7 +96,7 @@ local real GaussLegendreQ1_func(real y)
         xv = xGL[j];
         w = wGL[j];
         k2 = ki * rsqrt(1.0 + rsqr(rr) - 2.0*rr*xv);
-        ptmp = DsSecondOrder_func_ver2(ki, ki*rr, k2);
+        ptmp = DsSecondOrder_func(ki, ki*rr, k2);
         KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
         KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
         KQ1 = rsqr(
@@ -175,7 +175,7 @@ local real GaussLegendreQ2_func(real y)
         xv = xGL[j];
         w = wGL[j];
         k2 = ki * rsqrt(1.0 + rsqr(rr) - 2.0*rr*xv);
-        ptmp = DsSecondOrder_func_ver2(ki, ki*rr, k2);
+        ptmp = DsSecondOrder_func(ki, ki*rr, k2);
         KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
         KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
         KQ2 = (rr*xv*(1.0-rr*xv)/abskmq)
@@ -255,7 +255,7 @@ local real GaussLegendreQ3_func(real y)
         xv = xGL[j];
         w = wGL[j];
         k2 = ki * rsqrt(1.0 + rsqr(rr) - 2.0*rr*xv);
-        ptmp = DsSecondOrder_func_ver2(ki, ki*rr, k2);
+        ptmp = DsSecondOrder_func(ki, ki*rr, k2);
         KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
         KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
         KQ3 = rsqr(xv)*rsqr(1.0-rr*xv)/rsqr(abskmq);
@@ -299,7 +299,7 @@ local real KQ8_function(real ki, real rr, real xv)
     global_D2v2_ptr ptmp;
 
     k2 = ki * rsqrt(abskmq);
-    ptmp = DsSecondOrder_func_ver2(ki, ki*rr, k2);
+    ptmp = DsSecondOrder_func(ki, ki*rr, k2);
     KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
     KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
     KQ8 = rsqr(rr)*(
@@ -385,7 +385,7 @@ local real KQ9_function(real ki, real rr, real xv)
     global_D2v2_ptr ptmp;
     
     k2 = ki * rsqrt(abskmq);
-    ptmp = DsSecondOrder_func_ver2(ki, ki*rr, k2);
+    ptmp = DsSecondOrder_func(ki, ki*rr, k2);
     KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
     KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
     KQ9 = rr*xv*(1-rr*xv)/abskmq;
@@ -468,7 +468,7 @@ local real KQ13_function(real ki, real rr, real xv)
     global_D2v2_ptr ptmp;
     
     k2 = ki * rsqrt(abskmq);
-    ptmp = DsSecondOrder_func_ver2(ki, ki*rr, k2);
+    ptmp = DsSecondOrder_func(ki, ki*rr, k2);
     KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
     KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
     KQ13 = rsqr(rr);
@@ -551,7 +551,7 @@ local real KQI_function(real ki, real rr, real xv)
     global_D2v2_ptr ptmp;
     
     k2 = ki * rsqrt(abskmq);
-    ptmp = DsSecondOrder_func_ver2(ki, ki*rr, k2);
+    ptmp = DsSecondOrder_func(ki, ki*rr, k2);
     KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
     KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
     KQI = rsqr(rr) * (1.0 - rsqr(xv))/(1.0 + rsqr(rr - 2.0*rr*xv))
@@ -638,7 +638,7 @@ local real KQ5_function(real ki, real rr, real xv)
     global_D2v2_ptr ptmp;
     
     k2 = ki * rsqrt(abskmq);
-    ptmp = DsSecondOrder_func_ver2(ki, ki*rr, k2);
+    ptmp = DsSecondOrder_func(ki, ki*rr, k2);
     KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
     KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
     KQ5 = rr*xv*(
@@ -704,7 +704,7 @@ local real KQ7_function(real ki, real rr, real xv)
     global_D2v2_ptr ptmp;
     
     k2 = ki * rsqrt(abskmq);
-    ptmp = DsSecondOrder_func_ver2(ki, ki*rr, k2);
+    ptmp = DsSecondOrder_func(ki, ki*rr, k2);
     KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
     KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
     KQ7 = rsqr(xv)*(1-rr*xv)/abskmq;
@@ -768,7 +768,7 @@ local real KQ11_function(real ki, real rr, real xv)
     global_D2v2_ptr ptmp;
     
     k2 = ki * rsqrt(abskmq);
-    ptmp = DsSecondOrder_func_ver2(ki, ki*rr, k2);
+    ptmp = DsSecondOrder_func(ki, ki*rr, k2);
     KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
     KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
     KQ11 = rsqr(xv);
@@ -832,7 +832,7 @@ local real KQ12_function(real ki, real rr, real xv)
     global_D2v2_ptr ptmp;
     
     k2 = ki * rsqrt(abskmq);
-    ptmp = DsSecondOrder_func_ver2(ki, ki*rr, k2);
+    ptmp = DsSecondOrder_func(ki, ki*rr, k2);
     KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
     KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
     KQ12 = rr*xv;
@@ -899,7 +899,7 @@ global real funcR1int(real y)
     gd.p = rpow(10.0,y);
     fac = rpow(gd.p,3.0)*psInterpolation_nr(gd.p, kPS, pPS, nPSLT);
 
-    ptmp = DsThirdOrder_func_ver2(gd.x, gd.k, gd.p);
+    ptmp = DsThirdOrder_func(gd.x, gd.k, gd.p);
     ftmp = (21.0/10.0)*D3symmD3v2(ptmp)/( DpkD3v2(ptmp)*DppD3v2(ptmp)*DppD3v2(ptmp) );
 
     return fac*ftmp;
@@ -952,7 +952,7 @@ local real GaussLegendreR2_func(real y)
         xv = xGL(pGL)[j];
         w = wGL(pGL)[j];
         k2 = gd.k * rsqrt(1.0 + rsqr(rr) - 2.0*rr*xv);
-        ptmp = DsSecondOrder_func_ver2(k2, gd.k, gd.p);
+        ptmp = DsSecondOrder_func(k2, gd.k, gd.p);
         KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
         KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
         KR2 = (rr*xv*(1.0-rr*xv)/abskmq)
@@ -994,7 +994,7 @@ local real KRI_function(real ki, real rr, real xv)
     global_D2v2_ptr ptmp;
     
     k2 = ki * rsqrt(abskmq);
-    ptmp = DsSecondOrder_func_ver2(k2,ki,ki*rr);
+    ptmp = DsSecondOrder_func(k2,ki,ki*rr);
     KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
     KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
     KRI = (rsqr(rr)*(1.0-rsqr(xv))/abskmq)
@@ -1063,7 +1063,7 @@ local real KR1p2_function(real ki, real rr, real xv)
     global_D2v2_ptr ptmp;
     
     k2 = ki * rsqrt(abskmq);
-    ptmp = DsSecondOrder_func_ver2(k2,ki,ki*rr);
+    ptmp = DsSecondOrder_func(k2,ki,ki*rr);
     KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
     KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
     KR1p2 = (rsqr(rr)*(1.0-rr*xv)/abskmq)
