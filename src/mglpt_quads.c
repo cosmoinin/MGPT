@@ -22,6 +22,23 @@ local real KQ12_function(real k, real r, real x);
 local real KRI_function(real k, real r, real x);
 local real KR1p2_function(real k, real r, real x);
 
+local real GaussLegendreQ1_func_ver3(real y);
+local real GaussLegendreQ2_func_ver3(real y);
+local real GaussLegendreQ3_func_ver3(real y);
+local real GaussLegendreQ8_func_ver3(real y);
+local real GaussLegendreQ9_func_ver3(real y);
+local real GaussLegendreQ13_func_ver3(real y);
+local real GaussLegendreQI_func_ver3(real y);
+local real GaussLegendreQ5_func_ver3(real y);
+local real GaussLegendreQ7_func_ver3(real y);
+local real GaussLegendreQ11_func_ver3(real y);
+local real GaussLegendreQ12_func_ver3(real y);
+local real GaussLegendreRI_func_ver3(real y);
+local real GaussLegendreR1p2_func_ver3(real y);
+local real GaussLegendreR1_func_ver3(real y);
+local real GaussLegendreR2_func_ver3(real y);
+local real funcR1int_ver4(real y);
+
 local real Q1_function(real eta, real ki);
 local real Q2_function(real eta, real ki);
 local real Q3_function(real eta, real ki);
@@ -43,7 +60,7 @@ local real R2_function(real eta, real ki);
 
 // BEGIN Q1
 
-global real GaussLegendreQ1_func_ver3(real y)
+local real GaussLegendreQ1_func_ver3(real y)
 {
     global_D2v2_ptr ptmp;
     int j;
@@ -122,7 +139,7 @@ local real Q1_function(real eta, real ki)
 
 // BEGIN Q2
 
-global real GaussLegendreQ2_func_ver3(real y)
+local real GaussLegendreQ2_func_ver3(real y)
 {
     global_D2v2_ptr ptmp;
     int j;
@@ -202,7 +219,7 @@ local real Q2_function(real eta, real ki)
 
 // BEGIN Q3
 
-real GaussLegendreQ3_func_ver3(real y)
+local real GaussLegendreQ3_func_ver3(real y)
 {
     global_D2v2_ptr ptmp;
     int j;
@@ -294,7 +311,7 @@ local real KQ8_function(real ki, real rr, real xv)
     return KQ8;
 }
 
-global real GaussLegendreQ8_func_ver3(real y)
+local real GaussLegendreQ8_func_ver3(real y)
 {
     int j;
     real *xGL, *wGL;
@@ -378,7 +395,7 @@ local real KQ9_function(real ki, real rr, real xv)
     return KQ9;
 }
 
-global real GaussLegendreQ9_func_ver3(real y)
+local real GaussLegendreQ9_func_ver3(real y)
 {
     int j;
     real *xGL, *wGL;
@@ -461,7 +478,7 @@ local real KQ13_function(real ki, real rr, real xv)
     return KQ13;
 }
 
-global real GaussLegendreQ13_func_ver3(real y)
+local real GaussLegendreQ13_func_ver3(real y)
 {
     int j;
     real *xGL, *wGL;
@@ -547,7 +564,7 @@ local real KQI_function(real ki, real rr, real xv)
     return KQI;
 }
 
-global real GaussLegendreQI_func_ver3(real y)
+local real GaussLegendreQI_func_ver3(real y)
 {
     int j;
     real *xGL, *wGL;
@@ -633,7 +650,7 @@ local real KQ5_function(real ki, real rr, real xv)
     return KQ5;
 }
 
-global real GaussLegendreQ5_func_ver3(real y)
+local real GaussLegendreQ5_func_ver3(real y)
 {
     int j;
     real ki;
@@ -697,7 +714,7 @@ local real KQ7_function(real ki, real rr, real xv)
     return KQ7;
 }
 
-global real GaussLegendreQ7_func_ver3(real y)
+local real GaussLegendreQ7_func_ver3(real y)
 {
     int j;
     real ki;
@@ -761,7 +778,7 @@ local real KQ11_function(real ki, real rr, real xv)
     return KQ11;
 }
 
-global real GaussLegendreQ11_func_ver3(real y)
+local real GaussLegendreQ11_func_ver3(real y)
 {
     int j;
     real ki;
@@ -825,7 +842,7 @@ local real KQ12_function(real ki, real rr, real xv)
     return KQ12;
 }
 
-global real GaussLegendreQ12_func_ver3(real y)
+local real GaussLegendreQ12_func_ver3(real y)
 {
     int j;
     real ki;
@@ -876,7 +893,7 @@ local real Q12_function(real eta, real ki)
 
 
 // BEGIN R1
-
+/*
 local real funcR1int(real x)
 {
     real ftmp;
@@ -888,7 +905,7 @@ local real funcR1int(real x)
     return ftmp;
 }
 
-global real GaussLegendreR1_func_ver3(real y)
+local real GaussLegendreR1_func_ver3(real y)
 {
     real ss, fac;
     
@@ -918,6 +935,7 @@ local real R1_function(real eta, real ki)
 
     return result;
 }
+*/
 
 global real funcR1int_ver4(real y)
 {
@@ -964,7 +982,7 @@ local real R1_function_ver4(real eta, real ki)
 
 // BEGIN R2
 
-global real GaussLegendreR2_func_ver3(real y)
+local real GaussLegendreR2_func_ver3(real y)
 {
     real ss, fac;
     real R2aB, rr, xv, w, k2, KA, KB, KR2;
@@ -1032,7 +1050,7 @@ local real KRI_function(real ki, real rr, real xv)
     return KRI;
 }
 
-global real GaussLegendreRI_func_ver3(real y)
+local real GaussLegendreRI_func_ver3(real y)
 {
     int j;
     real ki;
@@ -1101,7 +1119,7 @@ local real KR1p2_function(real ki, real rr, real xv)
     return KR1p2;
 }
 
-global real GaussLegendreR1p2_func_ver3(real y)
+local real GaussLegendreR1p2_func_ver3(real y)
 {
     int j;
     real ki;
