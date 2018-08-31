@@ -51,7 +51,6 @@ local real Q12_function(real eta, real ki);
 local real RI_function(real eta, real ki);
 local real R1p2_function(real eta, real ki);
 local real R1_function(real eta, real ki);
-local real R1_function_ver4(real eta, real ki);
 local real R2_function(real eta, real ki);
 
 #define abskmq      (1.0+rsqr(rr)-2.0*rr*xv)
@@ -1152,7 +1151,7 @@ global_QRs QsR1R2_functions_ver3(real eta, real ki)
     RI = RI_function(eta, ki);
     R1p2 = R1p2_function(eta, ki);
 
-    R1p = R1_function_ver4(eta, ki);
+    R1p = R1_function(eta, ki);
     R2p = R2_function(eta, ki);
     
     etaQRs(QRstmp) = eta;
