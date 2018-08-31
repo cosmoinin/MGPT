@@ -5,12 +5,13 @@
 #include "globaldefs.h"
 #include "protodefs.h"
 
+local void derivsFirstOrder(double x,double y[],double dydx[]);
 
-local void derivsSecondOrder_ver2(double x,double y[],double dydx[]);
-local void derivsThirdOrder(double x,double y[],double dydx[]);
-local void derivsThirdOrder_ver2(double eta,double y[],double dydx[]);
+local void derivsSecondOrder(double x,double y[],double dydx[]);
+//local void derivsThirdOrder(double x,double y[],double dydx[]);
+local void derivsThirdOrder(double eta,double y[],double dydx[]);
 
-local global_D3_ptr DsThirdOrder_func(real kf, real k1, real k2);
+//local global_D3_ptr DsThirdOrder_func(real kf, real k1, real k2);
 
 global void derivsFirstOrder(double x,double y[],double dydx[])
 {
@@ -20,6 +21,7 @@ global void derivsFirstOrder(double x,double y[],double dydx[])
     dydx[2]=f1(x)*mu(x,gd.kf)*y[1]-f2(x)*y[2];
 }
 
+/*
 global void derivsSecondOrder(double x,double y[],double dydx[])
 {
     nrhs++;
@@ -56,8 +58,9 @@ global void derivsSecondOrder(double x,double y[],double dydx[])
                 )
                 *y[1]*y[3];
 }
+*/
 
-local void derivsSecondOrder_ver2(double x,double y[],double dydx[])
+local void derivsSecondOrder(double x,double y[],double dydx[])
 {
     nrhs++;
     
@@ -76,6 +79,7 @@ local void derivsSecondOrder_ver2(double x,double y[],double dydx[])
     + sourceb(x,gd.kf,gd.k1,gd.k2)*y[1]*y[3];
 }
 
+/*
 local void derivsThirdOrder(double x,double y[],double dydx[])
 {
     nrhs++;
@@ -133,8 +137,9 @@ local void derivsThirdOrder(double x,double y[],double dydx[])
             +(dydx[12]+f2(x)*y[12])*y[3];
 //
 }
+*/
 
-local void derivsThirdOrder_ver2(double eta,double y[],double dydx[])
+local void derivsThirdOrder(double eta,double y[],double dydx[])
 {
     nrhs++;
     real Dpk, Dpp, D2f, D2mf, kplusp, kpluspm;
@@ -199,6 +204,7 @@ global real DpFunction(real k)
     return (Dptmp);
 }
 
+/*
 global global_D2_ptr DsSecondOrder_func(real kf, real k1, real k2)
 {
     int nbad,nok;
@@ -249,8 +255,9 @@ global global_D2_ptr DsSecondOrder_func(real kf, real k1, real k2)
     
     return ptmp;
 }
+*/
 
-global global_D2v2_ptr DsSecondOrder_func_ver2(real kf, real k1, real k2)
+global global_D2v2_ptr DsSecondOrder_func(real kf, real k1, real k2)
 {
     int nbad,nok;
     double *ystart;
@@ -278,7 +285,7 @@ global global_D2v2_ptr DsSecondOrder_func_ver2(real kf, real k1, real k2)
     dxsav=(gd.xstop-gd.xnow)/20.0;
 
     integration(ystart,NEQS2Orderv2,gd.xnow,gd.xstop,cmd.eps,gd.dx,cmd.dxmin,
-                &nok,&nbad,cmd.maxnsteps,derivsSecondOrder_ver2);
+                &nok,&nbad,cmd.maxnsteps,derivsSecondOrder);
     
     ptmp = (global_D2v2_ptr) allocate(1 * sizeof(global_D2v2));
 
@@ -296,6 +303,7 @@ global global_D2v2_ptr DsSecondOrder_func_ver2(real kf, real k1, real k2)
 }
 
 
+/*
 local global_D3_ptr DsThirdOrder_func(real kf, real k1, real k2)
 {
     int nbad,nok;
@@ -361,9 +369,9 @@ local global_D3_ptr DsThirdOrder_func(real kf, real k1, real k2)
     
     return ptmp;
 }
+*/
 
-
-global global_D3v2_ptr DsThirdOrder_func_ver2(real x, real k, real p)
+global global_D3v2_ptr DsThirdOrder_func(real x, real k, real p)
 {
     int nbad,nok;
     double *ystart;
@@ -403,7 +411,7 @@ global global_D3v2_ptr DsThirdOrder_func_ver2(real x, real k, real p)
     kmax=100;
     dxsav=(gd.xstop-gd.xnow)/20.0;
     integration(ystart,NEQS3Orderv2,gd.xnow,gd.xstop,cmd.eps,gd.dx,cmd.dxmin,
-                &nok,&nbad,cmd.maxnsteps,derivsThirdOrder_ver2);
+                &nok,&nbad,cmd.maxnsteps,derivsThirdOrder);
 
     ptmp = (global_D3v2_ptr) allocate(1 * sizeof(global_D3v2));
 
