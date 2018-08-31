@@ -2,7 +2,7 @@
 	MODULE: models.c			[mgpt]
 ==============================================================================*/
 
-#define global // check the behaviour of this
+#define global
 #include "globaldefs.h"
 
 #include "protodefs.h"
