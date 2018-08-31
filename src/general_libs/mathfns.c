@@ -558,8 +558,6 @@ real bessk1(real x)
 // end Bessel functions from NR
 
 
-//#include <math.h>
-
 double gammln(double xx) // Ln(Gamma(x))
 {
     double x,y,tmp,ser;
@@ -577,9 +575,7 @@ double gammln(double xx) // Ln(Gamma(x))
 }
 
 double beta(double z, double w)
-{
-//    double gammln(double xx);
-    
+{    
     return exp(gammln(z)+gammln(w)-gammln(z+w));
 }
 
@@ -599,21 +595,6 @@ double erffcnr(double x)
     
     return x < 0.0 ? 1.0+gammp(0.5,x*x) : gammq(0.5,x*x);
 }
-
-/* It is above
-// Complementary Error function NR 2nd E with some efficiency corrected issue
-double erfcc(double x)
-{
-    double t,z,ans;
-    
-    z=fabs(x);
-    t=1.0/(1.0+0.5*z);
-    ans=t*exp(-z*z-1.26551223+t*(1.00002368+t*(0.37409196+t*(0.09678418+
-                                                             t*(-0.18628806+t*(0.27886807+t*(-1.13520398+t*(1.48851587+
-                                                                                                            t*(-0.82215223+t*0.17087277)))))))));
-    return x >= 0.0 ? ans : 2.0-ans;
-}
-*/
 
 // Incomplete gamma function
 double gammp(double a, double x)
@@ -637,12 +618,8 @@ double gammp(double a, double x)
 #define EPS 3.0e-7
 #define FPMIN 1.0e-30
 
-// gammq = 1 - gammp
 double gammq(double a, double x)
 {
-//    void gcf(double *gammcf, double a, double x, double *gln);
-//    void gser(double *gamser, double a, double x, double *gln);
-//    void nrerror(char error_text[]);
     double gamser,gammcf,gln;
     
     if (x < 0.0 || a <= 0.0) nrerror("Invalid arguments in routine gammq");
@@ -657,8 +634,6 @@ double gammq(double a, double x)
 
 void gcf(double *gammcf, double a, double x, double *gln)
 {
-//    double gammln(double xx);
-//    void nrerror(char error_text[]);
     int i;
     double an,b,c,d,del,h;
     
@@ -691,7 +666,6 @@ void gcf(double *gammcf, double a, double x, double *gln)
 
 void gser(double *gamser, double a, double x, double *gln)
 {
-//    double gammln(double xx);
     void nrerror(char error_text[]);
     int n;
     double sum,del,ap;
@@ -729,7 +703,6 @@ real rj0Bessel(real x)
 
 real rj1Bessel(real x)
 {
-// Sin[x]/x^2 - Cos[x]/x
     real func;
     func= rsin(x)/rsqr(x) - rcos(x)/x;
     return (func);
@@ -737,7 +710,6 @@ real rj1Bessel(real x)
 
 real rj2Bessel(real x)
 {
-// (3/x^2 - 1) Sin[x]/x - (3 Cos[x])/x^2
     real func;
     func= (3.0/rsqr(x) - 1.0)*rsin(x)/x - (3.0*rcos(x))/rsqr(x);
     return (func);
@@ -745,7 +717,6 @@ real rj2Bessel(real x)
 
 real rj3Bessel(real x)
 {
-// (15/x^3 - 6/x) Sin[x]/x - (15/x^2 - 1) Cos[x]/x
     real func;
     func= (15.0/rpow(x,3.0) - 6.0/x)*rsin(x)/x - (15/rsqr(x) - 1.0)*rcos(x)/x;
     return (func);
