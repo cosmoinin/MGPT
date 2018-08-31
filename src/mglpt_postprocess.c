@@ -144,7 +144,7 @@ global void biasterms_processing(void)
     fprintf(stdout,"\n\nBias terms processing...\n");
     InputQsRsTable();
     
-    sigma2L = sigma2L_function_ver2();
+    sigma2L = sigma2L_function();
     fprintf(stdout,"\n\nsigma2L = %g\n",sigma2L);
     
 // a02 offset
