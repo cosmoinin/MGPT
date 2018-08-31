@@ -7,13 +7,13 @@
 
 #define SIXPI2  59.2176
 
-local real Q12_function(real eta, real ki);
+//local real Q12_function(real eta, real ki);
 
-local  real Interpolation_nr(real k, double kPS[], double pPS[], int nPS, double pPS2[]);
+//local  real Interpolation_nr(real k, double kPS[], double pPS[], int nPS, double pPS2[]);
 
 local real sigma2L_function_int(real y);
 local real sigma2L_function_ver2(void);
-local real sigma2L_function(real ki);
+//local real sigma2L_function(real ki);
 
 local real PSLF(real k);
 local real Q1F(real k);
@@ -413,6 +413,7 @@ local void InputQsRsTable(void)
 #undef fpfnamebiasterms
 
 // sigma2L
+/*
 local real sigma2L_function(real ki)
 {
     int i;
@@ -446,6 +447,7 @@ local real sigma2L_function(real ki)
     
     return sigma2L;
 }
+*/
 
 local real sigma2L_function_int(real y)
 {
