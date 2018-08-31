@@ -980,7 +980,7 @@ local real R2_function(real eta, real ki)
     ymax = rlog10(pmax);
 
     result=rlog(10.0)*(rsqr(gd.k)/FOURPI2)*psInterpolation_nr(gd.k, kPS, pPS, nPSLT)
-            *qromo(GaussLegendreR2_func_ver3,ymin,ymax,midpnt);
+            *qromo(GaussLegendreR2_func,ymin,ymax,midpnt);
 
     return result;
 }
@@ -1048,7 +1048,7 @@ local real RI_function(real eta, real ki)
     ymax = rlog10(pmax);
     
     result=rlog(10.0)*(rsqr(ki)/FOURPI2)*PSL
-        *qromo(GaussLegendreRI_func_ver3,ymin,ymax,midpnt);
+        *qromo(GaussLegendreRI_func,ymin,ymax,midpnt);
 
     return result;
 }
@@ -1117,7 +1117,7 @@ local real R1p2_function(real eta, real ki)
     ymax = rlog10(pmax);
 
     result=rlog(10.0)*(rsqr(ki)/FOURPI2)*PSL
-        *qromo(GaussLegendreR1p2_func_ver3,ymin,ymax,midpnt);
+        *qromo(GaussLegendreR1p2_func,ymin,ymax,midpnt);
 
     return result;
 }
