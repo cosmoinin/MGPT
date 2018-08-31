@@ -18,10 +18,6 @@ void EndRun(void);
 global void PostProcessing(void);
 global void biasterms_processing(void);
 
-
-real psLCDMf(real k);       // Interpolation of the power spectrum
-global  real psInterpolation_nr(real k, double kPS[], double pPS[], int nPS);
-
 // MGLPT DIFFEQS
 global void integration(double ystart[], int nvar, double x1, double x2, double eps, double h1,
                         double hmin, int *nok, int *nbad, int maxnsteps,
@@ -44,5 +40,7 @@ real f1(real eta);
 real f2(real eta);
 global real A0(real eta);
 //
+
+global  real psInterpolation_nr(real k, double kPS[], double pPS[], int nPS);
 
 #endif // ! _protodefs_h
