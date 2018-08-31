@@ -117,8 +117,8 @@ global global_data gd;
 global cmdline_data cmd;
 
 global real *yout;
-#define NEQS3Orderv2    10
-#define NEQS2Orderv2    8
+#define NEQS3Order    10
+#define NEQS2Order    8
 #define NEQS1Order      2
 
 typedef struct _pointPSTable {
