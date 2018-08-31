@@ -5,6 +5,10 @@
 #include "globaldefs.h"
 #include "protodefs.h"
 
+local void integration(double ystart[], int nvar, double x1, double x2, double eps, double h1,
+                        double hmin, int *nok, int *nbad, int maxnsteps,
+                        void (*derivsin)(double, double [], double []));
+
 local void derivsFirstOrder(double x,double y[],double dydx[]);
 local void derivsSecondOrder(double x,double y[],double dydx[]);
 local void derivsThirdOrder(double eta,double y[],double dydx[]);
@@ -208,7 +212,7 @@ global global_D3v2_ptr DsThirdOrder_func(real x, real k, real p)
 #define NULLMETHOD      1
 #define RKQS            2
 
-global void integration(double ystart[], int nvar, double x1, double x2, double eps, double h1,
+local void integration(double ystart[], int nvar, double x1, double x2, double eps, double h1,
                        double hmin, int *nok, int *nbad, int maxnsteps,
                        void (*derivsin)(double, double [], double []))
 {
