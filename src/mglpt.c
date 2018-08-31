@@ -78,7 +78,7 @@ local void computingQRs(void)
         ki = rpow(10.0,kval);
         fprintf(stdout,"i: %d :: ki: %g :: ",i,ki);
         fflush(stdout);
-        qrs = QsR1R2_functions_driver(gd.xstop, ki);
+        qrs = QsRs_functions_driver(gd.xstop, ki);
 
         Q1 = qrs.Q1;
         Q2 = qrs.Q2;
