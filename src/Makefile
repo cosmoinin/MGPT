@@ -1,4 +1,4 @@
-# ----- MAKE FILE FOR mgpt CODE -----
+# ----- Makefile FOR mgpt CODE -----
 #
 
 OPT1    =  -DNOGNU
@@ -44,9 +44,6 @@ clean:
 	(rm -f $(OBJS) $(EXEC); rm -fR mgpt.dSYM; rm ../$(EXEC))
 
 check: all
-
-#	./mglpt | grep "Hello from .*jupiter!"
-#	@echo "*** ALL TESTS PASSED ***"
 
 install:
 	install -d $(DESTDIR)$(bindir)
