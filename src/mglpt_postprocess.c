@@ -5,15 +5,8 @@
 #include "globaldefs.h"
 #include "protodefs.h"
 
-//#define SIXPI2  59.2176
-
-//local real Q12_function(real eta, real ki);
-
-//local  real Interpolation_nr(real k, double kPS[], double pPS[], int nPS, double pPS2[]);
-
 local real sigma2L_function_int(real y);
-local real sigma2L_function_ver2(void);
-//local real sigma2L_function(real ki);
+local real sigma2L_function(void);
 
 local real PSLF(real k);
 local real Q1F(real k);
@@ -189,7 +182,7 @@ global void biasterms_processing(void)
                 );
     }
     fclose(outstr);
-    //
+//
     free(PQsRstab);
 }
 #undef FMTBIASTERMDAT
@@ -412,42 +405,6 @@ local void InputQsRsTable(void)
 #undef fpfnameQsRs
 #undef fpfnamebiasterms
 
-// sigma2L
-/*
-local real sigma2L_function(real ki)
-{
-    int i;
-    
-    real kmin, kmax;
-    real PSLA, PSLB;
-    real deltar, kk;
-
-    real sigma2L;
-    
-    pointPSTableptr p;
-    
-    kmin = kPos(PSLT+1);
-    kmax = kPos(PSLT+nPSLT-1);
-    fprintf(gd.outlog,"nPSLT, kmin and kmax :: %d %g %g\n",nPSLT,kmin,kmax);
-    
-    sigma2L = 0.0;
-    
-    PSLA = 0.0;
-    p = PSLCDMtab;
-    //
-    for (i=1; i<nPSTable; i++) {
-        kk = kPos(p+i);
-        PSLB = psInterpolation_nr(kk, kPS, pPS, nPSLT);
-        deltar = (kPos(p+i)-kPos(p+i-1))/kk;
-        sigma2L += deltar*(PSLA + PSLB)/2.0;
-        PSLA = PSLB;
-    }
-
-    sigma2L *= (1.0/SIXPI2);
-    
-    return sigma2L;
-}
-*/
 
 local real sigma2L_function_int(real y)
 {
@@ -461,7 +418,7 @@ local real sigma2L_function_int(real y)
     return p*PSL;
 }
 
-local real sigma2L_function_ver2(void)
+local real sigma2L_function(void)
 {
     real result;
     real kmin, kmax;
