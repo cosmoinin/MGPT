@@ -396,9 +396,8 @@ local void PrintParameterFile(char *fname)
 #undef FMTR
 
 
-#define NPT 100
+#define NPT 20
 #define SPREAD 1.0
-//#define fpfnametmpext		"pstabletmpext.dat"
 local void InputPSTable(void)
 {
     stream outstr;
@@ -585,7 +584,6 @@ local void InputPSTable(void)
 }
 #undef NPT
 #undef SPREAD
-//#undef fpfnametmpext
 
 
 local void PSLTable(void)
