@@ -32,8 +32,8 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#define H02     2997.92458
-#define FOURPI2   39.4784176043574
+#define H02     2997.92458   //This is H_0^{-1} in Mpc/h units
+#define FOURPI2   39.4784176043574    //but see 0903.5321
 #define SIXPI2  59.2176
 
 typedef struct {
