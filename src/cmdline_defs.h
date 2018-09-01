@@ -15,7 +15,7 @@ string defv[] = {  ";"HEAD1": " HEAD2 "\n\t " HEAD3,
 // Power spectrum table:
     "fnamePS=psLCDM.in",		    ";Filename with power spectrum table",
     "kmin=1e-4",                    ";kmin to analyse from the power spectrum table",
-    "kmax=100",                      ";kmax to analyse from the power spectrum table",
+    "kmax=100",                      ";kmax to analyse from the power spectrum table",":nk",
     "Nk=300",                       ";Total number of k to analyse from the power spectrum table",
 //
 // Modified gravity model parameters:
