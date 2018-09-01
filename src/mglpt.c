@@ -48,7 +48,7 @@ local void computingQRs(void)
             "#","k","<Q1>","<Q2>","<Q3>",
             "<Q5>","<Q7>","<Q8>","<Q9>",
             "<Q11>","<Q12>","<Q13>","<QI>",
-            "<R1>","<R2>","<R1p2>","<RI>","<Dpk>","<PSLMG>\n");
+            "<R1>","<R2>","<R1plus2>","<RI>","<Dpk>","<PSLMG>\n");
 
     fprintf(outstrQsRs,
             "%1s%6s%11s%11s%11s%11s%11s%11s%11s%11s%11s%11s%11s%11s%11s%11s%12s%12s%12s",
