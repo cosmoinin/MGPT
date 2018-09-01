@@ -121,7 +121,7 @@ local void startrun_Common(void)
     gd.xout = gd.xnow;
     gd.xoutinfo = gd.xnow;
 
-    gd.xstop = rexp(-cmd.xstop) - 1.0;
+    gd.xstop = rlog(1.0/(1.0+cmd.xstop));
 
     set_model();
 
@@ -195,7 +195,7 @@ local void CheckParameters(void)
 
     if (gd.dx == 0)
         error("CheckParameters: absurd value for deta\n");
-    if(cmd.x == rexp(-cmd.xstop) - 1.0 )
+    if(cmd.x == rlog(1.0/(1.0+cmd.xstop)) )
         error("\n\nstartrun_Common: etaini and etaout=exp(-zout)-1 must be different\n");
 
     if (cmd.maxnsteps < 1)
