@@ -37,7 +37,7 @@ string defv[] = {  ";"HEAD1": " HEAD2 "\n\t " HEAD3,
     "integration_method=bsstep",	";Integration method to use", ":im",
 //
 // Integration parameters:
-    "ngausslegpoints=10",           ";Maximum number of steps", ":nglpts",
+    "ngausslegpoints=10",           ";Number of Gauss-Legendre of integration points", ":nglpts",
 //
 // Post processing parameters:
     "postprocessing=false",			";Post processing options", ":pp",

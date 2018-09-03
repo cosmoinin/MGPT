@@ -14,6 +14,20 @@ local void model_string_to_int(string, int *);
 local void Model_HS(void);
 local void Model_fR1(void);
 
+local real mass(real eta);
+local real JFL(real eta, real x, real k, real p);
+local real KFL(real eta, real k, real k1, real k2);
+local real KFL2(real eta, real x, real k, real p);
+local real PiF(real eta, real k);
+local real M1(real eta);
+local real M2(real eta);
+local real M3(real eta);
+local real S2a(real eta, real x, real k, real p);
+local real S2b(real eta, real x, real k, real p);
+local real S2FL(real eta, real x, real k, real p);
+local real S2dI(real eta, real x, real k, real p);
+
+
 local real sourcea(real eta, real kf);
 local real sourceFL(real eta, real kf, real k1, real k2);
 local real sourcedI(real eta, real kf, real k1, real k2);
@@ -79,7 +93,7 @@ local void Model_HS(void)
     cmd.omegaBD = 0.0;
 }
 
-global real mass(real eta)
+local real mass(real eta)
 {
     real masstmp;
     
@@ -112,7 +126,7 @@ global real PiF(real eta, real k)
 // BEGIN :: SECOND ORDER (six second order differential equations)
 //
 
-global real M2(real eta)
+local real M2(real eta)
 {
     real M2tmp;
     
@@ -124,7 +138,7 @@ global real M2(real eta)
 }
 
 
-global real KFL(real eta, real k, real k1, real k2)
+local real KFL(real eta, real k, real k1, real k2)
 {
     real KFLtmp;
 
@@ -192,7 +206,7 @@ local real sourcedI(real eta, real kf, real k1, real k2)
 // BEGIN :: THIRD ORDER (Dsymmetric, five second order differential equations)
 //
 
-global real M1(real eta)
+local real M1(real eta)
 {
     real M1tmp;
     
@@ -201,7 +215,7 @@ global real M1(real eta)
     return (M1tmp);
 }
 
-global real M3(real eta)
+local real M3(real eta)
 {
     real M3tmp;
     
@@ -221,7 +235,7 @@ global real kpp(real x, real k, real p)
     return kpptmp;
 }
 
-global real KFL2(real eta, real x, real k, real p)
+local real KFL2(real eta, real x, real k, real p)
 {
     real KFLtmp;
     
@@ -232,7 +246,7 @@ global real KFL2(real eta, real x, real k, real p)
     return (KFLtmp);
 }
 
-global real JFL(real eta, real x, real k, real p)
+local real JFL(real eta, real x, real k, real p)
 {
     real JFLtmp;
     
@@ -323,7 +337,7 @@ local real K3dI(real eta, real x, real k,  real p,
     return (K3tmp);
 }
 
-global real S2a(real eta, real x, real k, real p)
+local real S2a(real eta, real x, real k, real p)
 {
     real Dtmp, kplusp;
 
@@ -333,7 +347,7 @@ global real S2a(real eta, real x, real k, real p)
     return Dtmp;
 }
 
-global real S2b(real eta, real x, real k, real p)
+local real S2b(real eta, real x, real k, real p)
 {
     real Dtmp, kplusp;
     
@@ -343,7 +357,7 @@ global real S2b(real eta, real x, real k, real p)
     return Dtmp;
 }
 
-global real S2FL(real eta, real x, real k, real p)
+local real S2FL(real eta, real x, real k, real p)
 {
     real Dtmp, kplusp;
     
@@ -355,7 +369,7 @@ global real S2FL(real eta, real x, real k, real p)
     return Dtmp;
 }
 
-global real S2dI(real eta, real x, real k, real p)
+local real S2dI(real eta, real x, real k, real p)
 {
     real Dtmp, kplusp;
     
