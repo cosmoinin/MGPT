@@ -763,7 +763,8 @@ local real mass_LCDM(real eta)
 local real mu_LCDM(real eta, real k)
 {
     real mutmp;
-    mutmp = 1.0 + (2.0*gd.beta2*k*k)/(k*k + rexp(2.0*eta)*rsqr(mass_LCDM(eta)));
+    mutmp = 1.0;
+//    + (2.0*gd.beta2*k*k)/(k*k + rexp(2.0*eta)*rsqr(mass_LCDM(eta)));
     
     return (mutmp);
 }
