@@ -235,7 +235,7 @@ local real mass_HS(real eta)
 local real mu_HS(real eta, real k)
 {
     real mutmp;
-    mutmp = 1.0 + (2.0*gd.beta2*k*k)/(k*k + rexp(2.0*eta)*rsqr(mass(eta)));
+    mutmp = 1.0 + (2.0*gd.beta2*k*k)/(k*k + rexp(2.0*eta)*rsqr(mass_HS(eta)));
 
     return (mutmp);
 }
@@ -244,7 +244,7 @@ local real PiF_HS(real eta, real k)
 {
     real PiFtmp;
     
-    PiFtmp = k*k/rexp(2.0*eta) + rsqr(mass(eta));
+    PiFtmp = k*k/rexp(2.0*eta) + rsqr(mass_HS(eta));
     
     return (PiFtmp);
 }
@@ -270,9 +270,9 @@ local real KFL_HS(real eta, real k, real k1, real k2)
 {
     real KFLtmp;
 
-    KFLtmp = 0.5*(rsqr(sqr(k)-sqr(k1)-sqr(k2))/(sqr(k1)*sqr(k2)))*(mu(eta,k1)+mu(eta,k2)-2.0)
-        + 0.5*((sqr(k)-sqr(k1)-sqr(k2))/sqr(k1))*(mu(eta,k1)-1.0)
-        + 0.5*((sqr(k)-sqr(k1)-sqr(k2))/sqr(k2))*(mu(eta,k2)-1.0);
+    KFLtmp = 0.5*(rsqr(sqr(k)-sqr(k1)-sqr(k2))/(sqr(k1)*sqr(k2)))*(mu_HS(eta,k1)+mu_HS(eta,k2)-2.0)
+        + 0.5*((sqr(k)-sqr(k1)-sqr(k2))/sqr(k1))*(mu_HS(eta,k1)-1.0)
+        + 0.5*((sqr(k)-sqr(k1)-sqr(k2))/sqr(k2))*(mu_HS(eta,k2)-1.0);
 
     return (KFLtmp);
 }
@@ -281,9 +281,9 @@ local real sourceA_HS(real eta, real kf, real k1, real k2)
 {
     real Stmp;
 
-    Stmp = sourcea(eta, kf)
-            + sourceFL(eta, kf, k1, k2)
-            - cmd.screening * sourcedI(eta, kf, k1, k2);
+    Stmp = sourcea_HS(eta, kf)
+            + sourceFL_HS(eta, kf, k1, k2)
+            - cmd.screening * sourcedI_HS(eta, kf, k1, k2);
 
     return Stmp;
 }
@@ -292,7 +292,7 @@ local real sourcea_HS(real eta, real kf)
 {
     real Stmp;
     
-    Stmp = f1(eta)*mu(eta, kf);
+    Stmp = f1(eta)*mu_HS(eta, kf);
 
     return Stmp;
 }
@@ -301,7 +301,7 @@ local real sourceb_HS(real eta, real kf, real k1, real k2)
 {
     real Stmp;
     
-    Stmp = f1(eta)*( mu(eta, k1) + mu(eta, k2) - mu(eta, kf));
+    Stmp = f1(eta)*( mu_HS(eta, k1) + mu_HS(eta, k2) - mu_HS(eta, kf));
 
     return Stmp;
 }
@@ -310,7 +310,7 @@ local real sourceFL_HS(real eta, real kf, real k1, real k2)
 {
     real Stmp;
     
-    Stmp = f1(eta)*(rsqr(mass(eta))/PiF(eta,kf))*KFL(eta, kf, k1, k2);
+    Stmp = f1(eta)*(rsqr(mass_HS(eta))/PiF_HS(eta,kf))*KFL_HS(eta, kf, k1, k2);
 
     return Stmp;
 }
@@ -320,7 +320,7 @@ local real sourcedI_HS(real eta, real kf, real k1, real k2)
     real Stmp;
     
     Stmp = (1.0/6.0)*rsqr(OmM(eta)*H(eta)/(rexp(eta)*H02))
-            * rsqr(kf)*M2(eta)/ ( PiF(eta,kf)*PiF(eta,k1)*PiF(eta,k2) );
+            * rsqr(kf)*M2_HS(eta)/ ( PiF_HS(eta,kf)*PiF_HS(eta,k1)*PiF_HS(eta,k2) );
     
     return Stmp;
 }
@@ -338,7 +338,7 @@ local real M1_HS(real eta)
 {
     real M1tmp;
     
-    M1tmp = 3.0*rsqr(mass(eta));
+    M1tmp = 3.0*rsqr(mass_HS(eta));
     
     return (M1tmp);
 }
@@ -358,9 +358,9 @@ local real KFL2_HS(real eta, real x, real k, real p)
 {
     real KFLtmp;
     
-    KFLtmp = 2.0*rsqr(x)*( mu(eta,k) + mu(eta,p)-2.0 )
-            + (p*x/k)*(mu(eta,k) - 1.0)
-            + (k*x/p)*(mu(eta,p) - 1.0);
+    KFLtmp = 2.0*rsqr(x)*( mu_HS(eta,k) + mu_HS(eta,p)-2.0 )
+            + (p*x/k)*(mu_HS(eta,k) - 1.0)
+            + (k*x/p)*(mu_HS(eta,p) - 1.0);
 
     return (KFLtmp);
 }
@@ -370,7 +370,7 @@ local real JFL_HS(real eta, real x, real k, real p)
     real JFLtmp;
     
     JFLtmp = (9.0/(2.0*A0(eta)))
-            * KFL2(eta, x, k, p) * PiF(eta, k) * PiF(eta, p);
+            * KFL2_HS(eta, x, k, p) * PiF_HS(eta, k) * PiF_HS(eta, p);
 
     return (JFLtmp);
 }
@@ -384,8 +384,8 @@ local real D2phiplus_HS(real eta, real x, real k, real p,
              (1.0 + rsqr(x))
              -( 2.0*A0(eta)/3.0 )
              * (
-                ( M2(eta) + JFL(eta,x,k,p)*(3.0+2.0*cmd.omegaBD) )
-                / (3.0*PiF(eta,k)*PiF(eta,p))
+                ( M2_HS(eta) + JFL_HS(eta,x,k,p)*(3.0+2.0*cmd.omegaBD) )
+                / (3.0*PiF_HS(eta,k)*PiF_HS(eta,p))
                 )
              ) * Dpk*Dpp + D2f;
     
@@ -401,8 +401,8 @@ local real D2phiminus_HS(real eta, real x, real k, real p,
              (1.0 + rsqr(x))
              -( 2.0*A0(eta)/3.0 )
              * (
-                ( M2(eta) + JFL(eta,-x,k,p)*(3.0+2.0*cmd.omegaBD) )
-                / (3.0*PiF(eta,k)*PiF(eta,p))
+                ( M2_HS(eta) + JFL_HS(eta,-x,k,p)*(3.0+2.0*cmd.omegaBD) )
+                / (3.0*PiF_HS(eta,k)*PiF_HS(eta,p))
                 )
              ) * Dpk*Dpp + D2mf;
 
@@ -419,37 +419,37 @@ local real K3dI_HS(real eta, real x, real k,  real p,
     kpluspm = kpp(-x,k,p);
 
     t1 = 2.0*rsqr(OmM(eta)*H(eta)/H02)
-            *(M2(eta)/(PiF(eta,k)*PiF(eta,0)));
+            *(M2_HS(eta)/(PiF_HS(eta,k)*PiF_HS(eta,0)));
 
     t2 = (1.0/3.0)*(rpow(OmM(eta),3.0)*rpow(H(eta),4.0)/rpow(H02,4) )
         *(
-            M3(eta) - M2(eta)*(M2(eta) + JFL(eta,-1.0,p,p)*(3.0+2.0*cmd.omegaBD))
-                        /(PiF(eta,0))
-          ) / ( rsqr(PiF(eta,p)) * PiF(eta,k) );
+            M3_HS(eta) - M2_HS(eta)*(M2_HS(eta) + JFL_HS(eta,-1.0,p,p)*(3.0+2.0*cmd.omegaBD))
+                        /(PiF_HS(eta,0))
+          ) / ( rsqr(PiF_HS(eta,p)) * PiF_HS(eta,k) );
 
     t3 = rsqr(OmM(eta)*H(eta)/H02)
-        *(M2(eta)/(PiF(eta,p)*PiF(eta,kplusp)))
+        *(M2_HS(eta)/(PiF_HS(eta,p)*PiF_HS(eta,kplusp)))
         *(
             1.0 + rsqr(x) + (D2f)/(Dpk*Dpp)
           );
     
     t4 = (1.0/3.0)*(rpow(OmM(eta),3.0)*rpow(H(eta),4.0)/rpow(H02,4) )
         *(
-            M3(eta) - M2(eta)*(M2(eta) + JFL(eta,x,k,p)*(3.0+2.0*cmd.omegaBD))
-                        /(PiF(eta,kplusp))
-          ) / ( rsqr(PiF(eta,p)) * PiF(eta,k) );
+            M3_HS(eta) - M2_HS(eta)*(M2(eta) + JFL_HS(eta,x,k,p)*(3.0+2.0*cmd.omegaBD))
+                        /(PiF_HS(eta,kplusp))
+          ) / ( rsqr(PiF_HS(eta,p)) * PiF_HS(eta,k) );
     
     t5 = rsqr(OmM(eta)*H(eta)/H02)
-        *(M2(eta)/(PiF(eta,p)*PiF(eta,kpluspm)))
+        *(M2_HS(eta)/(PiF_HS(eta,p)*PiF_HS(eta,kpluspm)))
         *(
             1.0 + rsqr(x) + (D2mf)/(Dpk*Dpp)
           );
     
     t6 = (1.0/3.0)*(rpow(OmM(eta),3.0)*rpow(H(eta),4.0)/rpow(H02,4) )
         *(
-          M3(eta) - M2(eta)*(M2(eta) + JFL(eta,-x,k,p)*(3.0+2.0*cmd.omegaBD))
-                /(PiF(eta,kpluspm))
-          ) / ( rsqr(PiF(eta,p)) * PiF(eta,k) );
+          M3_HS(eta) - M2_HS(eta)*(M2(eta) + JFL_HS(eta,-x,k,p)*(3.0+2.0*cmd.omegaBD))
+                /(PiF_HS(eta,kpluspm))
+          ) / ( rsqr(PiF_HS(eta,p)) * PiF_HS(eta,k) );
 
     K3tmp = t1 + t2 + t3 + t4 + t5 + t6;
 
@@ -461,7 +461,7 @@ local real S2a_HS(real eta, real x, real k, real p)
     real Dtmp, kplusp;
 
     kplusp = kpp(x,k,p);
-    Dtmp = f1(eta)*mu(eta,kplusp);
+    Dtmp = f1(eta)*mu_HS(eta,kplusp);
 
     return Dtmp;
 }
@@ -471,7 +471,7 @@ local real S2b_HS(real eta, real x, real k, real p)
     real Dtmp, kplusp;
     
     kplusp = kpp(x,k,p);
-    Dtmp = f1(eta)*(mu(eta,k)+mu(eta,p)-mu(eta,kplusp));
+    Dtmp = f1(eta)*(mu_HS(eta,k)+mu_HS(eta,p)-mu_HS(eta,kplusp));
     
     return Dtmp;
 }
@@ -482,8 +482,8 @@ local real S2FL_HS(real eta, real x, real k, real p)
     
     kplusp = kpp(x,k,p);
     Dtmp = f1(eta)*(
-                    M1(eta)/(3.0*PiF(eta,kplusp))
-                    *KFL2(eta,x,k,p)
+                    M1_HS(eta)/(3.0*PiF_HS(eta,kplusp))
+                    *KFL2_HS(eta,x,k,p)
                     );
     return Dtmp;
 }
@@ -495,7 +495,7 @@ local real S2dI_HS(real eta, real x, real k, real p)
     kplusp = kpp(x,k,p);
     Dtmp = (1.0/6.0)*
             rsqr(OmM(eta)*H(eta)/(rexp(eta)*H02))
-        * ( (rsqr(kplusp)*M2(eta)) / (PiF(eta,kplusp)*PiF(eta,k)*PiF(eta,p)));
+        * ( (rsqr(kplusp)*M2_HS(eta)) / (PiF_HS(eta,kplusp)*PiF_HS(eta,k)*PiF_HS(eta,p)));
 
     return Dtmp;
 }
@@ -504,8 +504,8 @@ local real SD2_HS(real eta, real x, real k, real p)
 {
     real Dtmp;
 
-    Dtmp = S2a(eta, x, k, p) -  S2b(eta, x, k, p)*rsqr(x)
-        + S2FL(eta, x, k, p) - S2dI(eta, x, k, p);
+    Dtmp = S2a_HS(eta, x, k, p) -  S2b_HS(eta, x, k, p)*rsqr(x)
+        + S2FL_HS(eta, x, k, p) - S2dI_HS(eta, x, k, p);
 
     return Dtmp;
 }
@@ -518,12 +518,12 @@ local real S3I_HS(real eta, real x, real k, real p, real Dpk, real Dpp,
     kplusp = kpp(x,k,p);
     kpluspm = kpp(-x,k,p);
     Stmp = (
-            f1(eta)*(mu(eta,p)+mu(eta,kplusp)-mu(eta,k))*D2f*Dpp
-                + SD2(eta,x,k,p)*Dpk*Dpp*Dpp
+            f1(eta)*(mu_HS(eta,p)+mu_HS(eta,kplusp)-mu_HS(eta,k))*D2f*Dpp
+                + SD2_HS(eta,x,k,p)*Dpk*Dpp*Dpp
             )*(1.0 - rsqr(x))/(1.0 + rsqr(p/k) + 2.0*(p/k)*x)
         + (
-           f1(eta)*(mu(eta,p)+mu(eta,kpluspm)-mu(eta,k))*D2mf*Dpp
-            + SD2(eta,-x,k,p)*Dpk*Dpp*Dpp
+           f1(eta)*(mu_HS(eta,p)+mu_HS(eta,kpluspm)-mu_HS(eta,k))*D2mf*Dpp
+            + SD2_HS(eta,-x,k,p)*Dpk*Dpp*Dpp
            )*(1.0 - rsqr(x))/(1.0 + rsqr(p/k) - 2.0*(p/k)*x);
 
     return (Stmp);
@@ -536,16 +536,16 @@ local real S3IIplus_HS(real eta, real x, real k, real p, real Dpk, real Dpp, rea
     kplusp = kpp(x,k,p);
     
     Stmp =
-    -f1(eta)*(mu(eta,p)+mu(eta,kplusp)-2.0*mu(eta,k))
+    -f1(eta)*(mu_HS(eta,p)+mu_HS(eta,kplusp)-2.0*mu_HS(eta,k))
     * Dpp*( D2f + Dpk*Dpp*rsqr(x) )
     
-    -f1(eta)*(mu(eta,kplusp)-mu(eta,k))*Dpk*Dpp*Dpp
+    -f1(eta)*(mu_HS(eta,kplusp)-mu_HS(eta,k))*Dpk*Dpp*Dpp
     
     -(
-      (M1(eta)/(3.0*PiF(eta,kplusp))) * f1(eta)*KFL2(eta,x,k,p)
+      (M1_HS(eta)/(3.0*PiF_HS(eta,kplusp))) * f1(eta)*KFL2_HS(eta,x,k,p)
       -rsqr(OmM(eta)*H(eta)/H02)
-      * (M2(eta)*kplusp*kplusp*rexp(-2.0*eta))
-      / (6.0*PiF(eta,kplusp)*PiF(eta,k)*PiF(eta,p))
+      * (M2_HS(eta)*kplusp*kplusp*rexp(-2.0*eta))
+      / (6.0*PiF_HS(eta,kplusp)*PiF_HS(eta,k)*PiF_HS(eta,p))
       )*Dpk*Dpp*Dpp;
     
     return (Stmp);
@@ -558,16 +558,16 @@ local real S3IIminus_HS(real eta, real x, real k, real p, real Dpk, real Dpp, re
     kpluspm = kpp(-x,k,p);
 
     Stmp =
-    -f1(eta)*(mu(eta,p)+mu(eta,kpluspm)-2.0*mu(eta,k))
+    -f1(eta)*(mu_HS(eta,p)+mu_HS(eta,kpluspm)-2.0*mu_HS(eta,k))
     * Dpp*( D2mf + Dpk*Dpp*rsqr(x) )
     
-    -f1(eta)*(mu(eta,kpluspm)-mu(eta,k))*Dpk*Dpp*Dpp
+    -f1(eta)*(mu_HS(eta,kpluspm)-mu_HS(eta,k))*Dpk*Dpp*Dpp
     
     -(
-      (M1(eta)/(3.0*PiF(eta,kpluspm))) * f1(eta)*KFL2(eta,-x,k,p)
+      (M1_HS(eta)/(3.0*PiF_HS(eta,kpluspm))) * f1(eta)*KFL2_HS(eta,-x,k,p)
       -rsqr(OmM(eta)*H(eta)/H02)
-      * (M2(eta)*kpluspm*kpluspm*rexp(-2.0*eta))
-      / (6.0*PiF(eta,kpluspm)*PiF(eta,k)*PiF(eta,p))
+      * (M2_HS(eta)*kpluspm*kpluspm*rexp(-2.0*eta))
+      / (6.0*PiF_HS(eta,kpluspm)*PiF_HS(eta,k)*PiF_HS(eta,p))
       )*Dpk*Dpp*Dpp;
     
     return (Stmp);
@@ -577,8 +577,8 @@ local real S3II_HS(real eta, real x, real k, real p, real Dpk, real Dpp, real D2
 {
     real Stmp;
     
-    Stmp =  S3IIplus(eta, x, k, p, Dpk, Dpp, D2f)
-         + S3IIminus(eta, x, k, p, Dpk, Dpp, D2mf);
+    Stmp =  S3IIplus_HS(eta, x, k, p, Dpk, Dpp, D2f)
+         + S3IIminus_HS(eta, x, k, p, Dpk, Dpp, D2mf);
 
     return (Stmp);
 }
@@ -592,12 +592,12 @@ local real S3FLplus_HS(real eta, real x, real k, real p, real Dpk, real Dpp, rea
     Stmp = f1(eta)*(M1(eta)/(3.0*PiF(eta,k)))
     *(
         (2.0*rsqr(p+k*x)/rsqr(kplusp) - 1.0 - (k*x)/p )
-        *( mu(eta,p)-1.0 )* D2f * Dpp
+        *( mu_HS(eta,p)-1.0 )* D2f * Dpp
       
         + ( (rsqr(p) + 3.0*k*p*x + 2.0*k*k * x*x)/rsqr(kplusp) )
-        *( mu(eta,kplusp) - 1.0) * D2phiplus(eta,x,k,p,Dpk,Dpp,D2f) * Dpp
+        *( mu_HS(eta,kplusp) - 1.0) * D2phiplus_HS(eta,x,k,p,Dpk,Dpp,D2f) * Dpp
       
-      + 3.0*rsqr(x)*( mu(eta,k) + mu(eta,p) - 2.0 ) * Dpk * Dpp * Dpp
+      + 3.0*rsqr(x)*( mu_HS(eta,k) + mu_HS(eta,p) - 2.0 ) * Dpk * Dpp * Dpp
     );
     
     return (Stmp);
@@ -609,15 +609,15 @@ local real S3FLminus_HS(real eta, real x, real k, real p, real Dpk, real Dpp, re
     
     kpluspm = kpp(-x,k,p);
     
-    Stmp = f1(eta)*(M1(eta)/(3.0*PiF(eta,k)))
+    Stmp = f1(eta)*(M1_HS(eta)/(3.0*PiF_HS(eta,k)))
     *(
       (2.0*rsqr(p-k*x)/rsqr(kpluspm) - 1.0 + (k*x)/p )
-      *( mu(eta,p)-1.0 )* D2mf * Dpp
+      *( mu_HS(eta,p)-1.0 )* D2mf * Dpp
       
       + ( (rsqr(p) - 3.0*k*p*x + 2.0*k*k * x*x)/rsqr(kpluspm) )
-      *( mu(eta,kpluspm) - 1.0) * D2phiminus(eta,x,k,p,Dpk,Dpp,D2mf) * Dpp
+      *( mu_HS(eta,kpluspm) - 1.0) * D2phiminus_HS(eta,x,k,p,Dpk,Dpp,D2mf) * Dpp
       
-      + 3.0*rsqr(x)*( mu(eta,k) + mu(eta,p) - 2.0 ) * Dpk * Dpp * Dpp
+      + 3.0*rsqr(x)*( mu_HS(eta,k) + mu_HS(eta,p) - 2.0 ) * Dpk * Dpp * Dpp
       );
     
     return (Stmp);
@@ -627,8 +627,8 @@ local real S3FL_HS(real eta, real x, real k, real p, real Dpk, real Dpp, real D2
 {
     real Stmp;
 
-    Stmp = S3FLplus(eta, x, k, p, Dpk, Dpp, D2f)
-        + S3FLminus(eta, x, k, p, Dpk, Dpp, D2mf);
+    Stmp = S3FLplus_HS(eta, x, k, p, Dpk, Dpp, D2f)
+        + S3FLminus_HS(eta, x, k, p, Dpk, Dpp, D2mf);
 
     return (Stmp);
 }
@@ -640,7 +640,7 @@ local real S3dI_HS(real eta, real x, real k, real p, real Dpk, real Dpp,
     
     Stmp = -(rsqr(k)/rexp(2.0*eta))
         *(1.0/(6.0*PiF(eta,k)))
-        *K3dI(eta,x,k,p,Dpk,Dpp,D2f,D2mf)*Dpk*Dpp*Dpp;
+        *K3dI_HS(eta,x,k,p,Dpk,Dpp,D2f,D2mf)*Dpk*Dpp*Dpp;
 
     return (Stmp);
 }
