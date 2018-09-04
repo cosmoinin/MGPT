@@ -28,7 +28,7 @@ local real S3dI_HS(real eta, real x, real k, real p, real Dpk, real Dpp,
 
 // ==========================================
 // Begin: fR1 Model global HEADERS -> local
-local void Model_fR1(void);
+local void set_Model_fR1(void);
 // End: fR1 Model global HEADERS
 // ==========================================
 
