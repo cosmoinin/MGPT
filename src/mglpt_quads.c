@@ -218,7 +218,7 @@ local real Q2_function(real eta, real ki)
 
 local real GaussLegendreQ3_func(real y)
 {
-    global_D2v2_ptr ptmp;
+//    global_D2v2_ptr ptmp;
     int j;
     real *xGL, *wGL;
     real kmin, kmax, ki;
@@ -228,7 +228,7 @@ local real GaussLegendreQ3_func(real y)
     real kk, rr, deltar;
     real mumin, mumax;
     real xv, w, k2, psl;
-    real KA, KB;
+//    real KA, KB;
     int Nx;
     
     gd.p = rpow(10.0,y);
@@ -255,9 +255,9 @@ local real GaussLegendreQ3_func(real y)
         xv = xGL[j];
         w = wGL[j];
         k2 = ki * rsqrt(1.0 + rsqr(rr) - 2.0*rr*xv);
-        ptmp = DsSecondOrder_func(ki, ki*rr, k2);
-        KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-        KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+//        ptmp = DsSecondOrder_func(ki, ki*rr, k2);
+//        KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+//        KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
         KQ3 = rsqr(xv)*rsqr(1.0-rr*xv)/rsqr(abskmq);
         psl = psInterpolation_nr(ki*rsqrt(abskmq), kPS, pPS, nPSLT);
         Q3aB += w*KQ3*psl;
@@ -381,13 +381,14 @@ local real Q8_function(real eta, real ki)
 
 local real KQ9_function(real ki, real rr, real xv)
 {
-    real k2, KA, KB, KQ9;
-    global_D2v2_ptr ptmp;
+    real k2, KQ9;
+//    KA, KB,
+//    global_D2v2_ptr ptmp;
     
     k2 = ki * rsqrt(abskmq);
-    ptmp = DsSecondOrder_func(ki, ki*rr, k2);
-    KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-    KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+//    ptmp = DsSecondOrder_func(ki, ki*rr, k2);
+//    KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+//    KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
     KQ9 = rr*xv*(1-rr*xv)/abskmq;
     return KQ9;
 }
@@ -464,13 +465,14 @@ local real Q9_function(real eta, real ki)
 
 local real KQ13_function(real ki, real rr, real xv)
 {
-    real k2, KA, KB, KQ13;
-    global_D2v2_ptr ptmp;
+    real k2, KQ13;
+//    KA, KB,
+//    global_D2v2_ptr ptmp;
     
     k2 = ki * rsqrt(abskmq);
-    ptmp = DsSecondOrder_func(ki, ki*rr, k2);
-    KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-    KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+//    ptmp = DsSecondOrder_func(ki, ki*rr, k2);
+//    KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+//    KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
     KQ13 = rsqr(rr);
     return KQ13;
 }
@@ -700,13 +702,14 @@ local real Q5_function(real eta, real ki)
 
 local real KQ7_function(real ki, real rr, real xv)
 {
-    real k2, KA, KB, KQ7;
-    global_D2v2_ptr ptmp;
+    real k2, KQ7;
+//    KA, KB,
+//    global_D2v2_ptr ptmp;
     
     k2 = ki * rsqrt(abskmq);
-    ptmp = DsSecondOrder_func(ki, ki*rr, k2);
-    KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-    KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+//    ptmp = DsSecondOrder_func(ki, ki*rr, k2);
+//    KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+//    KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
     KQ7 = rsqr(xv)*(1-rr*xv)/abskmq;
     return KQ7;
 }
@@ -764,13 +767,14 @@ local real Q7_function(real eta, real ki)
 
 local real KQ11_function(real ki, real rr, real xv)
 {
-    real k2, KA, KB, KQ11;
-    global_D2v2_ptr ptmp;
+    real k2, KQ11;
+//    KA, KB,
+//    global_D2v2_ptr ptmp;
     
     k2 = ki * rsqrt(abskmq);
-    ptmp = DsSecondOrder_func(ki, ki*rr, k2);
-    KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-    KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+//    ptmp = DsSecondOrder_func(ki, ki*rr, k2);
+//    KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+//    KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
     KQ11 = rsqr(xv);
     return KQ11;
 }
@@ -828,13 +832,14 @@ local real Q11_function(real eta, real ki)
 
 local real KQ12_function(real ki, real rr, real xv)
 {
-    real k2, KA, KB, KQ12;
-    global_D2v2_ptr ptmp;
+    real k2, KQ12;
+//    KA, KB,
+//    global_D2v2_ptr ptmp;
     
     k2 = ki * rsqrt(abskmq);
-    ptmp = DsSecondOrder_func(ki, ki*rr, k2);
-    KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-    KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+//    ptmp = DsSecondOrder_func(ki, ki*rr, k2);
+//    KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+//    KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
     KQ12 = rr*xv;
     return KQ12;
 }
