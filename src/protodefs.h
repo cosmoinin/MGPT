@@ -25,6 +25,7 @@ global global_D3v2_ptr DsThirdOrder_func(real x, real k, real p);
 
 // MGLPT QUADS
 global_QRs QsRs_functions_driver(real eta, real ki);
+global_QRs QsRs_functions_driver_LCDM(real eta, real ki);
 
 
 // functions (mgpt_fns)

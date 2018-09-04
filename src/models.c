@@ -4,82 +4,210 @@
 
 #define global
 #include "globaldefs.h"
-
 #include "protodefs.h"
 #include "models.h"
 
-local void model_string_to_int(string, int *);
-
 // Models
-local void Model_HS(void);
+// ==========================================
+// Begin: HS Model global HEADERS -> local
+local void set_Model_HS(void);
+local real mu_HS(real eta, real k);
+local real sourceA_HS(real eta, real kf, real k1, real k2);
+local real sourceb_HS(real eta, real kf, real k1, real k2);
+local real SD2_HS(real eta, real x, real k, real p);
+local real S3I_HS(real eta, real x, real k, real p, real Dpk, real Dpp,
+                real D2f, real D2mf);
+local real S3II_HS(real eta, real x, real k, real p, real Dpk, real Dpp,
+                 real D2f, real D2mf);
+local real S3FL_HS(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f, real D2mf);
+local real S3dI_HS(real eta, real x, real k, real p, real Dpk, real Dpp,
+                 real D2f, real D2mf);
+// End: HS Model global HEADERS
+// ==========================================
+
+
+// ==========================================
+// Begin: fR1 Model global HEADERS -> local
 local void Model_fR1(void);
-
-local real mass(real eta);
-local real JFL(real eta, real x, real k, real p);
-local real KFL(real eta, real k, real k1, real k2);
-local real KFL2(real eta, real x, real k, real p);
-local real PiF(real eta, real k);
-local real M1(real eta);
-local real M2(real eta);
-local real M3(real eta);
-local real S2a(real eta, real x, real k, real p);
-local real S2b(real eta, real x, real k, real p);
-local real S2FL(real eta, real x, real k, real p);
-local real S2dI(real eta, real x, real k, real p);
+// End: fR1 Model global HEADERS
+// ==========================================
 
 
-local real sourcea(real eta, real kf);
-local real sourceFL(real eta, real kf, real k1, real k2);
-local real sourcedI(real eta, real kf, real k1, real k2);
+// ==========================================
+// Begin: LCDM Model global HEADERS -> local
+local void set_Model_LCDM(void);
+// End: LCDM Model global HEADERS
+// ==========================================
 
 
-local real S3IIplus(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f);
-local real S3IIminus(real eta, real x, real k, real p, real Dpk, real Dpp, real D2mf);
-local real S3FLplus(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f);
-local real S3FLminus(real eta, real x, real k, real p, real Dpk, real Dpp, real D2mf);
-local real D2phiplus(real eta, real x, real k, real p,
-                     real Dpk, real Dpp, real D2f);
-local real D2phiminus(real eta, real x, real k, real p,
-                      real Dpk, real Dpp, real D2mf);
-local real K3dI(real eta, real x, real k,  real p,
-                 real Dpk, real Dpp, real D2f, real D2mf);
 
+local void model_string_to_int(string, int *);
 
 #define HS                          0
 #define fR1                         1
 
 global void set_model(void)
 {
-	int model_int;
-
-	model_string_to_int(cmd.mgmodel, &model_int);
-	switch (model_int){
-
-	case HS: Model_HS(); break;
-	case fR1: Model_fR1(); break;
-
-	default: error("\nUnknown model type %s\n\n",cmd.mgmodel);
-	}
+    int model_int;
+    
+    model_string_to_int(cmd.mgmodel, &model_int);
+    model_int_flag = model_int;
+    switch (model_int){
+        case HS: set_Model_HS(); break;
+        case fR1: set_Model_fR1(); break;
+        case LCDM: set_Model_LCDM(); break;
+        default: error("\nUnknown model type %s\n\n",cmd.mgmodel);
+    }
 }
 
 local void model_string_to_int(string model_str,int *model_int)
 {
-	*model_int = -1;
-	if (strcmp(model_str,"HS") == 0)				*model_int=HS;
-	if (strcmp(model_str,"fR1") == 0)               *model_int=fR1;
+    *model_int = -1;
+    if (strcmp(model_str,"HS") == 0)                *model_int=HS;
+    if (strcmp(model_str,"fR1") == 0)               *model_int=fR1;
+    if (strcmp(model_str,"LCDM") == 0)              *model_int=LCDM;
+}
+
+global real kpp(real x, real k, real p)
+{
+    real kpptmp;
+    
+    kpptmp = rsqrt(rsqr(k) + rsqr(p) + 2.0*k*p*x);
+    
+    return kpptmp;
+}
+
+// ===========================================================================
+// MODELS -------------------
+// ===========================================================================
+
+// ===========================================================================
+// BEGIN :: SWITCHING MODELS ROUTINES
+// ===========================================================================
+
+global real mu(real eta, real k)
+{
+    real tmp;
+    switch (model_int_flag){
+        case HS: tmp=mu_HS(eta, k); break;
+        case LCDM: tmp=mu_LCDM(eta, k); break;
+    }
+    return tmp;
+}
+
+global real sourceA(real eta, real kf, real k1, real k2)
+{
+    real tmp;
+    switch (model_int_flag){
+        case HS: tmp=sourceA_HS(eta, kf, k1, k2); break;
+        case LCDM: tmp=sourceA_LCDM(eta, kf, k1, k2); break;
+    }
+    return tmp;
+}
+
+global real sourceb(real eta, real kf, real k1, real k2)
+{
+    real tmp;
+    switch (model_int_flag){
+        case HS: tmp=sourceb_HS(eta, kf, k1, k2); break;
+        case LCDM: tmp=sourceb_LCDM(eta, kf, k1, k2); break;
+    }
+    return tmp;
+}
+
+global real SD2(real eta, real x, real k, real p)
+{
+    real tmp;
+    switch (model_int_flag){
+        case HS: tmp=SD2_HS(eta, x, k, p); break;
+        case LCDM: tmp=SD2_LCDM(eta, x, k, p); break;
+    }
+    return tmp;
+}
+
+global real S3I(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f, real D2mf)
+{
+    real tmp;
+    switch (model_int_flag){
+        case HS: tmp=S3I_HS(eta, x, k, p, Dpk, Dpp, D2f, D2mf); break;
+        case LCDM: tmp=S3I_LCDM(eta, x, k, p, Dpk, Dpp, D2f, D2mf); break;
+    }
+    return tmp;
+}
+
+global real S3II(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f, real D2mf)
+{
+    real tmp;
+    switch (model_int_flag){
+        case HS: tmp=S3II_HS(eta, x, k, p, Dpk, Dpp, D2f, D2mf); break;
+        case LCDM: tmp=S3II_LCDM(eta, x, k, p, Dpk, Dpp, D2f, D2mf); break;
+    }
+    return tmp;
+}
+
+global real S3FL(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f, real D2mf)
+{
+    real tmp;
+    switch (model_int_flag){
+        case HS: tmp=S3FL_HS(eta, x, k, p, Dpk, Dpp, D2f, D2mf); break;
+        case LCDM: tmp=S3FL_LCDM(eta, x, k, p, Dpk, Dpp, D2f, D2mf); break;
+    }
+    return tmp;
+}
+
+global real S3dI(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f, real D2mf)
+{
+    real tmp;
+    switch (model_int_flag){
+        case HS: tmp=S3dI_HS(eta, x, k, p, Dpk, Dpp, D2f, D2mf); break;
+        case LCDM: tmp=S3dI_LCDM(eta, x, k, p, Dpk, Dpp, D2f, D2mf); break;
+    }
+    return tmp;
 }
 
 #undef HS
 #undef fR1
 
+// ===========================================================================
+// END :: SWITCHING MODELS ROUTINES
+// ===========================================================================
 
-// MODELS -------------------
 
-// ==========================================
+// ===========================================================================
 // Begin: Hu-Sawicky Model
+// ===========================================================================
 
+// Begin: Hu-Sawicky Model local HEADERS
+local real mass_HS(real eta);
+local real JFL_HS(real eta, real x, real k, real p);
+local real KFL_HS(real eta, real k, real k1, real k2);
+local real KFL2_HS(real eta, real x, real k, real p);
+local real PiF_HS(real eta, real k);
+local real M1_HS(real eta);
+local real M2_HS(real eta);
+local real M3_HS(real eta);
+local real S2a_HS(real eta, real x, real k, real p);
+local real S2b_HS(real eta, real x, real k, real p);
+local real S2FL_HS(real eta, real x, real k, real p);
+local real S2dI_HS(real eta, real x, real k, real p);
 
-local void Model_HS(void)
+local real sourcea_HS(real eta, real kf);
+local real sourceFL_HS(real eta, real kf, real k1, real k2);
+local real sourcedI_HS(real eta, real kf, real k1, real k2);
+
+local real S3IIplus_HS(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f);
+local real S3IIminus_HS(real eta, real x, real k, real p, real Dpk, real Dpp, real D2mf);
+local real S3FLplus_HS(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f);
+local real S3FLminus_HS(real eta, real x, real k, real p, real Dpk, real Dpp, real D2mf);
+local real D2phiplus_HS(real eta, real x, real k, real p,
+                     real Dpk, real Dpp, real D2f);
+local real D2phiminus_HS(real eta, real x, real k, real p,
+                      real Dpk, real Dpp, real D2mf);
+local real K3dI_HS(real eta, real x, real k,  real p,
+                 real Dpk, real Dpp, real D2f, real D2mf);
+// End: Hu-Sawicky Model local HEADERS
+
+local void set_Model_HS(void)
 {
     strcpy(gd.model_comment, "HS Model");
 //
@@ -93,7 +221,7 @@ local void Model_HS(void)
     cmd.omegaBD = 0.0;
 }
 
-local real mass(real eta)
+local real mass_HS(real eta)
 {
     real masstmp;
     
@@ -104,7 +232,7 @@ local real mass(real eta)
     return (masstmp);
 }
 
-global real mu(real eta, real k)
+local real mu_HS(real eta, real k)
 {
     real mutmp;
     mutmp = 1.0 + (2.0*gd.beta2*k*k)/(k*k + rexp(2.0*eta)*rsqr(mass(eta)));
@@ -112,7 +240,7 @@ global real mu(real eta, real k)
     return (mutmp);
 }
 
-global real PiF(real eta, real k)
+local real PiF_HS(real eta, real k)
 {
     real PiFtmp;
     
@@ -126,7 +254,7 @@ global real PiF(real eta, real k)
 // BEGIN :: SECOND ORDER (six second order differential equations)
 //
 
-local real M2(real eta)
+local real M2_HS(real eta)
 {
     real M2tmp;
     
@@ -138,7 +266,7 @@ local real M2(real eta)
 }
 
 
-local real KFL(real eta, real k, real k1, real k2)
+local real KFL_HS(real eta, real k, real k1, real k2)
 {
     real KFLtmp;
 
@@ -149,7 +277,7 @@ local real KFL(real eta, real k, real k1, real k2)
     return (KFLtmp);
 }
 
-global real sourceA(real eta, real kf, real k1, real k2)
+local real sourceA_HS(real eta, real kf, real k1, real k2)
 {
     real Stmp;
 
@@ -160,7 +288,7 @@ global real sourceA(real eta, real kf, real k1, real k2)
     return Stmp;
 }
 
-local real sourcea(real eta, real kf)
+local real sourcea_HS(real eta, real kf)
 {
     real Stmp;
     
@@ -169,7 +297,7 @@ local real sourcea(real eta, real kf)
     return Stmp;
 }
 
-global real sourceb(real eta, real kf, real k1, real k2)
+local real sourceb_HS(real eta, real kf, real k1, real k2)
 {
     real Stmp;
     
@@ -178,7 +306,7 @@ global real sourceb(real eta, real kf, real k1, real k2)
     return Stmp;
 }
 
-local real sourceFL(real eta, real kf, real k1, real k2)
+local real sourceFL_HS(real eta, real kf, real k1, real k2)
 {
     real Stmp;
     
@@ -187,7 +315,7 @@ local real sourceFL(real eta, real kf, real k1, real k2)
     return Stmp;
 }
 
-local real sourcedI(real eta, real kf, real k1, real k2)
+local real sourcedI_HS(real eta, real kf, real k1, real k2)
 {
     real Stmp;
     
@@ -206,7 +334,7 @@ local real sourcedI(real eta, real kf, real k1, real k2)
 // BEGIN :: THIRD ORDER (Dsymmetric, five second order differential equations)
 //
 
-local real M1(real eta)
+local real M1_HS(real eta)
 {
     real M1tmp;
     
@@ -215,7 +343,7 @@ local real M1(real eta)
     return (M1tmp);
 }
 
-local real M3(real eta)
+local real M3_HS(real eta)
 {
     real M3tmp;
     
@@ -226,16 +354,7 @@ local real M3(real eta)
     return (M3tmp);
 }
 
-global real kpp(real x, real k, real p)
-{
-    real kpptmp;
-    
-    kpptmp = rsqrt(rsqr(k) + rsqr(p) + 2.0*k*p*x);
-    
-    return kpptmp;
-}
-
-local real KFL2(real eta, real x, real k, real p)
+local real KFL2_HS(real eta, real x, real k, real p)
 {
     real KFLtmp;
     
@@ -246,7 +365,7 @@ local real KFL2(real eta, real x, real k, real p)
     return (KFLtmp);
 }
 
-local real JFL(real eta, real x, real k, real p)
+local real JFL_HS(real eta, real x, real k, real p)
 {
     real JFLtmp;
     
@@ -256,7 +375,7 @@ local real JFL(real eta, real x, real k, real p)
     return (JFLtmp);
 }
 
-local real D2phiplus(real eta, real x, real k, real p,
+local real D2phiplus_HS(real eta, real x, real k, real p,
                      real Dpk, real Dpp, real D2f)
 {
     real D2tmp;
@@ -273,7 +392,7 @@ local real D2phiplus(real eta, real x, real k, real p,
     return (D2tmp);
 }
 
-local real D2phiminus(real eta, real x, real k, real p,
+local real D2phiminus_HS(real eta, real x, real k, real p,
                      real Dpk, real Dpp, real D2mf)
 {
     real D2tmp;
@@ -290,7 +409,7 @@ local real D2phiminus(real eta, real x, real k, real p,
     return (D2tmp);
 }
 
-local real K3dI(real eta, real x, real k,  real p,
+local real K3dI_HS(real eta, real x, real k,  real p,
                  real Dpk, real Dpp, real D2f, real D2mf)
 {
     real K3tmp, kplusp, kpluspm;
@@ -337,7 +456,7 @@ local real K3dI(real eta, real x, real k,  real p,
     return (K3tmp);
 }
 
-local real S2a(real eta, real x, real k, real p)
+local real S2a_HS(real eta, real x, real k, real p)
 {
     real Dtmp, kplusp;
 
@@ -347,7 +466,7 @@ local real S2a(real eta, real x, real k, real p)
     return Dtmp;
 }
 
-local real S2b(real eta, real x, real k, real p)
+local real S2b_HS(real eta, real x, real k, real p)
 {
     real Dtmp, kplusp;
     
@@ -357,7 +476,7 @@ local real S2b(real eta, real x, real k, real p)
     return Dtmp;
 }
 
-local real S2FL(real eta, real x, real k, real p)
+local real S2FL_HS(real eta, real x, real k, real p)
 {
     real Dtmp, kplusp;
     
@@ -369,7 +488,7 @@ local real S2FL(real eta, real x, real k, real p)
     return Dtmp;
 }
 
-local real S2dI(real eta, real x, real k, real p)
+local real S2dI_HS(real eta, real x, real k, real p)
 {
     real Dtmp, kplusp;
     
@@ -381,7 +500,7 @@ local real S2dI(real eta, real x, real k, real p)
     return Dtmp;
 }
 
-global real SD2(real eta, real x, real k, real p)
+local real SD2_HS(real eta, real x, real k, real p)
 {
     real Dtmp;
 
@@ -391,7 +510,7 @@ global real SD2(real eta, real x, real k, real p)
     return Dtmp;
 }
 
-global real S3I(real eta, real x, real k, real p, real Dpk, real Dpp,
+local real S3I_HS(real eta, real x, real k, real p, real Dpk, real Dpp,
                 real D2f, real D2mf)
 {
     real Stmp, kplusp, kpluspm;
@@ -410,7 +529,7 @@ global real S3I(real eta, real x, real k, real p, real Dpk, real Dpp,
     return (Stmp);
 }
 
-local real S3IIplus(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f)
+local real S3IIplus_HS(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f)
 {
     real Stmp, kplusp;
     
@@ -432,7 +551,7 @@ local real S3IIplus(real eta, real x, real k, real p, real Dpk, real Dpp, real D
     return (Stmp);
 }
 
-local real S3IIminus(real eta, real x, real k, real p, real Dpk, real Dpp, real D2mf)
+local real S3IIminus_HS(real eta, real x, real k, real p, real Dpk, real Dpp, real D2mf)
 {
     real Stmp, kpluspm;
 
@@ -454,7 +573,7 @@ local real S3IIminus(real eta, real x, real k, real p, real Dpk, real Dpp, real 
     return (Stmp);
 }
 
-global real S3II(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f, real D2mf)
+local real S3II_HS(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f, real D2mf)
 {
     real Stmp;
     
@@ -464,7 +583,7 @@ global real S3II(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f,
     return (Stmp);
 }
 
-local real S3FLplus(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f)
+local real S3FLplus_HS(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f)
 {
     real Stmp, kplusp;
     
@@ -484,7 +603,7 @@ local real S3FLplus(real eta, real x, real k, real p, real Dpk, real Dpp, real D
     return (Stmp);
 }
 
-local real S3FLminus(real eta, real x, real k, real p, real Dpk, real Dpp, real D2mf)
+local real S3FLminus_HS(real eta, real x, real k, real p, real Dpk, real Dpp, real D2mf)
 {
     real Stmp, kpluspm;
     
@@ -504,7 +623,7 @@ local real S3FLminus(real eta, real x, real k, real p, real Dpk, real Dpp, real 
     return (Stmp);
 }
 
-global real S3FL(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f, real D2mf)
+local real S3FL_HS(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f, real D2mf)
 {
     real Stmp;
 
@@ -514,7 +633,7 @@ global real S3FL(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f,
     return (Stmp);
 }
 
-global real S3dI(real eta, real x, real k, real p, real Dpk, real Dpp,
+local real S3dI_HS(real eta, real x, real k, real p, real Dpk, real Dpp,
                  real D2f, real D2mf)
 {
     real Stmp;
@@ -531,15 +650,17 @@ global real S3dI(real eta, real x, real k, real p, real Dpk, real Dpp,
 // ===========================================================================
 
 
+// ===========================================================================
 // End: Hu-Sawicky Model
-// ==========================================
+// ===========================================================================
 
 
 
-// ==========================================
+// ===========================================================================
 // Begin: fR1 Model
+// ===========================================================================
 
-local void Model_fR1(void)
+local void set_Model_fR1(void)
 {
     strcpy(gd.model_comment, "fR1 Model");
     
@@ -560,16 +681,24 @@ local void Model_fR1(void)
     //    param[4] =    screening;
 }
 
+// ===========================================================================
 // End: fR1 Model
-// ==========================================
+// ===========================================================================
 
 
+// ===========================================================================
+// Begin: LCDM Model
+// ===========================================================================
 
-// ==========================================
+
+// ===========================================================================
+// End: LCDM Model
+// ===========================================================================
+
+
+// ===========================================================================
 // Begin: XXX Model
 
 // End: XXX Model
-// ==========================================
-
-
+// ===========================================================================
 
