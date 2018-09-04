@@ -90,7 +90,7 @@ global real mu(real eta, real k)
     real tmp;
     switch (model_int_flag){
         case HS: tmp=mu_HS(eta, k); break;
-        case LCDM: tmp=mu_LCDM(eta, k); break;
+//        case LCDM: tmp=mu_LCDM(eta, k); break;
     }
     return tmp;
 }
@@ -100,7 +100,7 @@ global real sourceA(real eta, real kf, real k1, real k2)
     real tmp;
     switch (model_int_flag){
         case HS: tmp=sourceA_HS(eta, kf, k1, k2); break;
-        case LCDM: tmp=sourceA_LCDM(eta, kf, k1, k2); break;
+//        case LCDM: tmp=sourceA_LCDM(eta, kf, k1, k2); break;
     }
     return tmp;
 }
@@ -110,7 +110,7 @@ global real sourceb(real eta, real kf, real k1, real k2)
     real tmp;
     switch (model_int_flag){
         case HS: tmp=sourceb_HS(eta, kf, k1, k2); break;
-        case LCDM: tmp=sourceb_LCDM(eta, kf, k1, k2); break;
+//        case LCDM: tmp=sourceb_LCDM(eta, kf, k1, k2); break;
     }
     return tmp;
 }
@@ -120,7 +120,7 @@ global real SD2(real eta, real x, real k, real p)
     real tmp;
     switch (model_int_flag){
         case HS: tmp=SD2_HS(eta, x, k, p); break;
-        case LCDM: tmp=SD2_LCDM(eta, x, k, p); break;
+//        case LCDM: tmp=SD2_LCDM(eta, x, k, p); break;
     }
     return tmp;
 }
@@ -130,7 +130,7 @@ global real S3I(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f, 
     real tmp;
     switch (model_int_flag){
         case HS: tmp=S3I_HS(eta, x, k, p, Dpk, Dpp, D2f, D2mf); break;
-        case LCDM: tmp=S3I_LCDM(eta, x, k, p, Dpk, Dpp, D2f, D2mf); break;
+//        case LCDM: tmp=S3I_LCDM(eta, x, k, p, Dpk, Dpp, D2f, D2mf); break;
     }
     return tmp;
 }
@@ -140,7 +140,7 @@ global real S3II(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f,
     real tmp;
     switch (model_int_flag){
         case HS: tmp=S3II_HS(eta, x, k, p, Dpk, Dpp, D2f, D2mf); break;
-        case LCDM: tmp=S3II_LCDM(eta, x, k, p, Dpk, Dpp, D2f, D2mf); break;
+//        case LCDM: tmp=S3II_LCDM(eta, x, k, p, Dpk, Dpp, D2f, D2mf); break;
     }
     return tmp;
 }
@@ -150,7 +150,7 @@ global real S3FL(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f,
     real tmp;
     switch (model_int_flag){
         case HS: tmp=S3FL_HS(eta, x, k, p, Dpk, Dpp, D2f, D2mf); break;
-        case LCDM: tmp=S3FL_LCDM(eta, x, k, p, Dpk, Dpp, D2f, D2mf); break;
+//        case LCDM: tmp=S3FL_LCDM(eta, x, k, p, Dpk, Dpp, D2f, D2mf); break;
     }
     return tmp;
 }
@@ -160,7 +160,7 @@ global real S3dI(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f,
     real tmp;
     switch (model_int_flag){
         case HS: tmp=S3dI_HS(eta, x, k, p, Dpk, Dpp, D2f, D2mf); break;
-        case LCDM: tmp=S3dI_LCDM(eta, x, k, p, Dpk, Dpp, D2f, D2mf); break;
+//        case LCDM: tmp=S3dI_LCDM(eta, x, k, p, Dpk, Dpp, D2f, D2mf); break;
     }
     return tmp;
 }
