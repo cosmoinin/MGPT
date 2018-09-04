@@ -1262,7 +1262,7 @@ global global_QRs QsRs_functions_driver(real eta, real ki)
     return qrs;
 }
 
-global global_QRs QsR1R2_functions_driver_LCDM(real eta, real ki)
+global global_QRs QsRs_functions_driver_LCDM(real eta, real ki)
 {
     global_QRs qrs;
     
