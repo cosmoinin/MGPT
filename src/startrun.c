@@ -521,7 +521,7 @@ local void InputPSTable(void)
 
     kmin = kPos(PSLCDMtabtmp);
     kmax = kPos(PSLCDMtabtmp+nPSTabletmp-1);
-    fprintf(stdout,"\nkmin, kmax of the given power spectrum (with %d values): %g %g",kmin, kmax, nPSTabletmp);
+    fprintf(gd.outlog,"\nkmin, kmax of the given power spectrum (with %d values): %g %g",kmin, kmax, nPSTabletmp);
     dktmp = (rlog10(kmax) - rlog10(kmin))/((real)(nPSTabletmp - 1));
     kminext = rpow(10.0, rlog10(kmin)-((real)NkL)*dktmp);
     kmaxext = rpow(10.0, rlog10(kmax)+((real)NkU)*dktmp);
