@@ -35,7 +35,7 @@ local void set_Model_fR1(void);
 
 // ==========================================
 // Begin: LCDM Model global HEADERS -> local
-local void set_Model_LCDM(void);
+//local void set_Model_LCDM(void);
 // End: LCDM Model global HEADERS
 // ==========================================
 
@@ -55,7 +55,7 @@ global void set_model(void)
     switch (model_int){
         case HS: set_Model_HS(); break;
         case fR1: set_Model_fR1(); break;
-        case LCDM: set_Model_LCDM(); break;
+//        case LCDM: set_Model_LCDM(); break;
         default: error("\nUnknown model type %s\n\n",cmd.mgmodel);
     }
 }
@@ -447,7 +447,7 @@ local real K3dI_HS(real eta, real x, real k,  real p,
     
     t6 = (1.0/3.0)*(rpow(OmM(eta),3.0)*rpow(H(eta),4.0)/rpow(H02,4) )
         *(
-          M3_HS(eta) - M2_HS(eta)*(M2(eta) + JFL_HS(eta,-x,k,p)*(3.0+2.0*cmd.omegaBD))
+          M3_HS(eta) - M2_HS(eta)*(M2_HS(eta) + JFL_HS(eta,-x,k,p)*(3.0+2.0*cmd.omegaBD))
                 /(PiF_HS(eta,kpluspm))
           ) / ( rsqr(PiF_HS(eta,p)) * PiF_HS(eta,k) );
 
@@ -589,7 +589,7 @@ local real S3FLplus_HS(real eta, real x, real k, real p, real Dpk, real Dpp, rea
     
     kplusp = kpp(x,k,p);
     
-    Stmp = f1(eta)*(M1(eta)/(3.0*PiF(eta,k)))
+    Stmp = f1(eta)*(M1_HS(eta)/(3.0*PiF_HS(eta,k)))
     *(
         (2.0*rsqr(p+k*x)/rsqr(kplusp) - 1.0 - (k*x)/p )
         *( mu_HS(eta,p)-1.0 )* D2f * Dpp
