@@ -435,7 +435,7 @@ local real K3dI_HS(real eta, real x, real k,  real p,
     
     t4 = (1.0/3.0)*(rpow(OmM(eta),3.0)*rpow(H(eta),4.0)/rpow(H02,4) )
         *(
-            M3_HS(eta) - M2_HS(eta)*(M2(eta) + JFL_HS(eta,x,k,p)*(3.0+2.0*cmd.omegaBD))
+            M3_HS(eta) - M2_HS(eta)*(M2_HS(eta) + JFL_HS(eta,x,k,p)*(3.0+2.0*cmd.omegaBD))
                         /(PiF_HS(eta,kplusp))
           ) / ( rsqr(PiF_HS(eta,p)) * PiF_HS(eta,k) );
     
@@ -639,7 +639,7 @@ local real S3dI_HS(real eta, real x, real k, real p, real Dpk, real Dpp,
     real Stmp;
     
     Stmp = -(rsqr(k)/rexp(2.0*eta))
-        *(1.0/(6.0*PiF(eta,k)))
+        *(1.0/(6.0*PiF_HS(eta,k)))
         *K3dI_HS(eta,x,k,p,Dpk,Dpp,D2f,D2mf)*Dpk*Dpp*Dpp;
 
     return (Stmp);
