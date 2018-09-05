@@ -37,12 +37,14 @@
 #define SIXPI2  59.2176
 
 typedef struct {
+// Differential equations evolution parameters:
 	real x;
 	string dxstr;
 	real xstop;
     int maxnsteps;
 	string integration_method;
-    int ngausslegpoints;
+    real dxmin;
+    real eps;
 
 // Power spectrum table
     string fnamePS;
@@ -66,8 +68,9 @@ typedef struct {
     real om;
     real h;
 //
-    real dxmin;
-    real eps;
+// Integration parameters:
+    int ngausslegpoints;
+    real epsquad;
 //
 } cmdline_data, *cmdline_data_ptr;
 
