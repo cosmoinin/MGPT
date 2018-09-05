@@ -5,6 +5,8 @@
 #include "globaldefs.h"
 #include "protodefs.h"
 
+#define EPSQ 1.0e-6
+
 local real sigma2L_function_int(real y);
 local real sigma2L_function(void);
 
@@ -430,8 +432,10 @@ local real sigma2L_function(void)
     ymax = rlog10(kmax);
 
     result= (1.0/SIXPI2)*rlog(10.0)
-    *qromo(sigma2L_function_int,ymin,ymax,midpnt);
-    
+    *qromo(sigma2L_function_int,ymin,ymax,midpnt,EPSQ);
+
     return result;
 
 }
+
+#undef EPSQ

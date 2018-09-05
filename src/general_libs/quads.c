@@ -55,13 +55,14 @@ double qgauss(double (*func)(double), double a, double b,
 // qromo
 
 //#include <math.h>
-#define EPS 1.0e-6
+//#define EPS 1.0e-6 // Original
 #define JMAX 14
 #define JMAXP (JMAX+1)
 #define K 5
 
 double qromo(double (*func)(double), double a, double b,
-             double (*choose)(double(*)(double), double, double, int))
+             double (*choose)(double(*)(double), double, double, int), double epsq)
+//double (*choose)(double(*)(double), double, double, int)) // Original
 {
     void polint(double xa[], double ya[], int n, double x, double *y, double *dy);
     void nrerror(char error_text[]);
@@ -73,14 +74,15 @@ double qromo(double (*func)(double), double a, double b,
         s[j]=(*choose)(func,a,b,j);
         if (j >= K) {
             polint(&h[j-K],&s[j-K],K,0.0,&ss,&dss);
-            if (fabs(dss) <= EPS*fabs(ss)) return ss;
+            //            if (fabs(dss) <= EPS*fabs(ss)) return ss; // Original
+            if (fabs(dss) <= epsq*fabs(ss)) return ss;
         }
         h[j+1]=h[j]/9.0;
     }
     nrerror("Too many steps in routing qromo");
     return 0.0;
 }
-#undef EPS
+//#undef EPS // Original
 #undef JMAX
 #undef JMAXP
 #undef K

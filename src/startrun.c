@@ -90,6 +90,7 @@ local void ReadParametersCmdline(void)
 //
 // Integration parameters:
     cmd.ngausslegpoints = GetiParam("ngausslegpoints");
+    cmd.epsquad = GetdParam("epsquad");
 // Post processing parameters:
     cmd.postprocessing = GetbParam("postprocessing");
     cmd.options = GetParam("options");
@@ -165,6 +166,8 @@ local void startrun_ParamStat(void)
 
     if (GetParamStat("ngausslegpoints") & ARGPARAM)
         cmd.ngausslegpoints = GetiParam("ngausslegpoints");
+    if (GetParamStat("epsquad") & ARGPARAM)
+        cmd.epsquad = GetdParam("epsquad");
 
     if (GetParamStat("postprocessing") & ARGPARAM)
         cmd.postprocessing = GetbParam("postprocessing");
@@ -203,6 +206,8 @@ local void CheckParameters(void)
 
     if (cmd.ngausslegpoints <= 1)
         error("CheckParameters: absurd value for ngausslegpoints\n");
+    if (cmd.epsquad >= 1.0e-1 || cmd.epsquad <= 0)
+        error("CheckParameters: absurd value for epsquad\n");
 }
 
 // I/O directories:
@@ -265,6 +270,7 @@ local void ReadParameterFile(char *fname)
 //
 // Integration parameters:
     IPName(cmd.ngausslegpoints,"ngausslegpoints");
+    RPName(cmd.epsquad,"epsquad");
 //
 // Post processing parameters:
     BPName(cmd.postprocessing,"postprocessing");
@@ -383,9 +389,13 @@ local void PrintParameterFile(char *fname)
         fprintf(fdout,FMTI,"maxnsteps",cmd.maxnsteps);
         fprintf(fdout,FMTT,"integration_method",cmd.integration_method);
 //
+// Integration parameters:
         fprintf(fdout,FMTI,"ngausslegpoints",cmd.ngausslegpoints);
+        fprintf(fdout,FMTR,"epsquad",cmd.epsquad);
+// Post processing parameters:
         fprintf(fdout,FMTT,"postprocessing",cmd.postprocessing ? "true" : "false");
         fprintf(fdout,FMTT,"options",cmd.options);
+//
         fprintf(fdout,"\n\n");
     }
     fclose(fdout);
