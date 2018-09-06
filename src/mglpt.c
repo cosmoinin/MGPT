@@ -74,8 +74,8 @@ local void computingQRs(void)
         iBAOmin = 1;
         iBAOmax = 1;
     } else {
-        iBAOmin = (int) ( rlog10(kBAOmin) - rlog10(cmd.kmin) )/dk + 1;
-        iBAOmax = (int) ( rlog10(kBAOmax) - rlog10(cmd.kmin) )/dk + 1;
+        iBAOmin = (int) (( rlog10(kBAOmin) - rlog10(cmd.kmin) )/dk) + 1;
+        iBAOmax = (int) (( rlog10(kBAOmax) - rlog10(cmd.kmin) )/dk) + 1;
     }
     fprintf(stdout,"\nBAO k region: %g %g",kBAOmin, kBAOmax);
     fprintf(stdout,"\nBAO i region: %d %d\n",iBAOmin, iBAOmax);

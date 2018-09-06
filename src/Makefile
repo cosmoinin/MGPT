@@ -1,7 +1,8 @@
 # ----- Makefile FOR mgpt CODE -----
 #
 
-OPT1    =  -DNOGNU
+OPTIMIZE =
+OPT1    =
 
 OPTIONS =  $(OPTIMIZE) \
 	   $(OPT1)
@@ -11,10 +12,23 @@ EXEC = mgpt
 
 all: $(EXEC)
 
+# C compiler:
 CC = gcc
+# With icc (Intel):
+#CC = icc
 
+# Default CFLAGS:
 CFLAGS = -g -O3 -fopenmp $(OPTIONS)
+#
+# With OpenMP:
+#CFLAGS = -g -O3 -fopenmp $(OPTIONS)
+# For icc use instead:
+#CFLAGS = -g -O3 -qopenmp $(OPTIONS)
 
+
+#
+# Nothing to do below
+#
 H_PATH = general_libs
 
 OBJS	= main.o mglpt_io.o mglpt.o startrun.o \
