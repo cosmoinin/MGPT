@@ -1,7 +1,7 @@
 %-------------------------------------------------------------------
-% Parameter input file for: mgpt
+% Parameter input file for: ./mgpt
 %
-% NagBody: mgpt Code for the Modified Gravity Perturbation Theory.
+% : mgpt code for Modified gravity perturbation theory.
 %	    ...
 %-------------------------------------------------------------------
 %
@@ -12,28 +12,28 @@ kmax                               100
 Nk                                 300
 %
 % Modified gravity model parameters:
-mgmodel                            HS
+mgModel                            HS
+suffixModel                        _HS
 nHS                                1
 fR0                                1e-05
 screening                          1
 %
 % Background cosmology:
-om                                 0.281
+Om                                 0.281
 h                                  0.697
 %
 % Differential equations evolution parameters:
-etaini                            -4
+etaini                             -4
 detamin                            0
 eps                                0.0001
 deta                               2/5
 zout                               0
 maxnsteps                          10000
-integration_method                 bsstep
+integrationMethod                  bsstep
 %
 % Integration parameters:
 ngausslegpoints                    10
-%
-% Post processing parameters:
+epsquad                            1e-05
 postprocessing                     false
 options                            
 

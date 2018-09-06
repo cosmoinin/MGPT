@@ -140,7 +140,7 @@ global void biasterms_processing(void)
     real Ploop;
     real a02Off;
 
-    fprintf(stdout,"\n\nBias terms processing...\n");
+    fprintf(gd.outlog,"\n\nBias terms processing...\n");
     InputQsRsTable();
     
     sigma2L = sigma2L_function();
