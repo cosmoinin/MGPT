@@ -60,6 +60,7 @@ typedef struct {
 
 // Modified gravity model parameters:
     string mgmodel;
+    string suffixModel;
     int nHS;
     real fR0;
     real omegaBD;
@@ -105,6 +106,10 @@ typedef struct {
 // 
     char fnamePSPath[100];
     char logfilePath[100];
+    char clptDir[100];
+    char tmpDir[100];
+    char fpfnamekfun[100];
+    char fpfnameSPTPowerSpectrum[100];
 
     real kf;
     real k1;

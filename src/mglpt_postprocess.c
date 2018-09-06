@@ -106,9 +106,6 @@ local void postprocess_string_to_int(string process_str,int *process_int)
 
 #undef BIASTERMS
 
-#define fpfnameQsRs "CLPT/kfunctions.dat"
-#define fpfnamebiasterms "SPTPowerSpectrum.dat"
-
 local real *kTab;
 local real *Q1T;
 local real *Q1T2;
@@ -152,8 +149,8 @@ global void biasterms_processing(void)
 // a02 offset
     a02Off = (1./2.)*Q13QsRs(PQsRstab + 2);
 
-    fprintf(stdout,"\n\nWriting bias terms and the power spectrum to file %s...\n",fpfnamebiasterms);
-    outstr = stropen(fpfnamebiasterms,"w!");
+    fprintf(stdout,"\n\nWriting bias terms and the power spectrum to file %s...\n",gd.fpfnameSPTPowerSpectrum);
+    outstr = stropen(gd.fpfnameSPTPowerSpectrum,"w!");
 
     fprintf(outstr,"%1s%5s%12s%11s%11s%11s%11s%11s%11s%11s",
             "#","k","<PSLT>","<P22>","<P13>",
@@ -195,8 +192,8 @@ local void InputQsRsTable(void)
     pointQsRsTableptr p;
     int i;
 //
-    fprintf(gd.outlog,"\n\nReading solution Q1 from file %s...\n",fpfnameQsRs);
-    inout_InputData(fpfnameQsRs, 1, 2, &nQsRsTable);
+    fprintf(gd.outlog,"\n\nReading solution Q1 from file %s...\n",gd.fpfnamekfun);
+    inout_InputData(gd.fpfnamekfun, 1, 2, &nQsRsTable);
     
     if (nQsRsTable < 1)
         error("\n\nInputQsRsTable: nQsRsTable = %d is absurd\n\n", nQsRsTable);
@@ -210,8 +207,8 @@ local void InputQsRsTable(void)
         ++i;
     }
 //
-    fprintf(gd.outlog,"\n\nReading solution Q2 from file %s...\n",fpfnameQsRs);
-    inout_InputData(fpfnameQsRs, 1, 3, &nQsRsTable);
+    fprintf(gd.outlog,"\n\nReading solution Q2 from file %s...\n",gd.fpfnamekfun);
+    inout_InputData(gd.fpfnamekfun, 1, 3, &nQsRsTable);
 
     if (nQsRsTable < 1)
         error("\n\nInputSolsTable: nSolsTable = %d is absurd\n\n", nQsRsTable);
@@ -222,8 +219,8 @@ local void InputQsRsTable(void)
         ++i;
     }
 //
-    fprintf(gd.outlog,"\n\nReading solution Q3 from file %s...\n",fpfnameQsRs);
-    inout_InputData(fpfnameQsRs, 1, 4, &nQsRsTable);
+    fprintf(gd.outlog,"\n\nReading solution Q3 from file %s...\n",gd.fpfnamekfun);
+    inout_InputData(gd.fpfnamekfun, 1, 4, &nQsRsTable);
     
     if (nQsRsTable < 1)
         error("\n\nInputSolsTable: nSolsTable = %d is absurd\n\n", nQsRsTable);
@@ -234,8 +231,8 @@ local void InputQsRsTable(void)
         ++i;
     }
 //
-    fprintf(gd.outlog,"\n\nReading solution Q5 from file %s...\n",fpfnameQsRs);
-    inout_InputData(fpfnameQsRs, 1, 5, &nQsRsTable);
+    fprintf(gd.outlog,"\n\nReading solution Q5 from file %s...\n",gd.fpfnamekfun);
+    inout_InputData(gd.fpfnamekfun, 1, 5, &nQsRsTable);
     
     if (nQsRsTable < 1)
         error("\n\nInputSolsTable: nSolsTable = %d is absurd\n\n", nQsRsTable);
@@ -246,8 +243,8 @@ local void InputQsRsTable(void)
         ++i;
     }
 //
-    fprintf(gd.outlog,"\n\nReading solution Q7 from file %s...\n",fpfnameQsRs);
-    inout_InputData(fpfnameQsRs, 1, 6, &nQsRsTable);
+    fprintf(gd.outlog,"\n\nReading solution Q7 from file %s...\n",gd.fpfnamekfun);
+    inout_InputData(gd.fpfnamekfun, 1, 6, &nQsRsTable);
     
     if (nQsRsTable < 1)
         error("\n\nInputSolsTable: nSolsTable = %d is absurd\n\n", nQsRsTable);
@@ -258,8 +255,8 @@ local void InputQsRsTable(void)
         ++i;
     }
 //
-    fprintf(gd.outlog,"\n\nReading solution Q8 from file %s...\n",fpfnameQsRs);
-    inout_InputData(fpfnameQsRs, 1, 7, &nQsRsTable);
+    fprintf(gd.outlog,"\n\nReading solution Q8 from file %s...\n",gd.fpfnamekfun);
+    inout_InputData(gd.fpfnamekfun, 1, 7, &nQsRsTable);
     
     if (nQsRsTable < 1)
         error("\n\nInputSolsTable: nSolsTable = %d is absurd\n\n", nQsRsTable);
@@ -270,8 +267,8 @@ local void InputQsRsTable(void)
         ++i;
     }
 //
-    fprintf(gd.outlog,"\n\nReading solution Q9 from file %s...\n",fpfnameQsRs);
-    inout_InputData(fpfnameQsRs, 1, 8, &nQsRsTable);
+    fprintf(gd.outlog,"\n\nReading solution Q9 from file %s...\n",gd.fpfnamekfun);
+    inout_InputData(gd.fpfnamekfun, 1, 8, &nQsRsTable);
     
     if (nQsRsTable < 1)
         error("\n\nInputSolsTable: nSolsTable = %d is absurd\n\n", nQsRsTable);
@@ -282,8 +279,8 @@ local void InputQsRsTable(void)
         ++i;
     }
 //
-    fprintf(gd.outlog,"\n\nReading solution Q11 from file %s...\n",fpfnameQsRs);
-    inout_InputData(fpfnameQsRs, 1, 9, &nQsRsTable);
+    fprintf(gd.outlog,"\n\nReading solution Q11 from file %s...\n",gd.fpfnamekfun);
+    inout_InputData(gd.fpfnamekfun, 1, 9, &nQsRsTable);
     
     if (nQsRsTable < 1)
         error("\n\nInputSolsTable: nSolsTable = %d is absurd\n\n", nQsRsTable);
@@ -294,8 +291,8 @@ local void InputQsRsTable(void)
         ++i;
     }
 //
-    fprintf(gd.outlog,"\n\nReading solution Q12 from file %s...\n",fpfnameQsRs);
-    inout_InputData(fpfnameQsRs, 1, 10, &nQsRsTable);
+    fprintf(gd.outlog,"\n\nReading solution Q12 from file %s...\n",gd.fpfnamekfun);
+    inout_InputData(gd.fpfnamekfun, 1, 10, &nQsRsTable);
     
     if (nQsRsTable < 1)
         error("\n\nInputSolsTable: nSolsTable = %d is absurd\n\n", nQsRsTable);
@@ -306,8 +303,8 @@ local void InputQsRsTable(void)
         ++i;
     }
 //
-    fprintf(gd.outlog,"\n\nReading solution Q13 from file %s...\n",fpfnameQsRs);
-    inout_InputData(fpfnameQsRs, 1, 11, &nQsRsTable);
+    fprintf(gd.outlog,"\n\nReading solution Q13 from file %s...\n",gd.fpfnamekfun);
+    inout_InputData(gd.fpfnamekfun, 1, 11, &nQsRsTable);
     
     if (nQsRsTable < 1)
         error("\n\nInputSolsTable: nSolsTable = %d is absurd\n\n", nQsRsTable);
@@ -318,8 +315,8 @@ local void InputQsRsTable(void)
         ++i;
     }
 //
-    fprintf(gd.outlog,"\n\nReading solution QI from file %s...\n",fpfnameQsRs);
-    inout_InputData(fpfnameQsRs, 1, 12, &nQsRsTable);
+    fprintf(gd.outlog,"\n\nReading solution QI from file %s...\n",gd.fpfnamekfun);
+    inout_InputData(gd.fpfnamekfun, 1, 12, &nQsRsTable);
     
     if (nQsRsTable < 1)
         error("\n\nInputSolsTable: nSolsTable = %d is absurd\n\n", nQsRsTable);
@@ -330,8 +327,8 @@ local void InputQsRsTable(void)
         ++i;
     }
 //
-    fprintf(gd.outlog,"\n\nReading solution R1 from file %s...\n",fpfnameQsRs);
-    inout_InputData(fpfnameQsRs, 1, 13, &nQsRsTable);
+    fprintf(gd.outlog,"\n\nReading solution R1 from file %s...\n",gd.fpfnamekfun);
+    inout_InputData(gd.fpfnamekfun, 1, 13, &nQsRsTable);
     
     if (nQsRsTable < 1)
         error("\n\nInputSolsTable: nSolsTable = %d is absurd\n\n", nQsRsTable);
@@ -342,8 +339,8 @@ local void InputQsRsTable(void)
         ++i;
     }
 //
-    fprintf(gd.outlog,"\n\nReading solution R2 from file %s...\n",fpfnameQsRs);
-    inout_InputData(fpfnameQsRs, 1, 14, &nQsRsTable);
+    fprintf(gd.outlog,"\n\nReading solution R2 from file %s...\n",gd.fpfnamekfun);
+    inout_InputData(gd.fpfnamekfun, 1, 14, &nQsRsTable);
     
     if (nQsRsTable < 1)
         error("\n\nInputSolsTable: nSolsTable = %d is absurd\n\n", nQsRsTable);
@@ -354,8 +351,8 @@ local void InputQsRsTable(void)
         ++i;
     }
 //
-    fprintf(gd.outlog,"\n\nReading solution R1plus2 from file %s...\n",fpfnameQsRs);
-    inout_InputData(fpfnameQsRs, 1, 15, &nQsRsTable);
+    fprintf(gd.outlog,"\n\nReading solution R1plus2 from file %s...\n",gd.fpfnamekfun);
+    inout_InputData(gd.fpfnamekfun, 1, 15, &nQsRsTable);
     
     if (nQsRsTable < 1)
         error("\n\nInputSolsTable: nSolsTable = %d is absurd\n\n", nQsRsTable);
@@ -366,8 +363,8 @@ local void InputQsRsTable(void)
         ++i;
     }
 //
-    fprintf(gd.outlog,"\n\nReading solution RI from file %s...\n",fpfnameQsRs);
-    inout_InputData(fpfnameQsRs, 1, 16, &nQsRsTable);
+    fprintf(gd.outlog,"\n\nReading solution RI from file %s...\n",gd.fpfnamekfun);
+    inout_InputData(gd.fpfnamekfun, 1, 16, &nQsRsTable);
     
     if (nQsRsTable < 1)
         error("\n\nInputSolsTable: nSolsTable = %d is absurd\n\n", nQsRsTable);
@@ -378,8 +375,8 @@ local void InputQsRsTable(void)
         ++i;
     }
 //
-    fprintf(gd.outlog,"\n\nReading solution Dpk from file %s...\n",fpfnameQsRs);
-    inout_InputData(fpfnameQsRs, 1, 17, &nQsRsTable);
+    fprintf(gd.outlog,"\n\nReading solution Dpk from file %s...\n",gd.fpfnamekfun);
+    inout_InputData(gd.fpfnamekfun, 1, 17, &nQsRsTable);
     
     if (nQsRsTable < 1)
         error("\n\nInputSolsTable: nSolsTable = %d is absurd\n\n", nQsRsTable);
@@ -390,8 +387,8 @@ local void InputQsRsTable(void)
         ++i;
     }
 //
-    fprintf(gd.outlog,"\n\nReading solution PSMGL from file %s...\n",fpfnameQsRs);
-    inout_InputData(fpfnameQsRs, 1, 18, &nQsRsTable);
+    fprintf(gd.outlog,"\n\nReading solution PSMGL from file %s...\n",gd.fpfnamekfun);
+    inout_InputData(gd.fpfnamekfun, 1, 18, &nQsRsTable);
     
     if (nQsRsTable < 1)
         error("\n\nInputSolsTable: nSolsTable = %d is absurd\n\n", nQsRsTable);
@@ -403,9 +400,6 @@ local void InputQsRsTable(void)
     }
 //
 }
-
-#undef fpfnameQsRs
-#undef fpfnamebiasterms
 
 
 local real sigma2L_function_int(real y)

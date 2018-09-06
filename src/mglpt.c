@@ -2,11 +2,9 @@
  MODULE: mglpt.c				[mgpt]
 ==============================================================================*/
 
-
 #include "globaldefs.h"
 #include "protodefs.h"
 #include "models.h"
-
 
 local void computingQRs(void);
 
@@ -14,34 +12,28 @@ void MainLoop(void)
 {
     computingQRs();
     biasterms_processing();
-
 }
 
+#define EPSQ    0.0001
 
 #define FMTQRDAT	\
 "%10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e \
 %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e\n"
 
-#define fpfnameQsRs   "CLPT/kfunctions.dat"
 #define FMTQR       "%g %g %g %g %g %g %g %g %g %g %g %g %g %g %g %g\n"
 
+local void loopQsRs(stream outstr, int imin, int imax, real dk);
 
 local void computingQRs(void)
 {
     char namebuf[256];
     stream outstrQsRs;
-    global_QRs qrs;
-    real Q1, Q2, Q3, Q8, Q9, Q13, QI;
-    real Q5, Q7, Q11, Q12;
-    real RI, R1p2;
-    real R1, R2;
     real ki, kval, dk;
-    int i;
-    real aTime, bTime;
-    real Dpk, PSLMG;
-
+    real bTime;
     real kk, rr, xv, k2;
     global_D2v2_ptr ptmp;
+    real kBAOmin=0.005, kBAOmax=1.0, epsquadsave;
+    int iBAOmin, iBAOmax;
 
     bTime = cputime();
 
@@ -58,7 +50,7 @@ local void computingQRs(void)
         fprintf(stdout,"\n\nKA_LCDM, KB_LCDM: %g %g\n",KA_LCDM, KB_LCDM);
     }
 
-    outstrQsRs = stropen(fpfnameQsRs,"w!");
+    outstrQsRs = stropen(gd.fpfnamekfun,"w!");
 
     fprintf(outstrQsRs,"%1s%5s%12s%11s%11s%11s%11s%11s%11s%11s%11s%11s%11s%11s%11s%11s%12s%12s%12s",
             "#","k","<Q1>","<Q2>","<Q3>",
@@ -77,15 +69,104 @@ local void computingQRs(void)
         dk = 0.;
     } else
         dk = (rlog10(cmd.kmax) - rlog10(cmd.kmin))/((real)(cmd.Nk - 1));
- 
+//
+    if (dk==0.0) {
+        iBAOmin = 1;
+        iBAOmax = 1;
+    } else {
+        iBAOmin = (int) ( rlog10(kBAOmin) - rlog10(cmd.kmin) )/dk + 1;
+        iBAOmax = (int) ( rlog10(kBAOmax) - rlog10(cmd.kmin) )/dk + 1;
+    }
+    fprintf(stdout,"\nBAO k region: %g %g",kBAOmin, kBAOmax);
+    fprintf(stdout,"\nBAO i region: %d %d\n",iBAOmin, iBAOmax);
+    epsquadsave = cmd.epsquad;
+    fprintf(stdout,"\nquad tolerances: %g %g\n\n",cmd.epsquad,EPSQ);
+//
+// BEFORE BAO:
+    cmd.epsquad = EPSQ;
+    fprintf(stdout,"\nUsing %g tolerance quad...\n",cmd.epsquad);
+    loopQsRs(outstrQsRs, 1, iBAOmin, dk);
+// IN BAO:
+    cmd.epsquad = epsquadsave;
+    fprintf(stdout,"\nUsing %g tolerance quad...\n",cmd.epsquad);
+    loopQsRs(outstrQsRs, iBAOmin+1, iBAOmax, dk);
+// AFTER BAO:
+    cmd.epsquad = EPSQ;
+    fprintf(stdout,"\nUsing %g tolerance quad...\n",cmd.epsquad);
+    loopQsRs(outstrQsRs, iBAOmax+1, cmd.Nk, dk);
+
+    fclose(outstrQsRs);
+
+    fprintf(stdout,"\nTotal time to compute all k's: %g min.",cputime()-bTime);
+}
+
+local void loopQsRs(stream outstr, int imin, int imax, real dk)
+{
+    global_QRs qrs;
+    real Q1, Q2, Q3, Q8, Q9, Q13, QI;
+    real Q5, Q7, Q11, Q12;
+    real RI, R1p2;
+    real R1, R2;
+    real aTime;
+    real kval;
+    real ki;
+    real Dpk, PSLMG;
+    int i;
+
     if (model_int_flag==LCDM) {
-        for (i=1; i<=cmd.Nk; i++) {
+    for (i=imin; i<=imax; i++) {
+        aTime = cputime();
+        kval = rlog10(cmd.kmin) + dk*((real)(i - 1));
+        ki = rpow(10.0,kval);
+        fprintf(stdout,"i: %d :: ki: %g :: ",i,ki);
+        fflush(stdout);
+        qrs = QsRs_functions_driver_LCDM(gd.xstop, ki);
+
+        Q1 = qrs.Q1;
+        Q2 = qrs.Q2;
+        Q3 = qrs.Q3;
+        Q8 = qrs.Q8;
+        Q9 = qrs.Q9;
+        Q13 = qrs.Q13;
+        QI = qrs.QI;
+        Q5 = qrs.Q5;
+        Q7 = qrs.Q7;
+        Q11 = qrs.Q11;
+        Q12 = qrs.Q12;
+        RI = qrs.RI;
+        R1p2 = qrs.R1p2;
+        R1 = qrs.R1;
+        R2 = qrs.R2;
+        
+        Dpk = DpFunction(ki);
+        PSLMG = psInterpolation_nr(ki, kPS, pPS, nPSLT);
+        
+        fprintf(stdout,FMTQR,
+                Q1, Q2, Q3,
+                Q5, Q7, Q8, Q9,
+                Q11, Q12, Q13, QI,
+                R1, R2, R1p2, RI,
+                cputime()-aTime);
+        
+        fprintf(outstr,FMTQRDAT,
+                ki, Q1, Q2, Q3,
+                Q5, Q7, Q8, Q9,
+                Q11, Q12, Q13, QI,
+                R1, R2, R1p2, RI,
+                Dpk, PSLMG
+                );
+
+        fflush(outstr);
+        fflush(stdout);
+    }
+    } else {
+        for (i=imin; i<=imax; i++) {
             aTime = cputime();
             kval = rlog10(cmd.kmin) + dk*((real)(i - 1));
             ki = rpow(10.0,kval);
             fprintf(stdout,"i: %d :: ki: %g :: ",i,ki);
             fflush(stdout);
-            qrs = QsRs_functions_driver_LCDM(gd.xstop, ki);
+            qrs = QsRs_functions_driver(gd.xstop, ki);
             
             Q1 = qrs.Q1;
             Q2 = qrs.Q2;
@@ -113,7 +194,7 @@ local void computingQRs(void)
                     R1, R2, R1p2, RI,
                     cputime()-aTime);
             
-            fprintf(outstrQsRs,FMTQRDAT,
+            fprintf(outstr,FMTQRDAT,
                     ki, Q1, Q2, Q3,
                     Q5, Q7, Q8, Q9,
                     Q11, Q12, Q13, QI,
@@ -121,65 +202,14 @@ local void computingQRs(void)
                     Dpk, PSLMG
                     );
             
-            fflush(outstrQsRs);
+            fflush(outstr);
             fflush(stdout);
         }
-    } else {
-    for (i=1; i<=cmd.Nk; i++) {
-        aTime = cputime();
-        kval = rlog10(cmd.kmin) + dk*((real)(i - 1));
-        ki = rpow(10.0,kval);
-        fprintf(stdout,"i: %d :: ki: %g :: ",i,ki);
-        fflush(stdout);
-        qrs = QsRs_functions_driver(gd.xstop, ki);
-
-        Q1 = qrs.Q1;
-        Q2 = qrs.Q2;
-        Q3 = qrs.Q3;
-        Q8 = qrs.Q8;
-        Q9 = qrs.Q9;
-        Q13 = qrs.Q13;
-        QI = qrs.QI;
-        Q5 = qrs.Q5;
-        Q7 = qrs.Q7;
-        Q11 = qrs.Q11;
-        Q12 = qrs.Q12;
-        RI = qrs.RI;
-        R1p2 = qrs.R1p2;
-        R1 = qrs.R1;
-        R2 = qrs.R2;
-
-        Dpk = DpFunction(ki);
-        PSLMG = psInterpolation_nr(ki, kPS, pPS, nPSLT);
-
-        fprintf(stdout,FMTQR,
-                Q1, Q2, Q3,
-                Q5, Q7, Q8, Q9,
-                Q11, Q12, Q13, QI,
-                R1, R2, R1p2, RI,
-                cputime()-aTime);
-
-        fprintf(outstrQsRs,FMTQRDAT,
-                ki, Q1, Q2, Q3,
-                Q5, Q7, Q8, Q9,
-                Q11, Q12, Q13, QI,
-                R1, R2, R1p2, RI,
-                Dpk, PSLMG
-                );
-
-        fflush(outstrQsRs);
-        fflush(stdout);
     }
-    }
-
-    fclose(outstrQsRs);
-
-    fprintf(stdout,"\nTotal time to compute all k's: %g min.",cputime()-bTime);
 }
 
+#undef EPSQ
 #undef FMTQRDAT
-#undef fpfnameQsRs
-
 #undef FMTQR
 
 

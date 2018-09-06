@@ -15,6 +15,7 @@ local void startrun_Common(void);
 local void startrun_ParamStat(void);
 local void CheckParameters(void);
 
+local void setFilesDirs_log(void);
 local void setFilesDirs(void);
 
 local void InputPSTable(void);
@@ -25,7 +26,7 @@ void StartRun(string head0, string head1, string head2, string head3)
 {
     real aTime;
     aTime = cputime();
-
+    
     gd.headline0 = head0; gd.headline1 = head1;
     gd.headline2 = head2; gd.headline3 = head3;
     printf("\n%s\n%s: %s\n\t %s\n",
@@ -65,7 +66,8 @@ local void startrun_cmdline(void)
 local void ReadParametersCmdline(void)
 {
 // Modified gravity model parameters:
-    cmd.mgmodel = GetParam("mgmodel");
+    cmd.mgmodel = GetParam("mgModel");
+    cmd.suffixModel = GetParam("suffixModel");
     cmd.nHS = GetiParam("nHS");
     cmd.fR0 = GetdParam("fR0");
     cmd.screening = GetdParam("screening");
@@ -76,7 +78,7 @@ local void ReadParametersCmdline(void)
     cmd.kmax = GetdParam("kmax");
     cmd.Nk = GetiParam("Nk");
 //
-    cmd.om = GetdParam("om");
+    cmd.om = GetdParam("Om");
     cmd.h = GetdParam("h");
 //
 // Differential equations evolution parameters:
@@ -86,7 +88,7 @@ local void ReadParametersCmdline(void)
     cmd.eps = GetdParam("eps");
     cmd.xstop = GetdParam("zout");
     cmd.maxnsteps = GetiParam("maxnsteps");
-	cmd.integration_method = GetParam("integration_method");
+	cmd.integration_method = GetParam("integrationMethod");
 //
 // Integration parameters:
     cmd.ngausslegpoints = GetiParam("ngausslegpoints");
@@ -98,13 +100,11 @@ local void ReadParametersCmdline(void)
 
 #undef parameter_null
 
-#define logfile			"mgpt.log"
-
 local void startrun_Common(void)
 {
 	real dx1, dx2;
 
-    setFilesDirs();
+    setFilesDirs_log();
     strcpy(gd.mode,"w");
 	if(!(gd.outlog=fopen(gd.logfilePath, gd.mode)))
 		error("\nstart_Common: error opening file '%s' \n",gd.logfilePath);
@@ -125,6 +125,7 @@ local void startrun_Common(void)
     gd.xstop = rlog(1.0/(1.0+cmd.xstop));
 
     set_model();
+    setFilesDirs();
 
     if (!strnull(cmd.fnamePS)) {
         sprintf(gd.fnamePSPath,"Input/%s",cmd.fnamePS);
@@ -158,8 +159,8 @@ local void startrun_ParamStat(void)
 	if (GetParamStat("maxnsteps") & ARGPARAM) 
 		cmd.maxnsteps = GetiParam("maxnsteps");
 
-	if (GetParamStat("integration_method") & ARGPARAM) {
-		cmd.integration_method = GetParam("integration_method");
+	if (GetParamStat("integrationMethod") & ARGPARAM) {
+		cmd.integration_method = GetParam("integrationMethod");
 		fprintf(gd.outlog,"\n\nrunning now %s integration method ...\n",
 				cmd.integration_method);
 	}
@@ -211,19 +212,30 @@ local void CheckParameters(void)
 }
 
 // I/O directories:
+local void setFilesDirs_log(void)
+{
+    char buf[200];
+    
+    sprintf(gd.tmpDir,"tmp");
+
+    sprintf(buf,"if [ ! -d %s ]; then mkdir %s; fi",gd.tmpDir,gd.tmpDir);
+    system(buf);
+
+    sprintf(gd.logfilePath,"%s/mgpt%s.log",gd.tmpDir,cmd.suffixModel);
+}
+
 local void setFilesDirs(void)
 {
     char buf[200];
 
-    sprintf(buf,"if [ ! -d tmp ]; then mkdir tmp; fi");
-//    fprintf(stdout,"system: %s\n",buf);
+    sprintf(gd.clptDir,"CLPT");
+    sprintf(buf,"if [ ! -d %s ]; then mkdir %s; fi",gd.clptDir,gd.clptDir);
+    fprintf(gd.outlog,"system: %s\n",buf);
     system(buf);
 
-    sprintf(gd.logfilePath,"tmp/%s",logfile);
-//    fprintf(stdout,"Log file Path and file name: %s\n",gd.logfilePath);
+    sprintf(gd.fpfnamekfun,"CLPT/kfunctions%s.dat",cmd.suffixModel);
+    sprintf(gd.fpfnameSPTPowerSpectrum,"SPTPowerSpectrum%s.dat",cmd.suffixModel);
 }
-
-#undef logfile
 
 local void ReadParameterFile(char *fname)
 {
@@ -251,12 +263,13 @@ local void ReadParameterFile(char *fname)
     IPName(cmd.Nk,"Nk");
 //
 // Modified gravity model parameters:
-    SPName(cmd.mgmodel,"mgmodel",100);
+    SPName(cmd.mgmodel,"mgModel",100);
+    SPName(cmd.suffixModel,"suffixModel",100);
     IPName(cmd.nHS,"nHS");
     RPName(cmd.fR0,"fR0");
     RPName(cmd.screening,"screening");
 //
-    RPName(cmd.om,"om");
+    RPName(cmd.om,"Om");
     RPName(cmd.h,"h");
 //
 // Differential equations evolution parameters:
@@ -266,7 +279,7 @@ local void ReadParameterFile(char *fname)
     RPName(cmd.eps,"eps");
 	RPName(cmd.xstop,"zout");
     IPName(cmd.maxnsteps,"maxnsteps");
-	SPName(cmd.integration_method,"integration_method",100);
+	SPName(cmd.integration_method,"integrationMethod",100);
 //
 // Integration parameters:
     IPName(cmd.ngausslegpoints,"ngausslegpoints");
@@ -351,7 +364,7 @@ local void PrintParameterFile(char *fname)
     FILE *fdout;
     char buf[200];
     
-    sprintf(buf,"tmp/%s%s",fname,"-usedvalues");
+    sprintf(buf,"%s/%s%s%s",gd.tmpDir,fname,cmd.suffixModel,"-usedvalues");
     if(!(fdout=fopen(buf,"w"))) {
         fprintf(stdout,"error opening file '%s' \n",buf);
         exit(0);
@@ -372,12 +385,13 @@ local void PrintParameterFile(char *fname)
         fprintf(fdout,FMTI,"Nk",cmd.Nk);
 //
 // Modified gravity model parameters:
-        fprintf(fdout,FMTT,"mgmodel",cmd.mgmodel);
+        fprintf(fdout,FMTT,"mgModel",cmd.mgmodel);
+        fprintf(fdout,FMTT,"suffixModel",cmd.suffixModel);
         fprintf(fdout,FMTI,"nHS",cmd.nHS);
         fprintf(fdout,FMTR,"fR0",cmd.fR0);
         fprintf(fdout,FMTR,"screening",cmd.screening);
 //
-        fprintf(fdout,FMTR,"om",cmd.om);
+        fprintf(fdout,FMTR,"Om",cmd.om);
         fprintf(fdout,FMTR,"h",cmd.h);
 //
 // Differential equations evolution parameters:
@@ -387,7 +401,7 @@ local void PrintParameterFile(char *fname)
         fprintf(fdout,FMTT,"deta",cmd.dxstr);
         fprintf(fdout,FMTR,"zout",cmd.xstop);
         fprintf(fdout,FMTI,"maxnsteps",cmd.maxnsteps);
-        fprintf(fdout,FMTT,"integration_method",cmd.integration_method);
+        fprintf(fdout,FMTT,"integrationMethod",cmd.integration_method);
 //
 // Integration parameters:
         fprintf(fdout,FMTI,"ngausslegpoints",cmd.ngausslegpoints);
@@ -576,7 +590,7 @@ local void InputPSTable(void)
         p++;
     }
 
-    sprintf(namebuf,"tmp/%s_%s", cmd.fnamePS, "ext.dat");
+    sprintf(namebuf,"%s/%s%s_%s",gd.tmpDir,cmd.fnamePS,cmd.suffixModel,"ext.dat");
     outstr = stropen(namebuf,"w!");
     for (p=PSLCDMtab; p<PSLCDMtab+nPSTable; p++) {
         fprintf(outstr,"%g %g\n",
@@ -620,7 +634,7 @@ local void PSLTable(void)
         PS(p) *= fac;
     }
     
-    sprintf(namebuf,"tmp/%s_%s",cmd.fnamePS,"ext2.dat");
+    sprintf(namebuf,"%s/%s%s_%s",gd.tmpDir,cmd.fnamePS,cmd.suffixModel,"ext2.dat");
     outstr = stropen(namebuf,"w!");
     for (p=PSLCDMtab; p<PSLCDMtab+nPSTable; p++) {
         fprintf(outstr,"%g %g\n",
@@ -629,7 +643,6 @@ local void PSLTable(void)
     fclose(outstr);
 
 //
-
     kmin = kPos(PSLCDMtab);
     Dpkmin = DpFunction(kmin);
     fprintf(gd.outlog,"\n\n Dpkmin = %g\n",Dpkmin);

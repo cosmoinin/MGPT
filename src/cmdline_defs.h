@@ -6,7 +6,7 @@
 #define _cmdline_defs_h
 
 #define HEAD1	""
-#define HEAD2	"mgpt Code for the Modified Gravity-Perturbation Theory."
+#define HEAD2	"mgpt code for Modified gravity perturbation theory."
 #define HEAD3	"..."
 
 string defv[] = {  ";"HEAD1": " HEAD2 "\n\t " HEAD3,
@@ -19,26 +19,27 @@ string defv[] = {  ";"HEAD1": " HEAD2 "\n\t " HEAD3,
     "Nk=300",                       ";Total number of k to analyse from the power spectrum table",":nk",
 //
 // Modified gravity model parameters:
-    "mgmodel=HS",                   ";Modified gravity model to study, default f(R) Hu-Sawicki", ":mgm",
+    "mgModel=HS",                   ";Modified gravity model to study, default f(R) Hu-Sawicki", ":mgm",
+    "suffixModel=",                 ";Suffix model to add to output filenames", ":suffix",
     "nHS=1",                        ";Hu-Sawicki index",
     "fR0=1.0e-5",                   ";Hu-Sawicki f_R0",
     "screening=1.0",                ";Hu-Sawicki screening", ":sc",
 //
-    "om=0.281",                     ";Omega matter value (z=0)",
+    "Om=0.281",                     ";Omega matter value (z=0)",":om",
     "h=0.697",                      ";Hubble parameter value (z=0)",
 //
 // Differential equations evolution parameters:
     "etaini=-4.0",                  ";Initial eta value :: Log[1/(1 + zini)]",
     "deta=2/5",                     ";deta integration step",
     "detamin=0.",                   ";Min eta integration step size",
-    "eps=1.0e-4",                   ";Error parameter",
+    "eps=1.0e-4",                   ";Differential equations solver tolerance error parameter",
     "zout=0.0",                     ";redshift value to stop integration :: eta = exp[-eta] - 1",
     "maxnsteps=10000",              ";Maximum number of integration steps", ":maxn",
-    "integration_method=bsstep",	";Integration method to use", ":im",
+    "integrationMethod=bsstep",	    ";Integration method to use", ":im",
 //
 // Integration parameters:
     "ngausslegpoints=10",           ";Number of Gauss-Legendre of integration points", ":nglpts",
-    "epsquad=1.0e-6",               ";Quadrature tolerance error parameter",
+    "epsquad=1.0e-5",               ";Quadrature tolerance error parameter",
 //
 // Post processing parameters:
     "postprocessing=false",			";Post processing options", ":pp",
