@@ -12,6 +12,7 @@ void MainLoop(void)
 {
     computingQRs();
     biasterms_processing();
+    qfunctions_processing();
 }
 
 #define EPSQ    0.0001

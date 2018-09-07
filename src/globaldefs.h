@@ -34,7 +34,9 @@
 
 #define H02     2997.92458   //This is H_0^{-1} in Mpc/h units
 #define FOURPI2   39.4784176043574    //but see 0903.5321
-#define SIXPI2  59.2176
+#define PI2     9.8696044010893586188
+#define TWOPI2     19.739208802178716
+#define SIXPI2  59.21762640653615
 
 typedef struct {
 // Differential equations evolution parameters:
@@ -110,6 +112,7 @@ typedef struct {
     char tmpDir[100];
     char fpfnamekfun[100];
     char fpfnameSPTPowerSpectrum[100];
+    char fpfnameqfunctions[100];
 
     real kf;
     real k1;
@@ -327,6 +330,54 @@ typedef struct {
 #define R1p2(x)    (((global_QRs_ptr) (x))->R1p2)
 #define R1(x)    (((global_QRs_ptr) (x))->R1)
 #define R2(x)    (((global_QRs_ptr) (x))->R2)
+//
+
+//
+// qfunctions structure
+typedef struct {
+    real q;
+    real U10L;
+    real U10loop;
+    real U11;
+    real U20;
+    real XL;
+    real Xloop;
+    real X10;
+    real YL;
+    real Yloop;
+    real Y10;
+    real VT;
+    real TT;
+} global_qfunctions, *global_qfunctions_ptr;
+
+#define qqfun(x)    (((global_qfunctions_ptr) (x))->q)
+#define U10Lqfun(x)    (((global_qfunctions_ptr) (x))->U10L)
+#define U10loopqfun(x)    (((global_qfunctions_ptr) (x))->U10loop)
+#define U11qfun(x)    (((global_qfunctions_ptr) (x))->U11)
+#define U20qfun(x)    (((global_qfunctions_ptr) (x))->U20)
+#define XLqfun(x)    (((global_qfunctions_ptr) (x))->XL)
+#define Xloopqfun(x)    (((global_qfunctions_ptr) (x))->Xloop)
+#define X10qfun(x)    (((global_qfunctions_ptr) (x))->X10)
+#define YLqfun(x)    (((global_qfunctions_ptr) (x))->YL)
+#define Yloopqfun(x)    (((global_qfunctions_ptr) (x))->Yloop)
+#define Y10qfun(x)    (((global_qfunctions_ptr) (x))->Y10)
+#define VTqfun(x)    (((global_qfunctions_ptr) (x))->VT)
+#define TTqfun(x)    (((global_qfunctions_ptr) (x))->TT)
+//
+
+//
+// correlation functions structure
+typedef struct {
+    real q;
+    real xi;
+    real Lapxi;
+    real nabla4xi;
+} global_corrfunctions, *global_corrfunctions_ptr;
+
+#define qcorrfun(x)    (((global_corrfunctions_ptr) (x))->q)
+#define xicorrfun(x)    (((global_corrfunctions_ptr) (x))->xi)
+#define Lapxicorrfun(x)    (((global_corrfunctions_ptr) (x))->Lapxi)
+#define nabla4xicorrfun(x)    (((global_corrfunctions_ptr) (x))->nabla4xi)
 //
 
 #endif // ! _globaldefs_h

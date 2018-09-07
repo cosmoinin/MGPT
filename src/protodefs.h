@@ -17,6 +17,7 @@ void EndRun(void);
 // Postprocessing
 global void PostProcessing(void);
 global void biasterms_processing(void);
+global void qfunctions_processing(void);
 
 // MGLPT DIFFEQS and QUAD
 global real DpFunction(real k);
