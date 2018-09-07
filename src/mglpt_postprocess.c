@@ -33,7 +33,6 @@ local real x10(real k, real q);
 local real y10(real k, real q);
 
 local void InputQsRsTable(void);
-//local void InputQsRsTable_old(void);
 
 global_qfunctions qfunctions(real qi);
 global_corrfunctions correlation_functions(real qi);
@@ -101,7 +100,6 @@ global void PostProcessing(void)
         default: error("\nUnknown postprocessing type %s\n\n",cmd.options);
     }
 }
-
 
 local void postprocess_string_to_int(string process_str,int *process_int)
 {
@@ -213,38 +211,14 @@ global void qfunctions_processing(void)
         dq = (rlog10(qmax) - rlog10(qmin))/((real)(Nq - 1));
     //
     fprintf(stdout,"\n\nWriting q functions to file %s...",gd.fpfnameqfunctions);
-    //    outstr = stropen(fpfnameqfunctions,"w!");
     outstr = stropen(gd.fpfnameqfunctions,"w!");
     for (i=1; i<=Nq; i++) {
         aTime = cputime();
         qval = rlog10(qmin) + dq*((real)(i - 1));
         qi = rpow(10.0,qval);
-//        fprintf(stdout,"i: %d :: qi: %g :: ",i,qi);
         fflush(stdout);
         qfun = qfunctions(qi);
         corrfun = correlation_functions(qi);
-/*
-        fprintf(stdout,"%d %g %g %g %g %g %g %g %g %g %g %g %g %g %g\n",
-                i,
-                qfun.q,
-                qfun.XL,
-                qfun.YL,
-                qfun.Xloop,
-                qfun.Yloop,
-                qfun.VT,
-                qfun.TT,
-                qfun.X10,
-                qfun.Y10,
-                qfun.U10L,
-                qfun.U10loop,
-                qfun.U11,
-                qfun.U20,
-                corrfun.xi,
-                corrfun.Lapxi,
-                corrfun.nabla4xi,
-                cputime()-aTime
-                );
-*/
         fprintf(outstr,"%g %g %g %g %g %g %g %g %g %g %g %g %g %g %g %g\n",
                 qfun.q,
                 qfun.XL,
@@ -988,7 +962,7 @@ global_corrfunctions correlation_functions(real qi)
     return *corrfunp;
 }
 
-
+// sigma2L :: integration over the extended MG power spectrum (not using PSMG in QsRs table)
 local real sigma2L_function_int(real y)
 {
     real p;
@@ -996,8 +970,7 @@ local real sigma2L_function_int(real y)
     
     p = rpow(10.0,y);
 
-//    PSL = psInterpolation_nr(p, kPS, pPS, nPSLT);
-    PSL = Interpolation_nr(p, kTab, PSLMGT, nQsRsTable, PSLMGT2);
+    PSL = psInterpolation_nr(p, kPS, pPS, nPSLT);
 
     return p*PSL;
 }
@@ -1008,10 +981,8 @@ local real sigma2L_function(void)
     real kmin, kmax;
     real ymin, ymax;
 
-//    kmin = kPos(PSLT+1);
-//    kmax = kPos(PSLT+nPSLT-1);
-    kmin = PSLMGT[1];
-    kmax = PSLMGT[nQsRsTable];
+    kmin = kPos(PSLT+1);
+    kmax = kPos(PSLT+nPSLT-1);
     ymin = rlog10(kmin);
     ymax = rlog10(kmax);
 
