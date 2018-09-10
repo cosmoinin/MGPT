@@ -37,7 +37,8 @@ string defv[] = {  ";"HEAD1": " HEAD2 "\n\t " HEAD3,
     "maxnsteps=10000",              ";Maximum number of integration steps", ":maxn",
     "integrationMethod=bsstep",	    ";Integration method to use", ":im",
 //
-// Integration parameters:
+// Quadrature parameters:
+    "quadratureMethod=romo",        ";Quadrature method to use", ":quadm",
     "ngausslegpoints=10",           ";Number of Gauss-Legendre of integration points", ":nglpts",
     "epsquad=1.0e-5",               ";Quadrature tolerance error parameter",
 //

@@ -6,6 +6,7 @@
 #define _protodefs_h
 
 void integration_method_string_to_int(string,int *);
+void quadraturemethod_string_to_int(string,int *);
 
 void output(void);
 

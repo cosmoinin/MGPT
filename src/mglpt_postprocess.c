@@ -350,7 +350,7 @@ local void InputQsRsTable(void)
     pointQsRsTableptr p;
     int i;
 //
-    fprintf(gd.outlog,"\n\nReading solution Q1 from file %s...\n",gd.fpfnamekfun);
+    fprintf(gd.outlog,"\n\nReading solution Q1 from file %s...",gd.fpfnamekfun);
     inout_InputData(gd.fpfnamekfun, 1, 2, &nQsRsTable);
     
     if (nQsRsTable < 1)
@@ -365,7 +365,7 @@ local void InputQsRsTable(void)
         ++i;
     }
 //
-    fprintf(gd.outlog,"\n\nReading solution Q2 from file %s...\n",gd.fpfnamekfun);
+    fprintf(gd.outlog,"\nReading solution Q2 from file %s...",gd.fpfnamekfun);
     inout_InputData(gd.fpfnamekfun, 1, 3, &nQsRsTable);
 
     if (nQsRsTable < 1)
@@ -377,7 +377,7 @@ local void InputQsRsTable(void)
         ++i;
     }
 //
-    fprintf(gd.outlog,"\n\nReading solution Q3 from file %s...\n",gd.fpfnamekfun);
+    fprintf(gd.outlog,"\nReading solution Q3 from file %s...",gd.fpfnamekfun);
     inout_InputData(gd.fpfnamekfun, 1, 4, &nQsRsTable);
     
     if (nQsRsTable < 1)
@@ -389,7 +389,7 @@ local void InputQsRsTable(void)
         ++i;
     }
 //
-    fprintf(gd.outlog,"\n\nReading solution Q5 from file %s...\n",gd.fpfnamekfun);
+    fprintf(gd.outlog,"\nReading solution Q5 from file %s...",gd.fpfnamekfun);
     inout_InputData(gd.fpfnamekfun, 1, 5, &nQsRsTable);
     
     if (nQsRsTable < 1)
@@ -401,7 +401,7 @@ local void InputQsRsTable(void)
         ++i;
     }
 //
-    fprintf(gd.outlog,"\n\nReading solution Q7 from file %s...\n",gd.fpfnamekfun);
+    fprintf(gd.outlog,"\nReading solution Q7 from file %s...",gd.fpfnamekfun);
     inout_InputData(gd.fpfnamekfun, 1, 6, &nQsRsTable);
     
     if (nQsRsTable < 1)
@@ -413,7 +413,7 @@ local void InputQsRsTable(void)
         ++i;
     }
 //
-    fprintf(gd.outlog,"\n\nReading solution Q8 from file %s...\n",gd.fpfnamekfun);
+    fprintf(gd.outlog,"\nReading solution Q8 from file %s...",gd.fpfnamekfun);
     inout_InputData(gd.fpfnamekfun, 1, 7, &nQsRsTable);
     
     if (nQsRsTable < 1)
@@ -425,7 +425,7 @@ local void InputQsRsTable(void)
         ++i;
     }
 //
-    fprintf(gd.outlog,"\n\nReading solution Q9 from file %s...\n",gd.fpfnamekfun);
+    fprintf(gd.outlog,"\nReading solution Q9 from file %s...",gd.fpfnamekfun);
     inout_InputData(gd.fpfnamekfun, 1, 8, &nQsRsTable);
     
     if (nQsRsTable < 1)
@@ -437,7 +437,7 @@ local void InputQsRsTable(void)
         ++i;
     }
 //
-    fprintf(gd.outlog,"\n\nReading solution Q11 from file %s...\n",gd.fpfnamekfun);
+    fprintf(gd.outlog,"\nReading solution Q11 from file %s...",gd.fpfnamekfun);
     inout_InputData(gd.fpfnamekfun, 1, 9, &nQsRsTable);
     
     if (nQsRsTable < 1)
@@ -449,7 +449,7 @@ local void InputQsRsTable(void)
         ++i;
     }
 //
-    fprintf(gd.outlog,"\n\nReading solution Q12 from file %s...\n",gd.fpfnamekfun);
+    fprintf(gd.outlog,"\nReading solution Q12 from file %s...",gd.fpfnamekfun);
     inout_InputData(gd.fpfnamekfun, 1, 10, &nQsRsTable);
     
     if (nQsRsTable < 1)
@@ -461,7 +461,7 @@ local void InputQsRsTable(void)
         ++i;
     }
 //
-    fprintf(gd.outlog,"\n\nReading solution Q13 from file %s...\n",gd.fpfnamekfun);
+    fprintf(gd.outlog,"\nReading solution Q13 from file %s...",gd.fpfnamekfun);
     inout_InputData(gd.fpfnamekfun, 1, 11, &nQsRsTable);
     
     if (nQsRsTable < 1)
@@ -473,7 +473,7 @@ local void InputQsRsTable(void)
         ++i;
     }
 //
-    fprintf(gd.outlog,"\n\nReading solution QI from file %s...\n",gd.fpfnamekfun);
+    fprintf(gd.outlog,"\nReading solution QI from file %s...",gd.fpfnamekfun);
     inout_InputData(gd.fpfnamekfun, 1, 12, &nQsRsTable);
     
     if (nQsRsTable < 1)
@@ -485,7 +485,7 @@ local void InputQsRsTable(void)
         ++i;
     }
 //
-    fprintf(gd.outlog,"\n\nReading solution R1 from file %s...\n",gd.fpfnamekfun);
+    fprintf(gd.outlog,"\nReading solution R1 from file %s...",gd.fpfnamekfun);
     inout_InputData(gd.fpfnamekfun, 1, 13, &nQsRsTable);
     
     if (nQsRsTable < 1)
@@ -497,7 +497,7 @@ local void InputQsRsTable(void)
         ++i;
     }
 //
-    fprintf(gd.outlog,"\n\nReading solution R2 from file %s...\n",gd.fpfnamekfun);
+    fprintf(gd.outlog,"\nReading solution R2 from file %s...",gd.fpfnamekfun);
     inout_InputData(gd.fpfnamekfun, 1, 14, &nQsRsTable);
     
     if (nQsRsTable < 1)
@@ -509,7 +509,7 @@ local void InputQsRsTable(void)
         ++i;
     }
 //
-    fprintf(gd.outlog,"\n\nReading solution R1plus2 from file %s...\n",gd.fpfnamekfun);
+    fprintf(gd.outlog,"\nReading solution R1plus2 from file %s...",gd.fpfnamekfun);
     inout_InputData(gd.fpfnamekfun, 1, 15, &nQsRsTable);
     
     if (nQsRsTable < 1)
@@ -521,7 +521,7 @@ local void InputQsRsTable(void)
         ++i;
     }
 //
-    fprintf(gd.outlog,"\n\nReading solution RI from file %s...\n",gd.fpfnamekfun);
+    fprintf(gd.outlog,"\nReading solution RI from file %s...",gd.fpfnamekfun);
     inout_InputData(gd.fpfnamekfun, 1, 16, &nQsRsTable);
     
     if (nQsRsTable < 1)
@@ -533,7 +533,7 @@ local void InputQsRsTable(void)
         ++i;
     }
 //
-    fprintf(gd.outlog,"\n\nReading solution Dpk from file %s...\n",gd.fpfnamekfun);
+    fprintf(gd.outlog,"\nReading solution Dpk from file %s...",gd.fpfnamekfun);
     inout_InputData(gd.fpfnamekfun, 1, 17, &nQsRsTable);
     
     if (nQsRsTable < 1)
@@ -545,7 +545,7 @@ local void InputQsRsTable(void)
         ++i;
     }
 //
-    fprintf(gd.outlog,"\n\nReading solution PSMGL from file %s...\n",gd.fpfnamekfun);
+    fprintf(gd.outlog,"\nReading solution PSMGL from file %s...",gd.fpfnamekfun);
     inout_InputData(gd.fpfnamekfun, 1, 18, &nQsRsTable);
     
     if (nQsRsTable < 1)
@@ -967,9 +967,8 @@ local real sigma2L_function_int(real y)
 {
     real p;
     real PSL;
-    
-    p = rpow(10.0,y);
 
+    p = rpow(10.0,y);
     PSL = psInterpolation_nr(p, kPS, pPS, nPSLT);
 
     return p*PSL;

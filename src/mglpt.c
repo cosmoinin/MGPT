@@ -121,7 +121,8 @@ local void loopQsRs(stream outstr, int imin, int imax, real dk)
         ki = rpow(10.0,kval);
         fprintf(stdout,"i: %d :: ki: %g :: ",i,ki);
         fflush(stdout);
-        qrs = QsRs_functions_driver_LCDM(gd.xstop, ki);
+//        qrs = QsRs_functions_driver_LCDM(gd.xstop, ki);
+        qrs = QsRs_functions_driver(gd.xstop, ki);
 
         Q1 = qrs.Q1;
         Q2 = qrs.Q2;
@@ -136,7 +137,8 @@ local void loopQsRs(stream outstr, int imin, int imax, real dk)
         Q12 = qrs.Q12;
         RI = qrs.RI;
         R1p2 = qrs.R1p2;
-        R1 = qrs.R1;
+//        R1 = qrs.R1;
+        R1 = qrs.RI;
         R2 = qrs.R2;
         
         Dpk = DpFunction(ki);

@@ -71,7 +71,8 @@ typedef struct {
     real om;
     real h;
 //
-// Integration parameters:
+// Quadrature parameters:
+    string quadratureMethod;
     int ngausslegpoints;
     real epsquad;
 //
@@ -81,11 +82,13 @@ typedef struct {
 	real cpuinit;
 	real dx;
     int method_int;
+    int quadmethod_int;
 
 // Modified gravity model parameters:
     real beta2;
 //
     char integration_method_comment[100];
+    char quadraturemethod_comment[100];
 
 	string headline0;
 	string headline1;

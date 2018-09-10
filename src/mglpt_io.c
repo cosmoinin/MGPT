@@ -9,9 +9,10 @@
 void StartOutput(void)
 {
 
-    fprintf(stdout,"\n\n  \t -- %s --\n", gd.model_comment);
+    fprintf(stdout,"\n  \t -- %s --\n", gd.model_comment);
 //
-    fprintf(stdout,"  \t -- %s --\n\n", gd.integration_method_comment);
+    fprintf(stdout,"  \t -- %s --\n", gd.integration_method_comment);
+    fprintf(stdout,"  \t -- %s --\n\n", gd.quadraturemethod_comment);
 
     fprintf(gd.outlog,"\n%8s%8s%8s", "maxnsteps", "etaini", "deta");
     fprintf(gd.outlog,"%8s\n","etaout");

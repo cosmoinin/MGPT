@@ -90,7 +90,8 @@ local void ReadParametersCmdline(void)
     cmd.maxnsteps = GetiParam("maxnsteps");
 	cmd.integration_method = GetParam("integrationMethod");
 //
-// Integration parameters:
+// Quadrature parameters:
+    cmd.quadratureMethod = GetParam("quadratureMethod");
     cmd.ngausslegpoints = GetiParam("ngausslegpoints");
     cmd.epsquad = GetdParam("epsquad");
 // Post processing parameters:
@@ -117,6 +118,7 @@ local void startrun_Common(void)
 
     CheckParameters();
     GaussLegendrePoints();
+    quadraturemethod_string_to_int(cmd.quadratureMethod, &gd.quadmethod_int);
 	integration_method_string_to_int(cmd.integration_method, &gd.method_int);
     gd.xnow = cmd.x;
     gd.xout = gd.xnow;
@@ -141,8 +143,21 @@ local void startrun_ParamStat(void)
 {
 	real dx1, dx2;
 
+// Power spectrum table:
     if (GetParamStat("fnamePS") & ARGPARAM)
         cmd.fnamePS = GetParam("fnamePS");
+    if (GetParamStat("kmin") & ARGPARAM)
+        cmd.kmin = GetdParam("kmin");
+    if (GetParamStat("kmax") & ARGPARAM)
+        cmd.kmax = GetdParam("kmax");
+    if (GetParamStat("Nk") & ARGPARAM)
+        cmd.Nk = GetiParam("Nk");
+
+// Background cosmology:
+    if (GetParamStat("om") & ARGPARAM)
+        cmd.om = GetdParam("om");
+    if (GetParamStat("h") & ARGPARAM)
+        cmd.h = GetdParam("h");
 
 	if (GetParamStat("etaini") & ARGPARAM)
 		cmd.x = GetdParam("etaini");
@@ -165,11 +180,18 @@ local void startrun_ParamStat(void)
 				cmd.integration_method);
 	}
 
+// Quadrature parameters:
+    if (GetParamStat("quadratureMethod") & ARGPARAM) {
+        cmd.quadratureMethod = GetParam("quadratureMethod");
+        fprintf(gd.outlog,"\n\nrunning instead %s quadrature method ...\n",
+                cmd.quadratureMethod);
+    }
     if (GetParamStat("ngausslegpoints") & ARGPARAM)
         cmd.ngausslegpoints = GetiParam("ngausslegpoints");
     if (GetParamStat("epsquad") & ARGPARAM)
         cmd.epsquad = GetdParam("epsquad");
 
+// Post processing parameters:
     if (GetParamStat("postprocessing") & ARGPARAM)
         cmd.postprocessing = GetbParam("postprocessing");
     
@@ -282,7 +304,8 @@ local void ReadParameterFile(char *fname)
     IPName(cmd.maxnsteps,"maxnsteps");
 	SPName(cmd.integration_method,"integrationMethod",100);
 //
-// Integration parameters:
+// Quadrature parameters:
+    SPName(cmd.quadratureMethod,"quadratureMethod",100);
     IPName(cmd.ngausslegpoints,"ngausslegpoints");
     RPName(cmd.epsquad,"epsquad");
 //
@@ -404,7 +427,8 @@ local void PrintParameterFile(char *fname)
         fprintf(fdout,FMTI,"maxnsteps",cmd.maxnsteps);
         fprintf(fdout,FMTT,"integrationMethod",cmd.integration_method);
 //
-// Integration parameters:
+// Quadrature parameters:
+        fprintf(fdout,FMTT,"quadratureMethod",cmd.quadratureMethod);
         fprintf(fdout,FMTI,"ngausslegpoints",cmd.ngausslegpoints);
         fprintf(fdout,FMTR,"epsquad",cmd.epsquad);
 // Post processing parameters:
@@ -441,7 +465,6 @@ local void InputPSTable(void)
     real kminext, kmaxext, dktmp, kmn, kmx;
     int Nkext=600, NkL=50, NkU=50;
     real kminT=1.0e-6, kmaxT=350.0;
-
 
     fprintf(gd.outlog,"\n\nReading power spectrum from file %s...\n",gd.fnamePSPath);
     inout_InputData(gd.fnamePSPath, 1, 2, &nPSTabletmp);
