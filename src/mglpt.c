@@ -6,7 +6,10 @@
 #include "protodefs.h"
 #include "models.h"
 
+#define EPSQ    0.0001
+
 local void computingQRs(void);
+local void loopQsRs(stream outstr, int imin, int imax, real dk);
 
 void MainLoop(void)
 {
@@ -15,15 +18,12 @@ void MainLoop(void)
     qfunctions_processing();
 }
 
-#define EPSQ    0.0001
 
 #define FMTQRDAT	\
 "%10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e \
 %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e\n"
 
 #define FMTQR       "%g %g %g %g %g %g %g %g %g %g %g %g %g %g %g %g\n"
-
-local void loopQsRs(stream outstr, int imin, int imax, real dk);
 
 local void computingQRs(void)
 {
@@ -121,8 +121,7 @@ local void loopQsRs(stream outstr, int imin, int imax, real dk)
         ki = rpow(10.0,kval);
         fprintf(stdout,"i: %d :: ki: %g :: ",i,ki);
         fflush(stdout);
-//        qrs = QsRs_functions_driver_LCDM(gd.xstop, ki);
-        qrs = QsRs_functions_driver(gd.xstop, ki);
+        qrs = QsRs_functions_driver_LCDM(gd.xstop, ki);
 
         Q1 = qrs.Q1;
         Q2 = qrs.Q2;
