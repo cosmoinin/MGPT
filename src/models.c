@@ -364,7 +364,7 @@ local real M3_HS(real eta)
 {
     real M3tmp;
 
-    M2tmp = cmd.screening;
+    M3tmp = cmd.screening;
     M3tmp *= (45.0/(8.0*rsqr(H02)))*rpow(1.0/cmd.fR0,3.0)
     * rpow(cmd.om*rexp(-3.0*eta)+4.0*(1.0-cmd.om),7.0)
     / rpow(cmd.om+4*(1.0-cmd.om),6.0);
