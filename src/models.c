@@ -272,8 +272,9 @@ local real PiF_HS(real eta, real k)
 local real M2_HS(real eta)
 {
     real M2tmp;
-    
-    M2tmp = (9.0/(4.0*rsqr(H02)))*rsqr(1.0/cmd.fR0)
+
+    M2tmp = cmd.screening;
+    M2tmp *= (9.0/(4.0*rsqr(H02)))*rsqr(1.0/cmd.fR0)
     * rpow(cmd.om*rexp(-3.0*eta)+4.0*(1.0-cmd.om),5.0)
     / rpow(cmd.om+4*(1.0-cmd.om),4.0);
     
@@ -298,7 +299,8 @@ local real sourceA_HS(real eta, real kf, real k1, real k2)
 
     Stmp = sourcea_HS(eta, kf)
             + sourceFL_HS(eta, kf, k1, k2)
-            - cmd.screening * sourcedI_HS(eta, kf, k1, k2);
+            - sourcedI_HS(eta, kf, k1, k2);
+//    - cmd.screening * sourcedI_HS(eta, kf, k1, k2);
 
     return Stmp;
 }
@@ -361,8 +363,9 @@ local real M1_HS(real eta)
 local real M3_HS(real eta)
 {
     real M3tmp;
-    
-    M3tmp = (45.0/(8.0*rsqr(H02)))*rpow(1.0/cmd.fR0,3.0)
+
+    M2tmp = cmd.screening;
+    M3tmp *= (45.0/(8.0*rsqr(H02)))*rpow(1.0/cmd.fR0,3.0)
     * rpow(cmd.om*rexp(-3.0*eta)+4.0*(1.0-cmd.om),7.0)
     / rpow(cmd.om+4*(1.0-cmd.om),6.0);
     
@@ -811,9 +814,10 @@ local real sourceA_LCDM(real eta, real kf, real k1, real k2)
     real Stmp;
     
     Stmp = sourcea_LCDM(eta, kf)
-    + sourceFL_LCDM(eta, kf, k1, k2)
-    - cmd.screening * sourcedI_LCDM(eta, kf, k1, k2);
-    
+            + sourceFL_LCDM(eta, kf, k1, k2)
+            - sourcedI_LCDM(eta, kf, k1, k2);
+//    - cmd.screening * sourcedI_LCDM(eta, kf, k1, k2);
+
     return Stmp;
 }
 
