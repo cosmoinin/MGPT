@@ -92,6 +92,7 @@ local void ReadParametersCmdline(void)
 //
 // Quadrature parameters:
     cmd.quadratureMethod = GetParam("quadratureMethod");
+    cmd.nquadSteps = GetiParam("nquadSteps");
     cmd.ngausslegpoints = GetiParam("ngausslegpoints");
     cmd.epsquad = GetdParam("epsquad");
 // Post processing parameters:
@@ -136,6 +137,8 @@ local void startrun_Common(void)
         InputPSTable();
         PSLTable();
     }
+    if (cmd.nquadSteps > nPSLT)
+        error("CheckParameters: nquadSteps > nPSLT\n");
 
 }
 
@@ -186,6 +189,8 @@ local void startrun_ParamStat(void)
         fprintf(gd.outlog,"\n\nrunning instead %s quadrature method ...\n",
                 cmd.quadratureMethod);
     }
+    if (GetParamStat("nquadSteps") & ARGPARAM)
+        cmd.nquadSteps = GetiParam("nquadSteps");
     if (GetParamStat("ngausslegpoints") & ARGPARAM)
         cmd.ngausslegpoints = GetiParam("ngausslegpoints");
     if (GetParamStat("epsquad") & ARGPARAM)
@@ -227,6 +232,8 @@ local void CheckParameters(void)
     if (cmd.maxnsteps < 1)
         error("CheckParameters: absurd value for maxnsteps\n");
 
+    if (cmd.nquadSteps <= 1)
+        error("CheckParameters: absurd value for nquadSteps\n");
     if (cmd.ngausslegpoints <= 1)
         error("CheckParameters: absurd value for ngausslegpoints\n");
     if (cmd.epsquad >= 1.0e-1 || cmd.epsquad <= 0)
@@ -306,6 +313,7 @@ local void ReadParameterFile(char *fname)
 //
 // Quadrature parameters:
     SPName(cmd.quadratureMethod,"quadratureMethod",100);
+    IPName(cmd.nquadSteps,"nquadSteps");
     IPName(cmd.ngausslegpoints,"ngausslegpoints");
     RPName(cmd.epsquad,"epsquad");
 //
@@ -429,6 +437,7 @@ local void PrintParameterFile(char *fname)
 //
 // Quadrature parameters:
         fprintf(fdout,FMTT,"quadratureMethod",cmd.quadratureMethod);
+        fprintf(fdout,FMTI,"nquadSteps",cmd.nquadSteps);
         fprintf(fdout,FMTI,"ngausslegpoints",cmd.ngausslegpoints);
         fprintf(fdout,FMTR,"epsquad",cmd.epsquad);
 // Post processing parameters:

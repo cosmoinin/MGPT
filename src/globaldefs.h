@@ -73,6 +73,7 @@ typedef struct {
 //
 // Quadrature parameters:
     string quadratureMethod;
+    int nquadSteps;
     int ngausslegpoints;
     real epsquad;
 //
