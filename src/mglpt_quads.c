@@ -6,15 +6,10 @@
 #include "protodefs.h"
 #include "models.h"
 
-global_QRs QsRs_functions_trapezoid3(real eta, real ki);
-global_QRs QsRs_functions_trapezoid3_LCDM(real eta, real ki);
-global_QRs QsRs_functions_trapezoid4(real eta, real ki);
-global_QRs QsRs_functions_trapezoid4_LCDM(real eta, real ki);
-global_QRs QsRs_functions_trapezoidAA(real eta, real ki);
-global_QRs QsRs_functions_trapezoidAA_LCDM(real eta, real ki);
+global_QRs QsRs_functions_trapezoid(real eta, real ki);
+global_QRs QsRs_functions_trapezoid_LCDM(real eta, real ki);
 global_QRs QsRs_functions_romo(real eta, real ki);
 global_QRs QsRs_functions_romo_LCDM(real eta, real ki);
-
 
 local real KQ8_function(real k, real r, real x);
 local real KQ9_function(real k, real r, real x);
@@ -1164,988 +1159,6 @@ local real R1p2_function(real eta, real ki)
 
 // BEGIN Qs and Rs
 
-global_QRs QsRs_functions_trapezoid3(real eta, real ki)
-{
-    int i, j;
-    real ftmpR1, fac;
-    global_D2v2_ptr ptmp;
-    global_D3v2_ptr ptmpR1;
-    real Dpkmin, Dpk;
-    real aTime;
-    //
-    real *xGL, *wGL;
-    real kmin, kmax;
-    real Q1p, Q2p, Q3p;
-    real Q1aA, Q2aA, Q3aA;
-    real Q1aB, Q2aB, Q3aB;
-    real R1aA, R1aB, R1p;
-    real R2p, R2aA, R2aB;
-    real KR2;
-    real PSLA, PSLB;
-    real rmin, rmax;
-    real kk, rr, deltar;
-    real mumin, mumax;
-    real xv, w, k2, psl;
-    real KA, KB, KQ1, KQ2, KQ3;
-    int Nx;
-    //
-    real ypi, ypim1, kkim1, dk;
-    //
-    // NEW Qs AND Rs
-    real Q8p, Q8aA, Q8aB, KQ8;
-    real Q9p, Q9aA, Q9aB, KQ9;
-    real Q13p, Q13aA, Q13aB, KQ13;
-    real Q5p, Q5aA, Q5aB, KQ5;
-    real Q7p, Q7aA, Q7aB, KQ7;
-    real Q11p, Q11aA, Q11aB, KQ11;
-    real Q12p, Q12aA, Q12aB, KQ12;
-    real RIp, RIaA, RIaB, KRI;
-    real R1p2p, R1p2aA, R1p2aB, KR1p2;
-    
-    //
-    pointPSTableptr p;
-    //
-    global_QRs_ptr QRstmp;
-    
-    QRstmp = (global_QRs_ptr) allocate(1 * sizeof(global_QRs));
-    
-    aTime = cputime();
-    kmin = kPos(PSLT+1);
-    kmax = kPos(PSLT+nPSLT-1);
-    if (cmd.nquadSteps==1) {
-        dk = 0.;
-    } else {
-        dk = (rlog10(kmax) - rlog10(kmin))/((real)(cmd.nquadSteps - 1));
-    }
-    
-    fac = psInterpolation_nr(ki, kPS, pPS, nPSLT);
-    
-    Q1p = 0.0; Q2p = 0.0; Q3p = 0.0;
-    Q1aA = 0.0; Q2aA = 0.0; Q3aA = 0.0;
-    Q1aB = 0.0; Q2aB = 0.0; Q3aB = 0.0;
-    
-    // NEW Qs AND Rs
-    Q8p = 0.0;
-    Q8aA = 0.0;
-    Q8aB = 0.0;
-    Q9p = 0.0;
-    Q9aA = 0.0;
-    Q9aB = 0.0;
-    Q13p = 0.0;
-    Q13aA = 0.0;
-    Q13aB = 0.0;
-    Q5p = 0.0;
-    Q5aA = 0.0;
-    Q5aB = 0.0;
-    Q7p = 0.0;
-    Q7aA = 0.0;
-    Q7aB = 0.0;
-    Q11p = 0.0;
-    Q11aA = 0.0;
-    Q11aB = 0.0;
-    Q12p = 0.0;
-    Q12aA = 0.0;
-    Q12aB = 0.0;
-    RIp = 0.0;
-    RIaA = 0.0;
-    RIaB = 0.0;
-    R1p2p = 0.0;
-    R1p2aA = 0.0;
-    R1p2aB = 0.0;
-    //
-    R1p = 0.0;
-    R1aA = 0.0;
-    R1aB = 0.0;
-    
-    R2p = 0.0;
-    R2aA = 0.0;
-    R2aB = 0.0;
-    PSLA = 0.0;
-    rmax = kmax/ki;
-    rmin = kmin/ki;
-    p = PSLCDMtab;
-    //
-    for (i=2; i<cmd.nquadSteps; i++) {
-        ypi = rlog10(kmin) + dk*((real)(i - 1));
-        ypim1 = rlog10(kmin) + dk*((real)(i - 2));
-        kk = rpow(10.0,ypi);
-        kkim1 = rpow(10.0,ypim1);
-        //
-        rr = kk/ki;
-        deltar = (kk-kkim1)/ki;
-        PSLB = psInterpolation_nr(ki*rr, kPS, pPS, nPSLT);
-        mumin = MAX(-1.0, (1.0 + rsqr(rr) - rsqr(rmax))/(2.0*rr));
-        mumax = MIN( 1.0, (1.0 + rsqr(rr) - rsqr(rmin))/(2.0*rr));
-        if (rr>=0.5)
-            mumax = 0.5/rr;
-        Nx=10;
-        xGL=dvector(1,Nx);
-        wGL=dvector(1,Nx);
-        gauleg(mumin,mumax,xGL,wGL,Nx);
-        for (j=1; j<=Nx; j++) {
-            xv = xGL[j];
-            w = wGL[j];
-            k2 = ki * rsqrt(1.0 + rsqr(rr) - 2.0*rr*xv);
-            ptmp = DsSecondOrder_func(ki, ki*rr, k2);
-            KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-            KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-            KQ1 = rsqr(rr)
-            *rsqr(
-                  KA + KB*(-1.0+(1.0-rsqr(xv))/abskmq)
-                  );
-            KQ2 = (rr*xv*(1.0-rr*xv)/abskmq)
-            *(
-              KA - KB*((rsqr(xv)+rsqr(rr)-2.0*rr*xv)/abskmq)
-              );
-            KQ3 = rsqr(xv)*rsqr(1.0-rr*xv)/rsqr(abskmq);
-            
-            // NEW Qs AND Rs
-            KQ8 = rsqr(rr)*(
-                            KA - KB*rsqr(-rr+xv)/abskmq
-                            );
-            KQ9 = rr*xv*(1-rr*xv)/abskmq;
-            KQ13 = rsqr(rr);
-            //
-            psl = psInterpolation_nr(ki*rsqrt(abskmq), kPS, pPS, nPSLT);
-            Q1aB += wGL[j]*KQ1*psl;
-            Q2aB += wGL[j]*KQ2*psl;
-            Q3aB += wGL[j]*KQ3*psl;
-            
-            // NEW Qs AND Rs
-            Q8aB += w*KQ8*psl;
-            Q9aB += w*KQ9*psl;
-            Q13aB += w*KQ13*psl;
-            //
-        }
-        //
-        for (j=1; j<=nGL(pGL); j++) {
-            xv = xGL(pGL)[j];
-            w = wGL(pGL)[j];
-            k2 = ki * rsqrt(1.0 + rsqr(rr) - 2.0*rr*xv);
-            ptmp = DsSecondOrder_func(k2, ki, ki*rr);
-            KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-            KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-            KR2 = (rr*xv*(1.0-rr*xv)/abskmq)
-            *(
-              KA - KB*rsqr(xv)
-              );
-            psl = psInterpolation_nr(ki*rr, kPS, pPS, nPSLT);
-            R2aB += w*KR2*psl;
-            // NEW Qs AND Rs
-            KRI = (rsqr(rr)*(1.0-rsqr(xv))/abskmq)
-            *(
-              KA - KB*rsqr(xv)
-              );
-            RIaB += w*KRI*psl;
-            KR1p2 = (rsqr(rr)*(1.0-rr*xv)/abskmq)
-            *(
-              KA - KB*rsqr(xv)
-              );
-            R1p2aB += w*KR1p2*psl;
-            
-            psl = psInterpolation_nr(ki*rsqrt(abskmq), kPS, pPS, nPSLT);
-            ptmp = DsSecondOrder_func(ki, ki*rr, k2);
-            KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-            KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-            KQ5 = rr*xv*(
-                         KA - KB*rsqr(-rr+xv)/abskmq
-                         );
-            Q5aB += w*KQ5*psl;
-            
-            KQ7 = rsqr(xv)*(1-rr*xv)/abskmq;
-            Q7aB += w*KQ7*psl;
-            
-            KQ11 = rsqr(xv);
-            Q11aB += w*KQ11*psl;
-            
-            KQ12 = rr*xv;
-            Q12aB += w*KQ12*psl;
-            
-            //
-            ptmpR1 = DsThirdOrder_func(xGL(pGL)[j], ki, kk);
-            ftmpR1 = (21.0/10.0)*D3symmD3v2(ptmpR1)
-            /( DpkD3v2(ptmpR1)*DppD3v2(ptmpR1)*DppD3v2(ptmpR1) );
-            //
-            R1aB += rsqr(rr)*psInterpolation_nr(kk, kPS, pPS, nPSLT)
-            *wGL(pGL)[j]*ftmpR1;
-        }
-        //
-        
-        Q1p += deltar*(Q1aA*PSLA + Q1aB*PSLB)/2.0;
-        Q2p += deltar*(Q2aA*PSLA + Q2aB*PSLB)/2.0;
-        Q3p += deltar*(Q3aA*PSLA + Q3aB*PSLB)/2.0;
-        
-        // NEW Qs AND Rs
-        Q8p += deltar*(Q8aA*PSLA + Q8aB*PSLB)/2.0;
-        Q9p += deltar*(Q9aA*PSLA + Q9aB*PSLB)/2.0;
-        Q13p += deltar*(Q13aA*PSLA + Q13aB*PSLB)/2.0;
-        Q5p += deltar*(Q5aA*PSLA + Q5aB*PSLB)/2.0;
-        Q7p += deltar*(Q7aA*PSLA + Q7aB*PSLB)/2.0;
-        Q11p += deltar*(Q11aA*PSLA + Q11aB*PSLB)/2.0;
-        Q12p += deltar*(Q12aA*PSLA + Q12aB*PSLB)/2.0;
-        RIp += deltar*(RIaA + RIaB)/2.0;
-        R1p2p += deltar*(R1p2aA + R1p2aB)/2.0;
-        //
-        Q1aA = Q1aB;
-        Q2aA = Q2aB;
-        Q3aA = Q3aB;
-        
-        // NEW Qs AND Rs
-        Q8aA = Q8aB;
-        Q9aA = Q9aB;
-        Q13aA = Q13aB;
-        Q5aA = Q5aB;
-        Q7aA = Q7aB;
-        Q11aA = Q11aB;
-        Q12aA = Q12aB;
-        RIaA = RIaB;
-        R1p2aA = R1p2aB;
-        //
-        PSLA = PSLB;
-        Q1aB = 0.0;
-        Q2aB = 0.0;
-        Q3aB = 0.0;
-        
-        // NEW Qs AND Rs
-        Q8aB = 0.0;
-        Q9aB = 0.0;
-        Q13aB = 0.0;
-        Q5aB = 0.0;
-        Q7aB = 0.0;
-        Q11aB = 0.0;
-        Q12aB = 0.0;
-        RIaB = 0.0;
-        R1p2aB = 0.0;
-        //
-        R1p += deltar*( R1aA + R1aB )/2.0;
-        R1aA = R1aB;
-        R1aB = 0.0;
-        
-        R2p += deltar*(R2aA + R2aB)/2.0;
-        R2aA = R2aB;
-        R2aB = 0.0;
-        
-        free_dvector(wGL,1,Nx);
-        free_dvector(xGL,1,Nx);
-    }
-    Q1p *= 2.0*(rpow(ki,3)/FOURPI2);
-    Q2p *= 2.0*(rpow(ki,3)/FOURPI2);
-    Q3p *= 2.0*(rpow(ki,3)/FOURPI2);
-    
-    // NEW Qs AND Rs
-    Q8p *= 2.0*(rpow(ki,3)/FOURPI2);
-    Q9p *= 2.0*(rpow(ki,3)/FOURPI2);
-    Q13p *= 2.0*(rpow(ki,3)/FOURPI2);
-    Q5p *= (rpow(ki,3)/FOURPI2);
-    Q7p *= (rpow(ki,3)/FOURPI2);
-    Q11p *= (rpow(ki,3)/FOURPI2);
-    Q12p *= (rpow(ki,3)/FOURPI2);
-    RIp *= (rpow(ki,3)/FOURPI2)*fac;
-    R1p2p *= (rpow(ki,3)/FOURPI2)*fac;
-    //
-    
-    R1p *=(rpow(gd.k,3)/FOURPI2)*fac;
-    R2p *= (rpow(ki,3)/FOURPI2)*fac;
-    
-    etaQRs(QRstmp) = eta;
-    kQRs(QRstmp)    = ki;
-    Q1(QRstmp)      = Q1p;
-    Q2(QRstmp)      = Q2p;
-    Q3(QRstmp)      = Q3p;
-    // NEW Qs AND Rs
-    Q8(QRstmp)      = Q8p;
-    Q9(QRstmp)      = Q9p;
-    Q13(QRstmp)     = Q13p;
-    Q5(QRstmp)      = Q5p;
-    Q7(QRstmp)      = Q7p;
-    Q11(QRstmp)      = Q11p;
-    Q12(QRstmp)      = Q12p;
-    RI(QRstmp)      = RIp;
-    R1p2(QRstmp)      = R1p2p;
-    //
-    R1(QRstmp)      = R1p;
-    R2(QRstmp)      = R2p;
-    
-    return *QRstmp;
-}
-
-global_QRs QsRs_functions_trapezoid3_LCDM(real eta, real ki)
-{
-    int i, j;
-    real ftmpR1, fac;
-    global_D2v2_ptr ptmp;
-    global_D3v2_ptr ptmpR1;
-    real Dpkmin, Dpk;
-    real aTime;
-    //
-    real *xGL, *wGL;
-    real kmin, kmax;
-    real Q1p, Q2p, Q3p;
-    real Q1aA, Q2aA, Q3aA;
-    real Q1aB, Q2aB, Q3aB;
-    real R1aA, R1aB, R1p;
-    real R2p, R2aA, R2aB;
-    real KR2;
-    real PSLA, PSLB;
-    real rmin, rmax;
-    real kk, rr, deltar;
-    real mumin, mumax;
-    real xv, w, k2, psl;
-    real KA, KB, KQ1, KQ2, KQ3;
-    int Nx;
-    //
-    real ypi, ypim1, kkim1, dk;
-    //
-    // NEW Qs AND Rs
-    real Q8p, Q8aA, Q8aB, KQ8;
-    real Q9p, Q9aA, Q9aB, KQ9;
-    real Q13p, Q13aA, Q13aB, KQ13;
-    real Q5p, Q5aA, Q5aB, KQ5;
-    real Q7p, Q7aA, Q7aB, KQ7;
-    real Q11p, Q11aA, Q11aB, KQ11;
-    real Q12p, Q12aA, Q12aB, KQ12;
-    real RIp, RIaA, RIaB, KRI;
-    real R1p2p, R1p2aA, R1p2aB, KR1p2;
-    
-    //
-    pointPSTableptr p;
-    //
-    global_QRs_ptr QRstmp;
-    
-    QRstmp = (global_QRs_ptr) allocate(1 * sizeof(global_QRs));
-    
-    aTime = cputime();
-    kmin = kPos(PSLT+1);
-    kmax = kPos(PSLT+nPSLT-1);
-    if (cmd.nquadSteps==1) {
-        dk = 0.;
-    } else {
-        dk = (rlog10(kmax) - rlog10(kmin))/((real)(cmd.nquadSteps - 1));
-    }
-    
-    fac = psInterpolation_nr(ki, kPS, pPS, nPSLT);
-    
-    Q1p = 0.0; Q2p = 0.0; Q3p = 0.0;
-    Q1aA = 0.0; Q2aA = 0.0; Q3aA = 0.0;
-    Q1aB = 0.0; Q2aB = 0.0; Q3aB = 0.0;
-    
-    // NEW Qs AND Rs
-    Q8p = 0.0;
-    Q8aA = 0.0;
-    Q8aB = 0.0;
-    Q9p = 0.0;
-    Q9aA = 0.0;
-    Q9aB = 0.0;
-    Q13p = 0.0;
-    Q13aA = 0.0;
-    Q13aB = 0.0;
-    Q5p = 0.0;
-    Q5aA = 0.0;
-    Q5aB = 0.0;
-    Q7p = 0.0;
-    Q7aA = 0.0;
-    Q7aB = 0.0;
-    Q11p = 0.0;
-    Q11aA = 0.0;
-    Q11aB = 0.0;
-    Q12p = 0.0;
-    Q12aA = 0.0;
-    Q12aB = 0.0;
-    RIp = 0.0;
-    RIaA = 0.0;
-    RIaB = 0.0;
-    R1p2p = 0.0;
-    R1p2aA = 0.0;
-    R1p2aB = 0.0;
-    //
-    R1p = 0.0;
-    R1aA = 0.0;
-    R1aB = 0.0;
-    
-    R2p = 0.0;
-    R2aA = 0.0;
-    R2aB = 0.0;
-    PSLA = 0.0;
-    rmax = kmax/ki;
-    rmin = kmin/ki;
-    p = PSLCDMtab;
-    //
-    for (i=2; i<cmd.nquadSteps; i++) {
-        ypi = rlog10(kmin) + dk*((real)(i - 1));
-        ypim1 = rlog10(kmin) + dk*((real)(i - 2));
-        kk = rpow(10.0,ypi);
-        kkim1 = rpow(10.0,ypim1);
-        //
-        rr = kk/ki;
-        deltar = (kk-kkim1)/ki;
-        PSLB = psInterpolation_nr(ki*rr, kPS, pPS, nPSLT);
-        mumin = MAX(-1.0, (1.0 + rsqr(rr) - rsqr(rmax))/(2.0*rr));
-        mumax = MIN( 1.0, (1.0 + rsqr(rr) - rsqr(rmin))/(2.0*rr));
-        if (rr>=0.5)
-            mumax = 0.5/rr;
-        Nx=10;
-        xGL=dvector(1,Nx);
-        wGL=dvector(1,Nx);
-        gauleg(mumin,mumax,xGL,wGL,Nx);
-        for (j=1; j<=Nx; j++) {
-            xv = xGL[j];
-            w = wGL[j];
-            k2 = ki * rsqrt(1.0 + rsqr(rr) - 2.0*rr*xv);
-            KA = KA_LCDM;
-            KB = KA;
-            KQ1 = rsqr(rr)
-            *rsqr(
-                  KA + KB*(-1.0+(1.0-rsqr(xv))/abskmq)
-                  );
-            KQ2 = (rr*xv*(1.0-rr*xv)/abskmq)
-            *(
-              KA - KB*((rsqr(xv)+rsqr(rr)-2.0*rr*xv)/abskmq)
-              );
-            KQ3 = rsqr(xv)*rsqr(1.0-rr*xv)/rsqr(abskmq);
-            
-            // NEW Qs AND Rs
-            KQ8 = rsqr(rr)*(
-                            KA - KB*rsqr(-rr+xv)/abskmq
-                            );
-            KQ9 = rr*xv*(1-rr*xv)/abskmq;
-            KQ13 = rsqr(rr);
-            //
-            psl = psInterpolation_nr(ki*rsqrt(abskmq), kPS, pPS, nPSLT);
-            Q1aB += wGL[j]*KQ1*psl;
-            Q2aB += wGL[j]*KQ2*psl;
-            Q3aB += wGL[j]*KQ3*psl;
-            
-            // NEW Qs AND Rs
-            Q8aB += w*KQ8*psl;
-            Q9aB += w*KQ9*psl;
-            Q13aB += w*KQ13*psl;
-            //
-        }
-        //
-        for (j=1; j<=nGL(pGL); j++) {
-            xv = xGL(pGL)[j];
-            w = wGL(pGL)[j];
-            k2 = ki * rsqrt(1.0 + rsqr(rr) - 2.0*rr*xv);
-            KA = KA_LCDM;
-            KB = KA;
-            KR2 = (rr*xv*(1.0-rr*xv)/abskmq)
-            *(
-              KA - KB*rsqr(xv)
-              );
-            psl = psInterpolation_nr(ki*rr, kPS, pPS, nPSLT);
-            R2aB += w*KR2*psl;
-            // NEW Qs AND Rs
-            KRI = (rsqr(rr)*(1.0-rsqr(xv))/abskmq)
-            *(
-              KA - KB*rsqr(xv)
-              );
-            RIaB += w*KRI*psl;
-            KR1p2 = (rsqr(rr)*(1.0-rr*xv)/abskmq)
-            *(
-              KA - KB*rsqr(xv)
-              );
-            R1p2aB += w*KR1p2*psl;
-            
-            psl = psInterpolation_nr(ki*rsqrt(abskmq), kPS, pPS, nPSLT);
-            KA = KA_LCDM;
-            KB = KA;
-            KQ5 = rr*xv*(
-                         KA - KB*rsqr(-rr+xv)/abskmq
-                         );
-            Q5aB += w*KQ5*psl;
-            
-            KQ7 = rsqr(xv)*(1-rr*xv)/abskmq;
-            Q7aB += w*KQ7*psl;
-            
-            KQ11 = rsqr(xv);
-            Q11aB += w*KQ11*psl;
-            
-            KQ12 = rr*xv;
-            Q12aB += w*KQ12*psl;
-
-            R1aB += w*KRI*psl;
-        }
-        //
-        
-        Q1p += deltar*(Q1aA*PSLA + Q1aB*PSLB)/2.0;
-        Q2p += deltar*(Q2aA*PSLA + Q2aB*PSLB)/2.0;
-        Q3p += deltar*(Q3aA*PSLA + Q3aB*PSLB)/2.0;
-        
-        // NEW Qs AND Rs
-        Q8p += deltar*(Q8aA*PSLA + Q8aB*PSLB)/2.0;
-        Q9p += deltar*(Q9aA*PSLA + Q9aB*PSLB)/2.0;
-        Q13p += deltar*(Q13aA*PSLA + Q13aB*PSLB)/2.0;
-        Q5p += deltar*(Q5aA*PSLA + Q5aB*PSLB)/2.0;
-        Q7p += deltar*(Q7aA*PSLA + Q7aB*PSLB)/2.0;
-        Q11p += deltar*(Q11aA*PSLA + Q11aB*PSLB)/2.0;
-        Q12p += deltar*(Q12aA*PSLA + Q12aB*PSLB)/2.0;
-        RIp += deltar*(RIaA + RIaB)/2.0;
-        R1p2p += deltar*(R1p2aA + R1p2aB)/2.0;
-        //
-        Q1aA = Q1aB;
-        Q2aA = Q2aB;
-        Q3aA = Q3aB;
-        
-        // NEW Qs AND Rs
-        Q8aA = Q8aB;
-        Q9aA = Q9aB;
-        Q13aA = Q13aB;
-        Q5aA = Q5aB;
-        Q7aA = Q7aB;
-        Q11aA = Q11aB;
-        Q12aA = Q12aB;
-        RIaA = RIaB;
-        R1p2aA = R1p2aB;
-        //
-        PSLA = PSLB;
-        Q1aB = 0.0;
-        Q2aB = 0.0;
-        Q3aB = 0.0;
-        
-        // NEW Qs AND Rs
-        Q8aB = 0.0;
-        Q9aB = 0.0;
-        Q13aB = 0.0;
-        Q5aB = 0.0;
-        Q7aB = 0.0;
-        Q11aB = 0.0;
-        Q12aB = 0.0;
-        RIaB = 0.0;
-        R1p2aB = 0.0;
-        //
-        R1p += deltar*( R1aA + R1aB )/2.0;
-        R1aA = R1aB;
-        R1aB = 0.0;
-        
-        R2p += deltar*(R2aA + R2aB)/2.0;
-        R2aA = R2aB;
-        R2aB = 0.0;
-        
-        free_dvector(wGL,1,Nx);
-        free_dvector(xGL,1,Nx);
-    }
-    Q1p *= 2.0*(rpow(ki,3)/FOURPI2);
-    Q2p *= 2.0*(rpow(ki,3)/FOURPI2);
-    Q3p *= 2.0*(rpow(ki,3)/FOURPI2);
-    
-    // NEW Qs AND Rs
-    Q8p *= 2.0*(rpow(ki,3)/FOURPI2);
-    Q9p *= 2.0*(rpow(ki,3)/FOURPI2);
-    Q13p *= 2.0*(rpow(ki,3)/FOURPI2);
-    Q5p *= (rpow(ki,3)/FOURPI2);
-    Q7p *= (rpow(ki,3)/FOURPI2);
-    Q11p *= (rpow(ki,3)/FOURPI2);
-    Q12p *= (rpow(ki,3)/FOURPI2);
-    RIp *= (rpow(ki,3)/FOURPI2)*fac;
-    R1p2p *= (rpow(ki,3)/FOURPI2)*fac;
-    //
-    
-    R1p *=(rpow(gd.k,3)/FOURPI2)*fac;
-    R2p *= (rpow(ki,3)/FOURPI2)*fac;
-    
-    etaQRs(QRstmp) = eta;
-    kQRs(QRstmp)    = ki;
-    Q1(QRstmp)      = Q1p;
-    Q2(QRstmp)      = Q2p;
-    Q3(QRstmp)      = Q3p;
-    // NEW Qs AND Rs
-    Q8(QRstmp)      = Q8p;
-    Q9(QRstmp)      = Q9p;
-    Q13(QRstmp)     = Q13p;
-    Q5(QRstmp)      = Q5p;
-    Q7(QRstmp)      = Q7p;
-    Q11(QRstmp)      = Q11p;
-    Q12(QRstmp)      = Q12p;
-    RI(QRstmp)      = RIp;
-    R1p2(QRstmp)      = R1p2p;
-    //
-    R1(QRstmp)      = R1p;
-    R2(QRstmp)      = R2p;
-    
-    return *QRstmp;
-}
-
-global_QRs QsRs_functions_trapezoid4(real eta, real ki)
-{
-    int i, j;
-    real ftmpR1, fac;
-    global_D2v2_ptr ptmp;
-    //
-    real *xGL, *wGL;
-    real kmin, kmax;
-    real Q1p, Q2p, Q3p;
-    real Q1aA, Q2aA, Q3aA;
-    real Q1aB, Q2aB, Q3aB;
-    real R1p, R2p;
-    real PSLA, PSLB;
-    real rmin, rmax;
-    real kk, rr, deltar;
-    real mumin, mumax;
-    real xv, w, k2, psl;
-    real KA, KB, KQ1, KQ2, KQ3;
-    int Nx;
-    //
-    real ypi, ypim1, kkim1, dk;
-    //
-    // NEW Qs AND Rs
-    real Q8p, Q8aA, Q8aB, KQ8;
-    real Q9p, Q9aA, Q9aB, KQ9;
-    real Q13p, Q13aA, Q13aB, KQ13;
-    real QIp, QIaA, QIaB, KQI;
-    real Q5p;
-    real Q7p;
-    real Q11p;
-    real Q12p;
-    real RIp;
-    real R1p2p;
-    //
-    pointPSTableptr p;
-    //
-    global_QRs_ptr QRstmp;
-    
-    QRstmp = (global_QRs_ptr) allocate(1 * sizeof(global_QRs));
-    
-    kmin = kPos(PSLT+1);
-    kmax = kPos(PSLT+nPSLT-1);
-    if (cmd.nquadSteps==1) {
-        dk = 0.;
-    } else {
-        dk = (rlog10(kmax) - rlog10(kmin))/((real)(cmd.nquadSteps - 1));
-    }
-    fac = psInterpolation_nr(ki, kPS, pPS, nPSLT);
-    
-    Q1p = 0.0; Q2p = 0.0; Q3p = 0.0;
-    Q1aA = 0.0; Q2aA = 0.0; Q3aA = 0.0;
-    Q1aB = 0.0; Q2aB = 0.0; Q3aB = 0.0;
-    // NEW Qs AND Rs
-    Q8p = 0.0;
-    Q8aA = 0.0;
-    Q8aB = 0.0;
-    Q9p = 0.0;
-    Q9aA = 0.0;
-    Q9aB = 0.0;
-    Q13p = 0.0;
-    Q13aA = 0.0;
-    Q13aB = 0.0;
-    //
-    PSLA = 0.0;
-    rmax = kmax/ki;
-    rmin = kmin/ki;
-    p = PSLCDMtab;
-    //
-    for (i=2; i<cmd.nquadSteps; i++) {
-        ypi = rlog10(kmin) + dk*((real)(i - 1));
-        ypim1 = rlog10(kmin) + dk*((real)(i - 2));
-        kk = rpow(10.0,ypi);
-        kkim1 = rpow(10.0,ypim1);
-        //
-        rr = kk/ki;
-        deltar = (kk-kkim1)/ki;
-        PSLB = psInterpolation_nr(ki*rr, kPS, pPS, nPSLT);
-        mumin = MAX(-1.0, (1.0 + rsqr(rr) - rsqr(rmax))/(2.0*rr));
-        mumax = MIN( 1.0, (1.0 + rsqr(rr) - rsqr(rmin))/(2.0*rr));
-        if (rr>=0.5)
-            mumax = 0.5/rr;
-        Nx=10;
-        xGL=dvector(1,Nx);
-        wGL=dvector(1,Nx);
-        gauleg(mumin,mumax,xGL,wGL,Nx);
-        for (j=1; j<=Nx; j++) {
-            xv = xGL[j];
-            w = wGL[j];
-            k2 = ki * rsqrt(1.0 + rsqr(rr) - 2.0*rr*xv);
-            ptmp = DsSecondOrder_func(ki, ki*rr, k2);
-            KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-            KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-            KQ1 = rsqr(rr)
-            *rsqr(
-                  KA + KB*(-1.0+(1.0-rsqr(xv))/abskmq)
-                  );
-            KQ2 = (rr*xv*(1.0-rr*xv)/abskmq)
-            *(
-              KA - KB*((rsqr(xv)+rsqr(rr)-2.0*rr*xv)/abskmq)
-              );
-            KQ3 = rsqr(xv)*rsqr(1.0-rr*xv)/rsqr(abskmq);
-            // NEW Qs AND Rs
-            KQ8 = rsqr(rr)*(
-                            KA - KB*rsqr(-rr+xv)/abskmq
-                            );
-            KQ9 = rr*xv*(1-rr*xv)/abskmq;
-            KQ13 = rsqr(rr);
-            //
-            psl = psInterpolation_nr(ki*rsqrt(abskmq), kPS, pPS, nPSLT);
-            Q1aB += wGL[j]*KQ1*psl;
-            Q2aB += wGL[j]*KQ2*psl;
-            Q3aB += wGL[j]*KQ3*psl;
-            // NEW Qs AND Rs
-            Q8aB += w*KQ8*psl;
-            Q9aB += w*KQ9*psl;
-            Q13aB += w*KQ13*psl;
-            //
-        }
-        //
-        
-        Q1p += deltar*(Q1aA*PSLA + Q1aB*PSLB)/2.0;
-        Q2p += deltar*(Q2aA*PSLA + Q2aB*PSLB)/2.0;
-        Q3p += deltar*(Q3aA*PSLA + Q3aB*PSLB)/2.0;
-        // NEW Qs AND Rs
-        Q8p += deltar*(Q8aA*PSLA + Q8aB*PSLB)/2.0;
-        Q9p += deltar*(Q9aA*PSLA + Q9aB*PSLB)/2.0;
-        Q13p += deltar*(Q13aA*PSLA + Q13aB*PSLB)/2.0;
-        //
-        Q1aA = Q1aB;
-        Q2aA = Q2aB;
-        Q3aA = Q3aB;
-        // NEW Qs AND Rs
-        Q8aA = Q8aB;
-        Q9aA = Q9aB;
-        Q13aA = Q13aB;
-        //
-        PSLA = PSLB;
-        Q1aB = 0.0;
-        Q2aB = 0.0;
-        Q3aB = 0.0;
-        // NEW Qs AND Rs
-        Q8aB = 0.0;
-        Q9aB = 0.0;
-        Q13aB = 0.0;
-        QIaB = 0.0;
-        //
-        free_dvector(wGL,1,Nx);
-        free_dvector(xGL,1,Nx);
-    }
-    Q1p *= 2.0*(rpow(ki,3)/FOURPI2);
-    Q2p *= 2.0*(rpow(ki,3)/FOURPI2);
-    Q3p *= 2.0*(rpow(ki,3)/FOURPI2);
-    // NEW Qs AND Rs
-    Q8p *= 2.0*(rpow(ki,3)/FOURPI2);
-    Q9p *= 2.0*(rpow(ki,3)/FOURPI2);
-    Q13p *= 2.0*(rpow(ki,3)/FOURPI2);
-    QIp *= 2.0*(rpow(ki,3)/FOURPI2);
-    //
-    //
-    Q5p = Q5_function(eta, ki);
-    Q7p = Q7_function(eta, ki);
-    Q11p = Q11_function(eta, ki);
-    Q12p = Q12_function(eta, ki);
-    RIp = RI_function(eta, ki);
-    R1p2p = R1p2_function(eta, ki);
-    //
-    R1p = R1_function(eta, ki);        // CHECAR EL DESEMPEÑO DE ESTA VERSION
-    R2p = R2_function(eta, ki);
-    
-    etaQRs(QRstmp) = eta;
-    kQRs(QRstmp)    = ki;
-    Q1(QRstmp)      = Q1p;
-    Q2(QRstmp)      = Q2p;
-    Q3(QRstmp)      = Q3p;
-    // NEW Qs AND Rs
-    Q8(QRstmp)      = Q8p;
-    Q9(QRstmp)      = Q9p;
-    Q13(QRstmp)     = Q13p;
-    Q5(QRstmp)      = Q5p;
-    Q7(QRstmp)      = Q7p;
-    Q11(QRstmp)      = Q11p;
-    Q12(QRstmp)      = Q12p;
-    RI(QRstmp)      = RIp;
-    R1p2(QRstmp)      = R1p2p;
-    //
-    R1(QRstmp)      = R1p;
-    R2(QRstmp)      = R2p;
-    
-    return *QRstmp;
-}
-
-global_QRs QsRs_functions_trapezoid4_LCDM(real eta, real ki)
-{
-    int i, j;
-    real ftmpR1, fac;
-    global_D2v2_ptr ptmp;
-    //
-    real *xGL, *wGL;
-    real kmin, kmax;
-    real Q1p, Q2p, Q3p;
-    real Q1aA, Q2aA, Q3aA;
-    real Q1aB, Q2aB, Q3aB;
-    real R1p, R2p;
-    real PSLA, PSLB;
-    real rmin, rmax;
-    real kk, rr, deltar;
-    real mumin, mumax;
-    real xv, w, k2, psl;
-    real KA, KB, KQ1, KQ2, KQ3;
-    int Nx;
-    //
-    real ypi, ypim1, kkim1, dk;
-    //
-    // NEW Qs AND Rs
-    real Q8p, Q8aA, Q8aB, KQ8;
-    real Q9p, Q9aA, Q9aB, KQ9;
-    real Q13p, Q13aA, Q13aB, KQ13;
-    real QIp, QIaA, QIaB, KQI;
-    real Q5p;
-    real Q7p;
-    real Q11p;
-    real Q12p;
-    real RIp;
-    real R1p2p;
-    //
-    pointPSTableptr p;
-    //
-    global_QRs_ptr QRstmp;
-    
-    QRstmp = (global_QRs_ptr) allocate(1 * sizeof(global_QRs));
-    
-    kmin = kPos(PSLT+1);
-    kmax = kPos(PSLT+nPSLT-1);
-    if (cmd.nquadSteps==1) {
-        dk = 0.;
-    } else {
-        dk = (rlog10(kmax) - rlog10(kmin))/((real)(cmd.nquadSteps - 1));
-    }
-    fac = psInterpolation_nr(ki, kPS, pPS, nPSLT);
-    
-    Q1p = 0.0; Q2p = 0.0; Q3p = 0.0;
-    Q1aA = 0.0; Q2aA = 0.0; Q3aA = 0.0;
-    Q1aB = 0.0; Q2aB = 0.0; Q3aB = 0.0;
-    // NEW Qs AND Rs
-    Q8p = 0.0;
-    Q8aA = 0.0;
-    Q8aB = 0.0;
-    Q9p = 0.0;
-    Q9aA = 0.0;
-    Q9aB = 0.0;
-    Q13p = 0.0;
-    Q13aA = 0.0;
-    Q13aB = 0.0;
-    //
-    PSLA = 0.0;
-    rmax = kmax/ki;
-    rmin = kmin/ki;
-    p = PSLCDMtab;
-    //
-    for (i=2; i<cmd.nquadSteps; i++) {
-        ypi = rlog10(kmin) + dk*((real)(i - 1));
-        ypim1 = rlog10(kmin) + dk*((real)(i - 2));
-        kk = rpow(10.0,ypi);
-        kkim1 = rpow(10.0,ypim1);
-        //
-        rr = kk/ki;
-        deltar = (kk-kkim1)/ki;
-        PSLB = psInterpolation_nr(ki*rr, kPS, pPS, nPSLT);
-        mumin = MAX(-1.0, (1.0 + rsqr(rr) - rsqr(rmax))/(2.0*rr));
-        mumax = MIN( 1.0, (1.0 + rsqr(rr) - rsqr(rmin))/(2.0*rr));
-        if (rr>=0.5)
-            mumax = 0.5/rr;
-        Nx=10;
-        xGL=dvector(1,Nx);
-        wGL=dvector(1,Nx);
-        gauleg(mumin,mumax,xGL,wGL,Nx);
-        for (j=1; j<=Nx; j++) {
-            xv = xGL[j];
-            w = wGL[j];
-            k2 = ki * rsqrt(1.0 + rsqr(rr) - 2.0*rr*xv);
-            KA = KA_LCDM;
-            KB = KA;
-            KQ1 = rsqr(rr)
-            *rsqr(
-                  KA + KB*(-1.0+(1.0-rsqr(xv))/abskmq)
-                  );
-            KQ2 = (rr*xv*(1.0-rr*xv)/abskmq)
-            *(
-              KA - KB*((rsqr(xv)+rsqr(rr)-2.0*rr*xv)/abskmq)
-              );
-            KQ3 = rsqr(xv)*rsqr(1.0-rr*xv)/rsqr(abskmq);
-            // NEW Qs AND Rs
-            KQ8 = rsqr(rr)*(
-                            KA - KB*rsqr(-rr+xv)/abskmq
-                            );
-            KQ9 = rr*xv*(1-rr*xv)/abskmq;
-            KQ13 = rsqr(rr);
-            //
-            psl = psInterpolation_nr(ki*rsqrt(abskmq), kPS, pPS, nPSLT);
-            Q1aB += wGL[j]*KQ1*psl;
-            Q2aB += wGL[j]*KQ2*psl;
-            Q3aB += wGL[j]*KQ3*psl;
-            // NEW Qs AND Rs
-            Q8aB += w*KQ8*psl;
-            Q9aB += w*KQ9*psl;
-            Q13aB += w*KQ13*psl;
-            //
-        }
-        //
-        //        deltar = (kPos(p+i)-kPos(p+i-1))/ki;
-        
-        Q1p += deltar*(Q1aA*PSLA + Q1aB*PSLB)/2.0;
-        Q2p += deltar*(Q2aA*PSLA + Q2aB*PSLB)/2.0;
-        Q3p += deltar*(Q3aA*PSLA + Q3aB*PSLB)/2.0;
-        // NEW Qs AND Rs
-        Q8p += deltar*(Q8aA*PSLA + Q8aB*PSLB)/2.0;
-        Q9p += deltar*(Q9aA*PSLA + Q9aB*PSLB)/2.0;
-        Q13p += deltar*(Q13aA*PSLA + Q13aB*PSLB)/2.0;
-        //
-        Q1aA = Q1aB;
-        Q2aA = Q2aB;
-        Q3aA = Q3aB;
-        // NEW Qs AND Rs
-        Q8aA = Q8aB;
-        Q9aA = Q9aB;
-        Q13aA = Q13aB;
-        //
-        PSLA = PSLB;
-        Q1aB = 0.0;
-        Q2aB = 0.0;
-        Q3aB = 0.0;
-        // NEW Qs AND Rs
-        Q8aB = 0.0;
-        Q9aB = 0.0;
-        Q13aB = 0.0;
-        QIaB = 0.0;
-        //
-        free_dvector(wGL,1,Nx);
-        free_dvector(xGL,1,Nx);
-    }
-    Q1p *= 2.0*(rpow(ki,3)/FOURPI2);
-    Q2p *= 2.0*(rpow(ki,3)/FOURPI2);
-    Q3p *= 2.0*(rpow(ki,3)/FOURPI2);
-    // NEW Qs AND Rs
-    Q8p *= 2.0*(rpow(ki,3)/FOURPI2);
-    Q9p *= 2.0*(rpow(ki,3)/FOURPI2);
-    Q13p *= 2.0*(rpow(ki,3)/FOURPI2);
-    QIp *= 2.0*(rpow(ki,3)/FOURPI2);
-    //
-    //
-    Q5p = Q5_function(eta, ki);
-    Q7p = Q7_function(eta, ki);
-    Q11p = Q11_function(eta, ki);
-    Q12p = Q12_function(eta, ki);
-    RIp = RI_function(eta, ki);
-    R1p2p = R1p2_function(eta, ki);
-    //
-    R1p = RIp;
-    R2p = R2_function(eta, ki);
-    
-    etaQRs(QRstmp) = eta;
-    kQRs(QRstmp)    = ki;
-    Q1(QRstmp)      = Q1p;
-    Q2(QRstmp)      = Q2p;
-    Q3(QRstmp)      = Q3p;
-    // NEW Qs AND Rs
-    Q8(QRstmp)      = Q8p;
-    Q9(QRstmp)      = Q9p;
-    Q13(QRstmp)     = Q13p;
-    Q5(QRstmp)      = Q5p;
-    Q7(QRstmp)      = Q7p;
-    Q11(QRstmp)      = Q11p;
-    Q12(QRstmp)      = Q12p;
-    RI(QRstmp)      = RIp;
-    R1p2(QRstmp)      = R1p2p;
-    //
-    R1(QRstmp)      = R1p;
-    R2(QRstmp)      = R2p;
-    
-    return *QRstmp;
-}
 
 global_QRs QsRs_functions_romo(real eta, real ki)
 {
@@ -2263,9 +1276,7 @@ global global_QRs QsRs_functions_driver_LCDM(real eta, real ki)
 
 #define ROMO 1
 #define NULLMETHOD 0
-#define TRAPEZOID3 5
-#define TRAPEZOID4 6
-#define TRAPEZOIDAA 4
+#define TRAPEZOID 2
 
 local void quadrature(real ki)
 {
@@ -2274,24 +1285,16 @@ local void quadrature(real ki)
             qrs = QsRs_functions_romo(gd.xstop, ki);
             break;
 //
-        case TRAPEZOID3:
-            qrs = QsRs_functions_trapezoid3(gd.xstop, ki);
-            break;
-//
-        case TRAPEZOID4:
-            qrs = QsRs_functions_trapezoid4(gd.xstop, ki);
-            break;
-//
-        case TRAPEZOIDAA:
-            qrs = QsRs_functions_trapezoidAA(gd.xstop, ki);
+        case TRAPEZOID:
+            qrs = QsRs_functions_trapezoid(gd.xstop, ki);
             break;
 //
         case NULLMETHOD:
-            qrs = QsRs_functions_romo(gd.xstop, ki);
+            qrs = QsRs_functions_trapezoid(gd.xstop, ki);
             break;
 //
         default:
-            qrs = QsRs_functions_romo(gd.xstop, ki);
+            qrs = QsRs_functions_trapezoid(gd.xstop, ki);
             break;
     }
 }
@@ -2303,24 +1306,16 @@ local void quadrature_LCDM(real ki)
             qrs = QsRs_functions_romo_LCDM(gd.xstop, ki);
             break;
 //
-        case TRAPEZOID3:
-            qrs = QsRs_functions_trapezoid3_LCDM(gd.xstop, ki);
-            break;
-//
-        case TRAPEZOID4:
-            qrs = QsRs_functions_trapezoid4_LCDM(gd.xstop, ki);
-            break;
-//
-        case TRAPEZOIDAA:
-            qrs = QsRs_functions_trapezoidAA_LCDM(gd.xstop, ki);
+        case TRAPEZOID:
+            qrs = QsRs_functions_trapezoid_LCDM(gd.xstop, ki);
             break;
 //
         case NULLMETHOD:
-            qrs = QsRs_functions_romo_LCDM(gd.xstop, ki);
+            qrs = QsRs_functions_trapezoid_LCDM(gd.xstop, ki);
             break;
 //
         default:
-            qrs = QsRs_functions_romo_LCDM(gd.xstop, ki);
+            qrs = QsRs_functions_trapezoid_LCDM(gd.xstop, ki);
             break;
     }
 }
@@ -2333,45 +1328,31 @@ void quadraturemethod_string_to_int(string method_str,int *method_int)
         strcpy(gd.quadraturemethod_comment, "romo quadrature method");
     }
 //
-    if (strcmp(method_str,"trapezoid3") == 0) {
-        *method_int = TRAPEZOID3;
-        strcpy(gd.quadraturemethod_comment, "trapezoid3 quadrature method");
-    }
-//
-    if (strcmp(method_str,"trapezoid4") == 0) {
-        *method_int = TRAPEZOID4;
-        strcpy(gd.quadraturemethod_comment, "trapezoid4 quadrature method");
-    }
-//
-    if (strcmp(method_str,"trapezoidAA") == 0) {
-        *method_int = TRAPEZOIDAA;
-        strcpy(gd.quadraturemethod_comment, "trapezoidAA quadrature method");
+    if (strcmp(method_str,"trapezoid") == 0) {
+        *method_int = TRAPEZOID;
+        strcpy(gd.quadraturemethod_comment, "trapezoid quadrature method");
     }
 //
     if (strnull(method_str)) {
         *method_int = NULLMETHOD;
         strcpy(gd.quadraturemethod_comment,
-               "given null quadrature method ... running deafult (romo)");
-        fprintf(stdout,"\n\tintegration: default integration method (romo)...\n");
+               "given null quadrature method ... running deafult (trapezoid)");
+        fprintf(stdout,"\n\tintegration: default integration method (trapezoid)...\n");
     }
 //
     if (*method_int == -1) {
-        *method_int = ROMO;
+        *method_int = TRAPEZOID;
         strcpy(gd.quadraturemethod_comment,
-               "Unknown quadrature method ... running deafult (romo)");
+               "Unknown quadrature method ... running deafult (trapezoid)");
         fprintf(stdout,"\n\tquadrature: Unknown method... %s ",cmd.quadratureMethod);
         fprintf(stdout,
-                "\n\trunning default quadrature method (romo)...\n");
+                "\n\trunning default quadrature method (trapezoid)...\n");
     }
 }
 
 #undef ROMO
-#undef TRAPEZOID3
-#undef TRAPEZOID4
-#undef TRAPEZOIDAA
+#undef TRAPEZOID
 #undef NULLMETHOD
-
-#define Nsteps 100
 
 // ==============================================================================
 // AA TRAPEZOID METHOD:
@@ -2491,14 +1472,11 @@ local real Q1_function_AA(real eta, real ki)
     real result;
     real pmin, pmax, ymin, ymax;
     
-    real deltay;  //Modificacion
-    //~ real Nsteps; //Modificacion
-    int j; //Modificacion
-    real Qa; //Modificacion
-    real Qb;     //Modificacion
-    real yp;    //Modificacion
-    //~ Nsteps=400.0;  //Modificacion
-    
+    real deltay;
+    int j;
+    real Qa;
+    real Qb;
+    real yp;
     
     gd.xstop = eta;
     gd.k = ki;
@@ -2508,26 +1486,20 @@ local real Q1_function_AA(real eta, real ki)
     ymin = rlog10(pmin);
     ymax = rlog10(pmax);
     
+    deltay=(ymax-ymin)/cmd.nquadSteps;
     
-    deltay=(ymax-ymin)/Nsteps;  //Modificacion
+    result=0;
+    Qa=GaussLegendreQ1_func( ymin );
     
-    result=0; //Modificacion
-    Qa=GaussLegendreQ1_func( ymin ); //Modificacion
-    
-    for (j=1; j<=Nsteps; j++) {     //Modificacion
+    for (j=1; j<=cmd.nquadSteps; j++) {
         yp = ymin + deltay * j;
         Qb=GaussLegendreQ1_func( yp );
         result += (Qb + Qa)/2. * deltay;
         Qa = Qb;
-    }//Modificacion
+    }
     
-    //~ result = (rlog(10.0)/FOURPI2)*result;  //Modificacion
-    result = rlog(10.0)*result/FOURPI2;  //Modificacion
-    
-    
-    //~ result=(rlog(10.0)/FOURPI2)
-    //~ *qromo(GaussLegendreQ1_func,ymin,ymax,midpnt,cmd.epsquad);
-    
+    result = rlog(10.0)*result/FOURPI2;
+
     return result;
 }
 
@@ -2604,14 +1576,11 @@ local real Q2_function_AA(real eta, real ki)
     real result;
     real pmin, pmax, ymin, ymax;
     
-    real deltay;  //Modificacion
-    //~ real Nsteps; //Modificacion
-    int j; //Modificacion
-    real Qa; //Modificacion
-    real Qb;     //Modificacion
-    real yp;    //Modificacion
-    //~ Nsteps=400.0;  //Modificacion
-    
+    real deltay;
+    int j;
+    real Qa;
+    real Qb;
+    real yp;
     
     gd.xstop = eta;
     gd.k = ki;
@@ -2620,27 +1589,22 @@ local real Q2_function_AA(real eta, real ki)
     pmax = kPos(PSLCDMtab+nPSTable-10);
     ymin = rlog10(pmin);
     ymax = rlog10(pmax);
+
+    deltay=(ymax-ymin)/cmd.nquadSteps;
     
+    result=0;
+    Qa=GaussLegendreQ2_func( ymin );
     
-    deltay=(ymax-ymin)/Nsteps;  //Modificacion
-    
-    result=0; //Modificacion
-    Qa=GaussLegendreQ2_func( ymin ); //Modificacion
-    
-    for (j=1; j<=Nsteps; j++) {     //Modificacion
+    for (j=1; j<=cmd.nquadSteps; j++) {
         yp = ymin + deltay * j;
         Qb=GaussLegendreQ2_func( yp );
         result += (Qb + Qa)/2. * deltay;
         Qa = Qb;
-    }//Modificacion
+    }
     
     
-    result = rlog(10.0)*result/FOURPI2;  //Modificacion
-    
-    
-    //~ result=(rlog(10.0)/FOURPI2)
-    //~ *qromo(GaussLegendreQ2_func,ymin,ymax,midpnt,cmd.epsquad);
-    
+    result = rlog(10.0)*result/FOURPI2;
+
     return result;
 }
 
@@ -2702,14 +1666,11 @@ local real Q3_function_AA(real eta, real ki)
     real result;
     real pmin, pmax, ymin, ymax;
     
-    real deltay;  //Modificacion
-    //~ real Nsteps; //Modificacion
-    int j; //Modificacion
-    real Qa; //Modificacion
-    real Qb;     //Modificacion
-    real yp;    //Modificacion
-    //~ Nsteps=400.0;  //Modificacion
-    
+    real deltay;
+    int j;
+    real Qa;
+    real Qb;
+    real yp;
     
     gd.xstop = eta;
     gd.k = ki;
@@ -2719,25 +1680,20 @@ local real Q3_function_AA(real eta, real ki)
     ymin = rlog10(pmin);
     ymax = rlog10(pmax);
     
+    deltay=(ymax-ymin)/cmd.nquadSteps;
     
-    deltay=(ymax-ymin)/Nsteps;  //Modificacion
+    result=0;
+    Qa=GaussLegendreQ3_func( ymin );
     
-    result=0; //Modificacion
-    Qa=GaussLegendreQ3_func( ymin ); //Modificacion
-    
-    for (j=1; j<=Nsteps; j++) {     //Modificacion
+    for (j=1; j<=cmd.nquadSteps; j++) {
         yp = ymin + deltay * j;
         Qb=GaussLegendreQ3_func( yp );
         result += (Qb + Qa)/2. * deltay;
         Qa = Qb;
-    }//Modificacion
+    }
     
-    result = rlog(10.0)*result/FOURPI2;  //Modificacion
-    
-    
-    //~ result=(rlog(10.0)/FOURPI2)
-    //~ *qromo(GaussLegendreQ3_func,ymin,ymax,midpnt,cmd.epsquad);
-    
+    result = rlog(10.0)*result/FOURPI2;
+
     return result;
 }
 
@@ -2819,14 +1775,11 @@ local real Q8_function_AA(real eta, real ki)
     real result;
     real pmin, pmax, ymin, ymax;
     
-    real deltay;  //Modificacion
-    //~ real Nsteps; //Modificacion
-    int j; //Modificacion
-    real Qa; //Modificacion
-    real Qb;     //Modificacion
-    real yp;    //Modificacion
-    //~ Nsteps=400.0;  //Modificacion
-    
+    real deltay;
+    int j;
+    real Qa;
+    real Qb;
+    real yp;
     
     gd.xstop = eta;
     gd.k = ki;
@@ -2837,25 +1790,20 @@ local real Q8_function_AA(real eta, real ki)
     ymax = rlog10(pmax);
     
     
-    deltay=(ymax-ymin)/Nsteps;  //Modificacion
+    deltay=(ymax-ymin)/cmd.nquadSteps;
     
-    result=0; //Modificacion
-    Qa=GaussLegendreQ8_func( ymin ); //Modificacion
+    result=0;
+    Qa=GaussLegendreQ8_func( ymin );
     
-    for (j=1; j<=Nsteps; j++) {     //Modificacion
+    for (j=1; j<=cmd.nquadSteps; j++) {
         yp = ymin + deltay * j;
         Qb=GaussLegendreQ8_func( yp );
         result += (Qb + Qa)/2. * deltay;
         Qa = Qb;
-    }//Modificacion
+    }
     
-    //~ result = (rlog(10.0)/FOURPI2)*result;  //Modificacion
-    result = 2.0*rlog(10.0)*(rsqr(ki)/FOURPI2)*result;  //Modificacion
-    
-    
-    //~ result=2.0*rlog(10.0)*(rsqr(ki)/FOURPI2)
-    //~ *qromo(GaussLegendreQ8_func,ymin,ymax,midpnt,cmd.epsquad);
-    
+    result = 2.0*rlog(10.0)*(rsqr(ki)/FOURPI2)*result;
+
     return result;
 }
 
@@ -2924,14 +1872,11 @@ local real Q9_function_AA(real eta, real ki)
     real result;
     real pmin, pmax, ymin, ymax;
     
-    real deltay;  //Modificacion
-    //~ real Nsteps; //Modificacion
-    int j; //Modificacion
-    real Qa; //Modificacion
-    real Qb;     //Modificacion
-    real yp;    //Modificacion
-    //~ Nsteps=400.0;  //Modificacion
-    
+    real deltay;
+    int j;
+    real Qa;
+    real Qb;
+    real yp;
     
     gd.xstop = eta;
     gd.k = ki;
@@ -2942,23 +1887,19 @@ local real Q9_function_AA(real eta, real ki)
     ymax = rlog10(pmax);
     
     
-    deltay=(ymax-ymin)/Nsteps;  //Modificacion
+    deltay=(ymax-ymin)/cmd.nquadSteps;
     
-    result=0; //Modificacion
-    Qa=GaussLegendreQ9_func( ymin ); //Modificacion
+    result=0;
+    Qa=GaussLegendreQ9_func( ymin );
     
-    for (j=1; j<=Nsteps; j++) {     //Modificacion
+    for (j=1; j<=cmd.nquadSteps; j++) {
         yp = ymin + deltay * j;
         Qb=GaussLegendreQ9_func( yp );
         result += (Qb + Qa)/2. * deltay;
         Qa = Qb;
-    }//Modificacion
+    }
     
-    
-    result = 2.0*rlog(10.0)*(rsqr(ki)/FOURPI2)*result;  //Modificacion
-    
-    //~ result=2.0*rlog(10.0)*(rsqr(ki)/FOURPI2)
-    //~ *qromo(GaussLegendreQ9_func,ymin,ymax,midpnt,cmd.epsquad);
+    result = 2.0*rlog(10.0)*(rsqr(ki)/FOURPI2)*result;
     
     return result;
 }
@@ -3027,14 +1968,11 @@ local real Q13_function_AA(real eta, real ki)
     real result;
     real pmin, pmax, ymin, ymax;
     
-    real deltay;  //Modificacion
-    //~ real Nsteps; //Modificacion
-    int j; //Modificacion
-    real Qa; //Modificacion
-    real Qb;     //Modificacion
-    real yp;    //Modificacion
-    //~ Nsteps=400.0;  //Modificacion
-    
+    real deltay;
+    int j;
+    real Qa;
+    real Qb;
+    real yp;
     
     gd.xstop = eta;
     gd.k = ki;
@@ -3044,25 +1982,20 @@ local real Q13_function_AA(real eta, real ki)
     ymin = rlog10(pmin);
     ymax = rlog10(pmax);
     
+    deltay=(ymax-ymin)/cmd.nquadSteps;
     
-    deltay=(ymax-ymin)/Nsteps;  //Modificacion
+    result=0;
+    Qa=GaussLegendreQ13_func( ymin );
     
-    result=0; //Modificacion
-    Qa=GaussLegendreQ13_func( ymin ); //Modificacion
-    
-    for (j=1; j<=Nsteps; j++) {     //Modificacion
+    for (j=1; j<=cmd.nquadSteps; j++) {
         yp = ymin + deltay * j;
         Qb=GaussLegendreQ13_func( yp );
         result += (Qb + Qa)/2. * deltay;
         Qa = Qb;
-    }//Modificacion
+    }
     
-    result = 2.0*rlog(10.0)*(rsqr(ki)/FOURPI2)*result;  //Modificacion
-    
-    
-    //~ result=2.0*rlog(10.0)*(rsqr(ki)/FOURPI2)
-    //~ *qromo(GaussLegendreQ13_func,ymin,ymax,midpnt,cmd.epsquad);
-    
+    result = 2.0*rlog(10.0)*(rsqr(ki)/FOURPI2)*result;
+
     return result;
 }
 
@@ -3147,14 +2080,11 @@ local real QI_function_AA(real eta, real ki)
     real result;
     real pmin, pmax, ymin, ymax;
     
-    real deltay;  //Modificacion
-    //~ real Nsteps; //Modificacion
-    int j; //Modificacion
-    real Qa; //Modificacion
-    real Qb;     //Modificacion
-    real yp;    //Modificacion
-    //~ Nsteps=400.0;  //Modificacion
-    
+    real deltay;
+    int j;
+    real Qa;
+    real Qb;
+    real yp;
     
     gd.xstop = eta;
     gd.k = ki;
@@ -3164,26 +2094,20 @@ local real QI_function_AA(real eta, real ki)
     ymin = rlog10(pmin);
     ymax = rlog10(pmax);
     
+    deltay=(ymax-ymin)/cmd.nquadSteps;
     
-    deltay=(ymax-ymin)/Nsteps;  //Modificacion
+    result=0;
+    Qa=GaussLegendreQI_func( ymin );
     
-    result=0; //Modificacion
-    Qa=GaussLegendreQI_func( ymin ); //Modificacion
-    
-    for (j=1; j<=Nsteps; j++) {     //Modificacion
+    for (j=1; j<=cmd.nquadSteps; j++) {
         yp = ymin + deltay * j;
         Qb=GaussLegendreQI_func( yp );
         result += (Qb + Qa)/2. * deltay;
         Qa = Qb;
-    }//Modificacion
+    }
     
-    
-    result = 2.0*rlog(10.0)*(rsqr(ki)/FOURPI2)*result;  //Modificacion
-    
-    
-    //~ result=2.0*rlog(10.0)*(rsqr(ki)/FOURPI2)
-    //~ *qromo(GaussLegendreQI_func,ymin,ymax,midpnt,cmd.epsquad);
-    
+    result = 2.0*rlog(10.0)*(rsqr(ki)/FOURPI2)*result;
+
     return result;
 }
 
@@ -3246,14 +2170,11 @@ local real Q5_function_AA(real eta, real ki)
     real result;
     real pmin, pmax, ymin, ymax;
     
-    real deltay;  //Modificacion
-    //~ real Nsteps; //Modificacion
-    int j; //Modificacion
-    real Qa; //Modificacion
-    real Qb;     //Modificacion
-    real yp;    //Modificacion
-    //~ Nsteps=400.0;  //Modificacion
-    
+    real deltay;
+    int j;
+    real Qa;
+    real Qb;
+    real yp;
     
     gd.xstop = eta;
     gd.k = ki;
@@ -3263,26 +2184,20 @@ local real Q5_function_AA(real eta, real ki)
     ymin = rlog10(pmin);
     ymax = rlog10(pmax);
     
+    deltay=(ymax-ymin)/cmd.nquadSteps;
     
-    deltay=(ymax-ymin)/Nsteps;  //Modificacion
+    result=0;
+    Qa=GaussLegendreQ5_func( ymin );
     
-    result=0; //Modificacion
-    Qa=GaussLegendreQ5_func( ymin ); //Modificacion
-    
-    for (j=1; j<=Nsteps; j++) {     //Modificacion
+    for (j=1; j<=cmd.nquadSteps; j++) {
         yp = ymin + deltay * j;
         Qb=GaussLegendreQ5_func( yp );
         result += (Qb + Qa)/2. * deltay;
         Qa = Qb;
-    }//Modificacion
+    }
     
-    
-    result = rlog(10.0)*(rsqr(ki)/FOURPI2)*result;  //Modificacion
-    
-    
-    //~ result=rlog(10.0)*(rsqr(ki)/FOURPI2)
-    //~ *qromo(GaussLegendreQ5_func,ymin,ymax,midpnt,cmd.epsquad);
-    
+    result = rlog(10.0)*(rsqr(ki)/FOURPI2)*result;
+
     return result;
 }
 
@@ -3331,14 +2246,11 @@ local real Q7_function_AA(real eta, real ki)
     real result;
     real pmin, pmax, ymin, ymax;
     
-    real deltay;  //Modificacion
-    //~ real Nsteps; //Modificacion
-    int j; //Modificacion
-    real Qa; //Modificacion
-    real Qb;     //Modificacion
-    real yp;    //Modificacion
-    //~ Nsteps=400.0;  //Modificacion
-    
+    real deltay;
+    int j;
+    real Qa;
+    real Qb;
+    real yp;
     
     gd.xstop = eta;
     gd.k = ki;
@@ -3348,26 +2260,20 @@ local real Q7_function_AA(real eta, real ki)
     ymin = rlog10(pmin);
     ymax = rlog10(pmax);
     
+    deltay=(ymax-ymin)/cmd.nquadSteps;
     
-    deltay=(ymax-ymin)/Nsteps;  //Modificacion
+    result=0;
+    Qa=GaussLegendreQ7_func( ymin );
     
-    result=0; //Modificacion
-    Qa=GaussLegendreQ7_func( ymin ); //Modificacion
-    
-    for (j=1; j<=Nsteps; j++) {     //Modificacion
+    for (j=1; j<=cmd.nquadSteps; j++) {
         yp = ymin + deltay * j;
         Qb=GaussLegendreQ7_func( yp );
         result += (Qb + Qa)/2. * deltay;
         Qa = Qb;
-    }//Modificacion
+    }
     
-    //~ result = (rlog(10.0)/FOURPI2)*result;  //Modificacion
-    result = rlog(10.0)*(rsqr(ki)/FOURPI2)*result;  //Modificacion
-    
-    
-    //~ result=rlog(10.0)*(rsqr(ki)/FOURPI2)
-    //~ *qromo(GaussLegendreQ7_func,ymin,ymax,midpnt,cmd.epsquad);
-    
+    result = rlog(10.0)*(rsqr(ki)/FOURPI2)*result;
+
     return result;
 }
 
@@ -3416,14 +2322,11 @@ local real Q11_function_AA(real eta, real ki)
     real result;
     real pmin, pmax, ymin, ymax;
     
-    real deltay;  //Modificacion
-    //~ real Nsteps; //Modificacion
-    int j; //Modificacion
-    real Qa; //Modificacion
-    real Qb;     //Modificacion
-    real yp;    //Modificacion
-    //~ Nsteps=400.0;  //Modificacion
-    
+    real deltay;
+    int j;
+    real Qa;
+    real Qb;
+    real yp;
     
     gd.xstop = eta;
     gd.k = ki;
@@ -3433,26 +2336,20 @@ local real Q11_function_AA(real eta, real ki)
     ymin = rlog10(pmin);
     ymax = rlog10(pmax);
     
+    deltay=(ymax-ymin)/cmd.nquadSteps;
     
-    deltay=(ymax-ymin)/Nsteps;  //Modificacion
+    result=0;
+    Qa=GaussLegendreQ11_func( ymin );
     
-    result=0; //Modificacion
-    Qa=GaussLegendreQ11_func( ymin ); //Modificacion
-    
-    for (j=1; j<=Nsteps; j++) {     //Modificacion
+    for (j=1; j<=cmd.nquadSteps; j++) {
         yp = ymin + deltay * j;
         Qb=GaussLegendreQ11_func( yp );
         result += (Qb + Qa)/2. * deltay;
         Qa = Qb;
-    }//Modificacion
+    }
     
-    //~ result = (rlog(10.0)/FOURPI2)*result;  //Modificacion
-    result = rlog(10.0)*(rsqr(ki)/FOURPI2)*result;  //Modificacion
-    
-    
-    //~ result=rlog(10.0)*(rsqr(ki)/FOURPI2)
-    //~ *qromo(GaussLegendreQ11_func,ymin,ymax,midpnt,cmd.epsquad);
-    
+    result = rlog(10.0)*(rsqr(ki)/FOURPI2)*result;
+
     return result;
 }
 
@@ -3501,14 +2398,11 @@ local real Q12_function_AA(real eta, real ki)
     real result;
     real pmin, pmax, ymin, ymax;
     
-    real deltay;  //Modificacion
-    //~ real Nsteps; //Modificacion
-    int j; //Modificacion
-    real Qa; //Modificacion
-    real Qb;     //Modificacion
-    real yp;    //Modificacion
-    //~ Nsteps=400.0;  //Modificacion
-    
+    real deltay;
+    int j;
+    real Qa;
+    real Qb;
+    real yp;
     
     gd.xstop = eta;
     gd.k = ki;
@@ -3518,25 +2412,19 @@ local real Q12_function_AA(real eta, real ki)
     ymin = rlog10(pmin);
     ymax = rlog10(pmax);
     
+    deltay=(ymax-ymin)/cmd.nquadSteps;
     
-    deltay=(ymax-ymin)/Nsteps;  //Modificacion
+    result=0;
+    Qa=GaussLegendreQ12_func( ymin );
     
-    result=0; //Modificacion
-    Qa=GaussLegendreQ12_func( ymin ); //Modificacion
-    
-    for (j=1; j<=Nsteps; j++) {     //Modificacion
+    for (j=1; j<=cmd.nquadSteps; j++) {
         yp = ymin + deltay * j;
         Qb=GaussLegendreQ12_func( yp );
         result += (Qb + Qa)/2. * deltay;
         Qa = Qb;
-    }//Modificacion
+    }
     
-    //~ result = (rlog(10.0)/FOURPI2)*result;  //Modificacion
-    result = rlog(10.0)*(rsqr(ki)/FOURPI2)*result;  //Modificacion
-    
-    
-    //~ result=rlog(10.0)*(rsqr(ki)/FOURPI2)
-    //~ *qromo(GaussLegendreQ12_func,ymin,ymax,midpnt,cmd.epsquad);
+    result = rlog(10.0)*(rsqr(ki)/FOURPI2)*result;
     
     return result;
 }
@@ -3573,10 +2461,6 @@ local real R1_function_AA(real eta, real ki)
     pmax = kPos(PSLCDMtab+nPSTable-10);
     ymin = rlog10(pmin);
     ymax = rlog10(pmax);
-    //~ if (model_int_flag==LCDM) {
-    //~ fac=0;
-    //~ s=0;
-    //~ }  else  {
     
     fac=(rlog(10.0)/FOURPI2)*psInterpolation_nr(gd.k, kPS, pPS, nPSLT);
     
@@ -3586,7 +2470,6 @@ local real R1_function_AA(real eta, real ki)
         result = qromo(funcR1int,ymin,ymax,midpnt,cmd.epsquad);
         s += 2.0*wGL(pGL)[j]*result;
     }
-    //~ }
     
     return fac*s;
 }
@@ -3637,16 +2520,11 @@ local real R2_function_AA(real eta, real ki)
     real result;
     real pmin, pmax, ymin, ymax;
     
-    
-    
-    real deltay;  //Modificacion
-    //~ real Nsteps; //Modificacion
-    int j; //Modificacion
-    real Qa; //Modificacion
-    real Qb;     //Modificacion
-    real yp;    //Modificacion
-    //~ Nsteps=400.0;  //Modificacion
-    
+    real deltay;
+    int j;
+    real Qa;
+    real Qb;
+    real yp;
     
     gd.xstop = eta;
     gd.k = ki;
@@ -3656,25 +2534,19 @@ local real R2_function_AA(real eta, real ki)
     ymin = rlog10(pmin);
     ymax = rlog10(pmax);
     
+    deltay=(ymax-ymin)/cmd.nquadSteps;
     
-    deltay=(ymax-ymin)/Nsteps;  //Modificacion
+    result=0;
+    Qa=GaussLegendreR2_func( ymin );
     
-    result=0; //Modificacion
-    Qa=GaussLegendreR2_func( ymin ); //Modificacion
-    
-    for (j=1; j<=Nsteps; j++) {     //Modificacion
+    for (j=1; j<=cmd.nquadSteps; j++) {
         yp = ymin + deltay * j;
         Qb=GaussLegendreR2_func( yp );
         result += (Qb + Qa)/2. * deltay;
         Qa = Qb;
-    }//Modificacion
+    }
     
-    
-    result = rlog(10.0)*(rsqr(gd.k)/FOURPI2)*psInterpolation_nr(gd.k, kPS, pPS, nPSLT)*result;  //Modificacion
-    
-    
-    //~ result=rlog(10.0)*(rsqr(gd.k)/FOURPI2)*psInterpolation_nr(gd.k, kPS, pPS, nPSLT)
-    //~ *qromo(GaussLegendreR2_func,ymin,ymax,midpnt,cmd.epsquad);
+    result = rlog(10.0)*(rsqr(gd.k)/FOURPI2)*psInterpolation_nr(gd.k, kPS, pPS, nPSLT)*result;
     
     return result;
 }
@@ -3740,11 +2612,11 @@ local real RI_function_AA(real eta, real ki)
     real PSL;
     
     
-    real deltay;  //Modificacion
-    int j; //Modificacion
-    real Qa; //Modificacion
-    real Qb;     //Modificacion
-    real yp;    //Modificacion
+    real deltay;
+    int j;
+    real Qa;
+    real Qb;
+    real yp;
     
     
     
@@ -3758,26 +2630,20 @@ local real RI_function_AA(real eta, real ki)
     ymax = rlog10(pmax);
     
     
-    deltay=(ymax-ymin)/Nsteps;  //Modificacion
+    deltay=(ymax-ymin)/cmd.nquadSteps;
     
-    result=0; //Modificacion
-    Qa=GaussLegendreRI_func( ymin ); //Modificacion
+    result=0;
+    Qa=GaussLegendreRI_func( ymin );
     
-    for (j=1; j<=Nsteps; j++) {     //Modificacion
+    for (j=1; j<=cmd.nquadSteps; j++) {
         yp = ymin + deltay * j;
         Qb=GaussLegendreRI_func( yp );
         result += (Qb + Qa)/2. * deltay;
         Qa = Qb;
-    }//Modificacion
+    }
     
     
-    result = rlog(10.0)*(rsqr(ki)/FOURPI2)*PSL*result;  //Modificacion
-    
-    
-    
-    
-    //~ result=rlog(10.0)*(rsqr(ki)/FOURPI2)*PSL
-    //~ *qromo(GaussLegendreRI_func,ymin,ymax,midpnt,cmd.epsquad);
+    result = rlog(10.0)*(rsqr(ki)/FOURPI2)*PSL*result;
     
     return result;
 }
@@ -3843,14 +2709,11 @@ local real R1p2_function_AA(real eta, real ki)
     real pmin, pmax, ymin, ymax;
     real PSL;
     
-    
-    real deltay;  //Modificacion
-    int j; //Modificacion
-    real Qa; //Modificacion
-    real Qb;     //Modificacion
-    real yp;    //Modificacion
-    
-    
+    real deltay;
+    int j;
+    real Qa;
+    real Qb;
+    real yp;
     
     gd.xstop = eta;
     gd.k = ki;
@@ -3861,25 +2724,19 @@ local real R1p2_function_AA(real eta, real ki)
     ymin = rlog10(pmin);
     ymax = rlog10(pmax);
     
+    deltay=(ymax-ymin)/cmd.nquadSteps;
     
-    deltay=(ymax-ymin)/Nsteps;  //Modificacion
+    result=0;
+    Qa=GaussLegendreR1p2_func( ymin );
     
-    result=0; //Modificacion
-    Qa=GaussLegendreR1p2_func( ymin ); //Modificacion
-    
-    for (j=1; j<=Nsteps; j++) {     //Modificacion
+    for (j=1; j<=cmd.nquadSteps; j++) {
         yp = ymin + deltay * j;
         Qb=GaussLegendreR1p2_func( yp );
         result += (Qb + Qa)/2. * deltay;
         Qa = Qb;
-    }//Modificacion
-    
-    
-    result = rlog(10.0)*(rsqr(ki)/FOURPI2)*PSL*result;  //Modificacion
-    
-    //~ result=rlog(10.0)*(rsqr(ki)/FOURPI2)*PSL
-    //~ *qromo(GaussLegendreR1p2_func,ymin,ymax,midpnt,cmd.epsquad);
-    
+    }
+
+    result = rlog(10.0)*(rsqr(ki)/FOURPI2)*PSL*result;
     return result;
 }
 
@@ -3889,7 +2746,7 @@ local real R1p2_function_AA(real eta, real ki)
 
 // BEGIN Qs and Rs
 
-global_QRs QsRs_functions_trapezoidAA(real eta, real ki)
+global_QRs QsRs_functions_trapezoid(real eta, real ki)
 {
     real Q1p, Q2p, Q3p, Q8p, Q9p, Q13p, QIp;
     real Q5p, Q7p, Q11p, Q12p;
@@ -3939,7 +2796,7 @@ global_QRs QsRs_functions_trapezoidAA(real eta, real ki)
 }
 
 
- global_QRs QsRs_functions_trapezoidAA_LCDM(real eta, real ki)
+ global_QRs QsRs_functions_trapezoid_LCDM(real eta, real ki)
  {
  real Q1p, Q2p, Q3p, Q8p, Q9p, Q13p, QIp;
  real Q5p, Q7p, Q11p, Q12p;
@@ -3986,8 +2843,6 @@ global_QRs QsRs_functions_trapezoidAA(real eta, real ki)
  
  return *QRstmp;
  }
-
-#undef Nsteps
 
 // END DE Qs and Rs
 

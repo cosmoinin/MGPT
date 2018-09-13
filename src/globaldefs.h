@@ -37,6 +37,7 @@
 #define PI2     9.8696044010893586188
 #define TWOPI2     19.739208802178716
 #define SIXPI2  59.21762640653615
+#define INVSQRTDTWOPI 0.39894228040143267794
 
 typedef struct {
 // Differential equations evolution parameters:
@@ -117,6 +118,7 @@ typedef struct {
     char fpfnamekfun[100];
     char fpfnameSPTPowerSpectrum[100];
     char fpfnameqfunctions[100];
+    char fpfnameclptfunctions[100];
 
     real kf;
     real k1;
@@ -383,6 +385,44 @@ typedef struct {
 #define Lapxicorrfun(x)    (((global_corrfunctions_ptr) (x))->Lapxi)
 #define nabla4xicorrfun(x)    (((global_corrfunctions_ptr) (x))->nabla4xi)
 //
+
+// BEGIN :: CLPT correlation auxiliary functions and structures
+typedef struct {
+    real r;
+    real xi;
+} global_zacorrfunctions, *global_zacorrfunctions_ptr;
+
+#define rzacorrfun(x)    (((global_zacorrfunctions_ptr) (x))->r)
+#define xizacorrfun(x)    (((global_zacorrfunctions_ptr) (x))->xi)
+
+typedef struct {
+    real r;
+    real xiA;
+    real xiW;
+    real xi10L;
+    real xi10loop;
+    real xi20L;
+    real xi20loop;
+    real xi01;
+    real xi02;
+    real xi11;
+    real Lapxi;
+    real nabla4xi;
+} global_clptcorrfunctions, *global_clptcorrfunctions_ptr;
+
+#define rclptcorrfun(x)    (((global_clptcorrfunctions_ptr) (x))->r)
+#define xiAclptcorrfun(x)    (((global_clptcorrfunctions_ptr) (x))->xiA)
+#define xiWclptcorrfun(x)    (((global_clptcorrfunctions_ptr) (x))->xiW)
+#define xi10Lclptcorrfun(x)    (((global_clptcorrfunctions_ptr) (x))->xi10L)
+#define xi10loopclptcorrfun(x)    (((global_clptcorrfunctions_ptr) (x))->xi10loop)
+#define xi20Lclptcorrfun(x)    (((global_clptcorrfunctions_ptr) (x))->xi20L)
+#define xi20loopclptcorrfun(x)    (((global_clptcorrfunctions_ptr) (x))->xi20loop)
+#define xi01clptcorrfun(x)    (((global_clptcorrfunctions_ptr) (x))->xi01)
+#define xi02clptcorrfun(x)    (((global_clptcorrfunctions_ptr) (x))->xi02)
+#define xi11clptcorrfun(x)    (((global_clptcorrfunctions_ptr) (x))->xi11)
+#define Lapxiclptcorrfun(x)    (((global_clptcorrfunctions_ptr) (x))->Lapxi)
+#define nabla4xiclptcorrfun(x)    (((global_clptcorrfunctions_ptr) (x))->nabla4xi)
+// END :: CLPT correlation auxiliary functions and structures
 
 #endif // ! _globaldefs_h
 

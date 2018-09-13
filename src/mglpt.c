@@ -6,8 +6,6 @@
 #include "protodefs.h"
 #include "models.h"
 
-#define EPSQ    0.0001
-
 local void computingQRs(void);
 local void loopQsRs(stream outstr, int imin, int imax, real dk);
 
@@ -16,6 +14,7 @@ void MainLoop(void)
     computingQRs();
     biasterms_processing();
     qfunctions_processing();
+    CLPT_correlation_processing();
 }
 
 
@@ -33,8 +32,6 @@ local void computingQRs(void)
     real bTime;
     real kk, rr, xv, k2;
     global_D2v2_ptr ptmp;
-    real kBAOmin=0.005, kBAOmax=1.0, epsquadsave;
-    int iBAOmin, iBAOmax;
 
     bTime = cputime();
 
@@ -71,30 +68,8 @@ local void computingQRs(void)
     } else
         dk = (rlog10(cmd.kmax) - rlog10(cmd.kmin))/((real)(cmd.Nk - 1));
 //
-    if (dk==0.0) {
-        iBAOmin = 1;
-        iBAOmax = 1;
-    } else {
-        iBAOmin = (int) (( rlog10(kBAOmin) - rlog10(cmd.kmin) )/dk) + 1;
-        iBAOmax = (int) (( rlog10(kBAOmax) - rlog10(cmd.kmin) )/dk) + 1;
-    }
-    fprintf(stdout,"\nBAO k region: %g %g",kBAOmin, kBAOmax);
-    fprintf(stdout,"\nBAO i region: %d %d\n",iBAOmin, iBAOmax);
-    epsquadsave = cmd.epsquad;
-    fprintf(stdout,"\nquad tolerances: %g %g\n\n",cmd.epsquad,EPSQ);
-//
-// BEFORE BAO:
-    cmd.epsquad = EPSQ;
     fprintf(stdout,"\nUsing %g tolerance quad...\n",cmd.epsquad);
-    loopQsRs(outstrQsRs, 1, iBAOmin, dk);
-// IN BAO:
-    cmd.epsquad = epsquadsave;
-    fprintf(stdout,"\nUsing %g tolerance quad...\n",cmd.epsquad);
-    loopQsRs(outstrQsRs, iBAOmin+1, iBAOmax, dk);
-// AFTER BAO:
-    cmd.epsquad = EPSQ;
-    fprintf(stdout,"\nUsing %g tolerance quad...\n",cmd.epsquad);
-    loopQsRs(outstrQsRs, iBAOmax+1, cmd.Nk, dk);
+    loopQsRs(outstrQsRs, 1, cmd.Nk, dk);
 
     fclose(outstrQsRs);
 
@@ -136,7 +111,6 @@ local void loopQsRs(stream outstr, int imin, int imax, real dk)
         Q12 = qrs.Q12;
         RI = qrs.RI;
         R1p2 = qrs.R1p2;
-//        R1 = qrs.R1;
         R1 = qrs.RI;
         R2 = qrs.R2;
         
@@ -210,7 +184,8 @@ local void loopQsRs(stream outstr, int imin, int imax, real dk)
     }
 }
 
-#undef EPSQ
+//#undef EPSQ
+
 #undef FMTQRDAT
 #undef FMTQR
 

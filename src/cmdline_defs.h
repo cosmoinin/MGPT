@@ -38,7 +38,7 @@ string defv[] = {  ";"HEAD1": " HEAD2 "\n\t " HEAD3,
     "integrationMethod=bsstep",	    ";Integration method to use", ":im",
 //
 // Quadrature parameters:
-    "quadratureMethod=romo",        ";Quadrature method to use", ":quadm",
+    "quadratureMethod=trapezoid",   ";Quadrature method to use", ":quadm",
     "nquadSteps=100",               ";Number of k´s from the power spectrum table to integrate",":nquad",
     "ngausslegpoints=10",           ";Number of Gauss-Legendre of integration points", ":nglpts",
     "epsquad=1.0e-5",               ";Quadrature tolerance error parameter",
