@@ -122,8 +122,8 @@ local void startrun_Common(void)
     gd.ol = (sscanf(cmd.olstr, "%lf-Om", &dx1) == 1 ?
              dx1-cmd.om : atof(cmd.olstr));
     fprintf(gd.outlog,"\nOLambda : %g\n",gd.ol);
-    if ( gd.ol < 0. )
-        error("\n\nstartrun_ParamStat: OL (=%g) : must be positive\n",gd.ol);
+//    if ( gd.ol < 0. )
+//        error("\n\nstartrun_ParamStat: OL (=%g) : must be positive\n",gd.ol);
 
     gd.dx = (sscanf(cmd.dxstr, "%lf/%lf", &dx1, &dx2) == 2 ?
 				dx1/dx2 : atof(cmd.dxstr));
@@ -253,6 +253,8 @@ local void CheckParameters(void)
 //
     if (cmd.om > 1.0 || cmd.om < 0.0)
         error("CheckParameters: absurd value for om\n");
+    if ( gd.ol < 0. )
+        error("\n\nstartrun_ParamStat: OL (=%g) : must be positive\n",gd.ol);
     if (cmd.h < 0.0)
         error("CheckParameters: absurd value for h\n");
 
