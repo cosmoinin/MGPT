@@ -32,7 +32,8 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#define H02     2997.92458   //This is H_0^{-1} in Mpc/h units
+//#define H02     2997.92458   //This is H_0^{-1} in Mpc/h units
+#define invH0     2997.92458   //This is H_0^{-1} in Mpc/h units
 #define FOURPI2   39.4784176043574    //but see 0903.5321
 #define PI2     9.8696044010893586188
 #define TWOPI2     19.739208802178716

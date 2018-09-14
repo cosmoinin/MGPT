@@ -32,11 +32,11 @@ global_QRs QsRs_functions_driver_LCDM(real eta, real ki);
 
 
 // functions (mgpt_fns)
-real OmM(real eta);
-real H(real eta);
-real f1(real eta);
-real f2(real eta);
-global real A0(real eta);
+//real OmM(real eta);
+//real H(real eta);
+//real f1(real eta);
+//real f2(real eta);
+//global real A0(real eta);
 global  real psInterpolation_nr(real k, double kPS[], double pPS[], int nPS);
 //
 

@@ -13,6 +13,14 @@ global real KB_LCDM;
 
 global void set_model(void);
 
+// functions (mglpt_fns)
+global real OmM(real eta);
+global real H(real eta);
+global real f1(real eta);
+global real f2(real eta);
+global real A0(real eta);
+//
+
 // ==========================================
 // Begin: HS Model HEADERS
 global real mu(real eta, real k);

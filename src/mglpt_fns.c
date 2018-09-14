@@ -5,6 +5,7 @@
 #include "globaldefs.h"
 #include "protodefs.h"
 
+/*
 global real OmM(real eta)
 {
     real OmMtmp;
@@ -52,6 +53,7 @@ global real A0(real eta)
     
     return (A0tmp);
 }
+*/
 
 global  real psInterpolation_nr(real k, double kPS[], double pPS[], int nPS)
 {
