@@ -120,18 +120,32 @@ local void startrun_Common(void)
 
 //
 // Background cosmology:
-//    gd.ol = (sscanf(cmd.olstr, "%lf-Om", &dx1) == 1 ?
-//             dx1-cmd.om : atof(cmd.olstr));
-//    fprintf(gd.outlog,"\nOLambda : %g\n",gd.ol);
-//    if ( gd.ol < 0. )
-//        error("\n\nstartrun_ParamStat: OL (=%g) : must be positive\n",gd.ol);
+    ep = strchr(cmd.olstr, '-');
+    if (ep == NULL) {
+        gd.ol = GetdParam("OL");
+        fprintf(gd.outlog,"\nOL string input without '-' :: %s\n",cmd.olstr);
+        fprintf(gd.outlog,"\nOLambda, Om and sum  : %g %g %g\n",gd.ol, cmd.om, gd.ol+cmd.om);
+    } else {
+        ep = strchr(cmd.olstr, '1');
+        if (ep == NULL)
+            error("\nstart_Common: OL not in the format '1 - Om' \n");
+        else {
+            ep = strchr(cmd.olstr, 'O');
+            if (ep == NULL)
+                error("\nstart_Common: OL not in the format '1 - Om' \n");
+            else
+                if (*(ep+1) == 'm') {
+                    fprintf(gd.outlog,"\nFound Om\n");
+                    gd.ol = 1. - cmd.om;
+                    fprintf(gd.outlog,"\nOLambda and Om : %g %g\n",gd.ol, cmd.om);
+                } else {
+                    fprintf(gd.outlog,"\nNot found Om\n");
+                    error("\nstart_Common: OL not in the format (1 - Om) \n");
+                }
+        }
+        
+    }
 
-    gd.ol = (sscanf(cmd.olstr, "%s-%s", astr1, astr2) == 2 ?
-             atof(astr1)-cmd.om : atof(cmd.olstr));
-    fprintf(gd.outlog,"\nOL string input :: %s %s\n",astr1, astr2);
-    fprintf(gd.outlog,"\nOLambda : %g\n",gd.ol);
-    if (!(strcmp(astr2,"Om") == 0) && *astr2 != '\0')
-        error("\nstart_Common: OL not in the format (1-Om) '%s' \n",astr2);
 
 
     gd.dx = (sscanf(cmd.dxstr, "%lf/%lf", &dx1, &dx2) == 2 ?
