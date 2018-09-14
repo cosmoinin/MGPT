@@ -29,7 +29,7 @@ Specifically, it computes:
 The code units are Mpc/h. 
 
 The power spectrum convention is 
-(2pi)^3 delta_D(k+k') P(k) = <delta(k) delta(k')> 
+(2pi)^3 delta_D(k+k') P(k) = $<delta(k) delta(k')>$ 
 
 
 The code is divided in three pieces: I. MGPT-PS; II. MGPT-qfunctions; and III. MGPT-CLPT
