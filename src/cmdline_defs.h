@@ -15,7 +15,7 @@ string defv[] = {  ";"HEAD1": " HEAD2 "\n\t " HEAD3,
 // Power spectrum table:
     "fnamePS=psLCDM.in",		    ";Filename with power spectrum table",
     "kmin=1e-4",                    ";kmin to analyse from the power spectrum table",
-    "kmax=100",                      ";kmax to analyse from the power spectrum table",
+    "kmax=100",                     ";kmax to analyse from the power spectrum table",
     "Nk=300",                       ";Total number of k to analyse from the power spectrum table",":nk",
 //
 // Modified gravity model parameters:
@@ -30,7 +30,7 @@ string defv[] = {  ";"HEAD1": " HEAD2 "\n\t " HEAD3,
 //
 // Background cosmology:
     "Om=0.281",                     ";Omega matter value (z=0)",":om",
-    "OL=1-Om",                     ";Omega Lambda value (z=0)",":ol",
+    "OL= 1 - Om",                   ";Omega Lambda value (z=0)",":ol",
     "h=0.697",                      ";Hubble parameter value (z=0)",
 //
 // Differential equations evolution parameters:
@@ -40,7 +40,7 @@ string defv[] = {  ";"HEAD1": " HEAD2 "\n\t " HEAD3,
     "eps=1.0e-4",                   ";Differential equations solver tolerance error parameter",
     "zout=0.0",                     ";redshift value to stop integration :: eta = exp[-zout] - 1",
     "maxnsteps=10000",              ";Maximum number of integration steps", ":maxn",
-    "integrationMethod=bsstep",	    ";Integration method to use", ":im",
+    "solverMethod=bsstep",	        ";Integration method to use", ":solver",
 //
 // Quadrature parameters:
     "quadratureMethod=trapezoid",   ";Quadrature method to use", ":quadm",

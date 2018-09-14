@@ -95,7 +95,7 @@ local void ReadParametersCmdline(void)
     cmd.eps = GetdParam("eps");
     cmd.xstop = GetdParam("zout");
     cmd.maxnsteps = GetiParam("maxnsteps");
-	cmd.integration_method = GetParam("integrationMethod");
+	cmd.integration_method = GetParam("solverMethod");
 //
 // Quadrature parameters:
     cmd.quadratureMethod = GetParam("quadratureMethod");
@@ -232,8 +232,8 @@ local void startrun_ParamStat(void)
 	if (GetParamStat("maxnsteps") & ARGPARAM) 
 		cmd.maxnsteps = GetiParam("maxnsteps");
 
-	if (GetParamStat("integrationMethod") & ARGPARAM) {
-		cmd.integration_method = GetParam("integrationMethod");
+	if (GetParamStat("solverMethod") & ARGPARAM) {
+		cmd.integration_method = GetParam("solverMethod");
 		fprintf(gd.outlog,"\n\nrunning now %s integration method ...\n",
 				cmd.integration_method);
 	}
@@ -372,7 +372,7 @@ local void ReadParameterFile(char *fname)
     RPName(cmd.eps,"eps");
 	RPName(cmd.xstop,"zout");
     IPName(cmd.maxnsteps,"maxnsteps");
-	SPName(cmd.integration_method,"integrationMethod",100);
+	SPName(cmd.integration_method,"solverMethod",100);
 //
 // Quadrature parameters:
     SPName(cmd.quadratureMethod,"quadratureMethod",100);
@@ -501,7 +501,7 @@ local void PrintParameterFile(char *fname)
         fprintf(fdout,FMTT,"deta",cmd.dxstr);
         fprintf(fdout,FMTR,"zout",cmd.xstop);
         fprintf(fdout,FMTI,"maxnsteps",cmd.maxnsteps);
-        fprintf(fdout,FMTT,"integrationMethod",cmd.integration_method);
+        fprintf(fdout,FMTT,"solverMethod",cmd.integration_method);
 //
 // Quadrature parameters:
         fprintf(fdout,FMTT,"quadratureMethod",cmd.quadratureMethod);

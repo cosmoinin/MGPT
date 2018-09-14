@@ -184,8 +184,6 @@ local void loopQsRs(stream outstr, int imin, int imax, real dk)
     }
 }
 
-//#undef EPSQ
-
 #undef FMTQRDAT
 #undef FMTQR
 

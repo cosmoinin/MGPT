@@ -56,13 +56,6 @@ local real S3dI_DGP(real eta, real x, real k, real p, real Dpk, real Dpp,
 
 
 // ==========================================
-// Begin: fR1 Model global HEADERS -> local
-//local void set_Model_fR1(void);
-// End: fR1 Model global HEADERS
-// ==========================================
-
-
-// ==========================================
 // Begin: LCDM Model global HEADERS -> local
 local void set_Model_LCDM(void);
 local real OmM_LCDM(real eta);
@@ -455,7 +448,6 @@ local real sourceA_HS(real eta, real kf, real k1, real k2)
     Stmp = sourcea_HS(eta, kf)
             + sourceFL_HS(eta, kf, k1, k2)
             - sourcedI_HS(eta, kf, k1, k2);
-//    - cmd.screening * sourcedI_HS(eta, kf, k1, k2);
 
     return Stmp;
 }
@@ -882,7 +874,7 @@ local real A0_DGP(real eta)
 }
 // End :: mglpt_fns
 
-// Begin: Hu-Sawicky Model local HEADERS
+// Begin: DGP Model local HEADERS
 local real mass_DGP(real eta);
 local real JFL_DGP(real eta, real x, real k, real p);
 local real KFL_DGP(real eta, real k, real k1, real k2);
@@ -910,7 +902,7 @@ local real D2phiminus_DGP(real eta, real x, real k, real p,
                          real Dpk, real Dpp, real D2mf);
 local real K3dI_DGP(real eta, real x, real k,  real p,
                    real Dpk, real Dpp, real D2f, real D2mf);
-// End: Hu-Sawicky Model local HEADERS
+// End: DGP Model local HEADERS
 
 local void set_Model_DGP(void)
 {
@@ -990,7 +982,6 @@ local real sourceA_DGP(real eta, real kf, real k1, real k2)
     Stmp = sourcea_DGP(eta, kf)
     + sourceFL_DGP(eta, kf, k1, k2)
     - sourcedI_DGP(eta, kf, k1, k2);
-    //    - cmd.screening * sourcedI_DGP(eta, kf, k1, k2);
     
     return Stmp;
 }
@@ -1363,37 +1354,6 @@ local real S3dI_DGP(real eta, real x, real k, real p, real Dpk, real Dpp,
 // ===========================================================================
 
 
-
-// ===========================================================================
-// Begin: fR1 Model
-// ===========================================================================
-
-//local void set_Model_fR1(void)
-//{
-//    strcpy(gd.model_comment, "fR1 Model");
-//
-    //
-    // Parameters set and default values:
-    //    nHS=1.0;
-    //    fR0=1.0e-5;
-    //    beta2=1.0/6.0;
-    //    omegaBD = 0.0;
-    //    screening = 1.0;
-//
-    //
-    // Array dictionary:
-    //    param[0] =    nHS;
-    //    param[1] =    fR0;
-    //    param[2] =    beta2;
-    //    param[3] =    omegaBD;
-    //    param[4] =    screening;
-//}
-
-// ===========================================================================
-// End: fR1 Model
-// ===========================================================================
-
-
 // ===========================================================================
 // Begin: LCDM Model
 // ===========================================================================
@@ -1507,8 +1467,6 @@ local real mu_LCDM(real eta, real k)
 {
     real mutmp;
     mutmp = 1.0;
-//    + (2.0*gd.beta2*k*k)/(k*k + rexp(2.0*eta)*rsqr(mass_LCDM(eta)));
-    
     return (mutmp);
 }
 
@@ -1556,7 +1514,6 @@ local real sourceA_LCDM(real eta, real kf, real k1, real k2)
     Stmp = sourcea_LCDM(eta, kf)
             + sourceFL_LCDM(eta, kf, k1, k2)
             - sourcedI_LCDM(eta, kf, k1, k2);
-//    - cmd.screening * sourcedI_LCDM(eta, kf, k1, k2);
 
     return Stmp;
 }
@@ -1926,13 +1883,4 @@ local real S3dI_LCDM(real eta, real x, real k, real p, real Dpk, real Dpp,
 // End: LCDM Model
 // ===========================================================================
 
-
-
-// ===========================================================================
-// Begin: XXX Model
-// ===========================================================================
-
-// ===========================================================================
-// End: XXX Model
-// ===========================================================================
 

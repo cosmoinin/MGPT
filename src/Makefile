@@ -32,7 +32,7 @@ CFLAGS = -g -O3 $(OPTIONS)
 H_PATH = general_libs
 
 OBJS	= main.o mglpt_io.o mglpt.o startrun.o \
-	models.o mglpt_fns.o mglpt_diffeqs.o mglpt_quads.o \
+	models.o mglpt_diffeqs.o mglpt_quads.o \
 	mglpt_postprocess.o \
 	$(H_PATH)/diffeqs.o $(H_PATH)/mathutil.o \
 	$(H_PATH)/clib.o $(H_PATH)/getparam.o \

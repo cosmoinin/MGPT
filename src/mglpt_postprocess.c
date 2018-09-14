@@ -1573,7 +1573,6 @@ global_clptcorrfunctions clptcorrelation_functions(real ri)
 
 local real tildeV(real k)
 {
-    // -(3./35.) (QI[k] - 3. Q2[k] + 2. RI[k] - 6. R2[k])
     real func;
     
     func= -(3./35.)*( QIF(k) - 3.*Q2F(k) + 2.*RIF(k) - 6.*R2F(k) );
@@ -1583,7 +1582,6 @@ local real tildeV(real k)
 
 local real tildeT(real k)
 {
-    // -(9./14.)  (QI[k] + 2. Q2[k] + 2. RI[k] + 4. R2[k])
     real func;
     
     func= -(9./14.)*(QIF(k) + 2.*Q2F(k) + 2.*RIF(k) + 4.*R2F(k) );
@@ -1593,7 +1591,6 @@ local real tildeT(real k)
 
 local real xL(real k, real q)
 {
-    // PSL[k] (1./3. - j1[k q]/(k q))
     real func;
     
     func= PSLF(k)*(1./3. - rj1Bessel(k*q)/(k*q) );
@@ -1603,7 +1600,6 @@ local real xL(real k, real q)
 
 local real xloop(real k, real q)
 {
-    // (9./98. Q1[k] + 10./21. R1[k]) (1./3. - j1[k q]/(k q))
     real func;
     
     func= ( (9./98.)*Q1F(k) + (10./21.)*R1F(k) )*(1./3. - rj1Bessel(k*q)/(k*q) );
@@ -1613,7 +1609,6 @@ local real xloop(real k, real q)
 
 local real yL(real k, real q)
 {
-    // PSL[k] j2[k q]
     real func;
     
     func= PSLF(k)*rj2Bessel(k*q);
@@ -1623,7 +1618,6 @@ local real yL(real k, real q)
 
 local real yloop(real k, real q)
 {
-    // (9./98. Q1[k] + 10./21. R1[k]) j2[k q]
     real func;
     
     func= ( (9./98.)*Q1F(k) + (10./21.)*R1F(k) )*rj2Bessel(k*q);
@@ -1633,8 +1627,6 @@ local real yloop(real k, real q)
 
 local real x10(real k, real q)
 {
-    // 1./14. (2. RI[k] - 2. R2[k] + 3. RI[k] j0[k q]
-    //    -3 (RI[k] + 2. R2[k] + 2. R1plus2[k] + 2. Q5[k]) j1[k q]/(k q))
     real func;
     
     func= (1./14.)*(
@@ -1648,8 +1640,6 @@ local real x10(real k, real q)
 
 local real y10(real k, real q)
 {
-    // -3./14. (RI[k] + 2. R2[k] + 2. R1plus2[k] + 2. Q5[k]) (j0[k q]
-    //    -3 j1[k q]/(k q))
     real func;
     
     func= (-3./14.)*(
@@ -1663,7 +1653,6 @@ local real y10(real k, real q)
 local real PSLF(real k)
 {
     real func;
-    //    func = psInterpolation_nr(k, kPS, pPS, nPSLT);
     func = Interpolation_nr(k, kTab, PSLMGT, nQsRsTable, PSLMGT2);
     return (func);
 }
