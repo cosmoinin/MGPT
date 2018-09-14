@@ -18,7 +18,7 @@ CC = gcc
 #CC = icc
 
 # Default CFLAGS:
-CFLAGS = -g -O3 -fopenmp $(OPTIONS)
+CFLAGS = -g -O3 $(OPTIONS)
 #
 # With OpenMP:
 #CFLAGS = -g -O3 -fopenmp $(OPTIONS)
