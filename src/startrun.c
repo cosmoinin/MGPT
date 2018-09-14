@@ -111,7 +111,7 @@ local void ReadParametersCmdline(void)
 local void startrun_Common(void)
 {
 	real dx1, dx2;
-    char astr1[50],astr2[50];
+    char *ep;
 
     setFilesDirs_log();
     strcpy(gd.mode,"w");
@@ -145,7 +145,6 @@ local void startrun_Common(void)
         }
         
     }
-
 
 
     gd.dx = (sscanf(cmd.dxstr, "%lf/%lf", &dx1, &dx2) == 2 ?
