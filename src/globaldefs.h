@@ -433,6 +433,7 @@ typedef struct {
 
 
 //
+/*
 #define IPName(param,paramtext) \
 {strcpy(tag[nt],paramtext); \
 addr[nt]=&(param); \
@@ -453,7 +454,7 @@ id[nt++]=BOOLEAN;}
 param=(string) malloc(n); \
 addr[nt]=param; \
 id[nt++]=STRING;}
-
+*/
 
 #endif // ! _globaldefs_h
 

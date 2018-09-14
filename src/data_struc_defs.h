@@ -6,7 +6,7 @@
 #ifndef _data_struc_defs_h
 #define _data_struc_defs_h
 
-/*
+
 #if !defined(global)	
 #  define global extern
 #endif
@@ -33,7 +33,7 @@
   addr[nt]=param;	\
   id[nt++]=STRING;}
 
-*/
+
 
 #endif // ! _data_struc_defs_h
 
