@@ -72,13 +72,19 @@ local void ReadParametersCmdline(void)
     cmd.fR0 = GetdParam("fR0");
     cmd.screening = GetdParam("screening");
 //
+// DGP:
+    cmd.eps_DGP = GetdParam("eps_DGP");
+    cmd.rc_DGP = GetdParam("rc_DGP");
+//
 // Power spectrum table:
     cmd.fnamePS = GetParam("fnamePS");
     cmd.kmin = GetdParam("kmin");
     cmd.kmax = GetdParam("kmax");
     cmd.Nk = GetiParam("Nk");
 //
+// Background cosmology:
     cmd.om = GetdParam("Om");
+    cmd.olstr = GetParam("OL");
     cmd.h = GetdParam("h");
 //
 // Differential equations evolution parameters:
@@ -112,6 +118,13 @@ local void startrun_Common(void)
 		error("\nstart_Common: error opening file '%s' \n",gd.logfilePath);
 
 //
+// Background cosmology:
+    gd.ol = (sscanf(cmd.olstr, "%lf-Om", &dx1) == 1 ?
+             dx1-cmd.om : atof(cmd.olstr));
+    fprintf(gd.outlog,"\nOLambda : %g\n",gd.ol);
+    if ( gd.ol < 0. )
+        error("\n\nstartrun_ParamStat: OL (=%g) : must be positive\n",gd.ol);
+
     gd.dx = (sscanf(cmd.dxstr, "%lf/%lf", &dx1, &dx2) == 2 ?
 				dx1/dx2 : atof(cmd.dxstr));
     if ( dx2 == 0. )
@@ -156,9 +169,28 @@ local void startrun_ParamStat(void)
     if (GetParamStat("Nk") & ARGPARAM)
         cmd.Nk = GetiParam("Nk");
 
+// Modified gravity model parameters:
+    if (GetParamStat("mgModel") & ARGPARAM)
+        cmd.mgmodel = GetParam("mgModel");
+    if (GetParamStat("suffixModel") & ARGPARAM)
+        cmd.suffixModel = GetParam("suffixModel");
+    if (GetParamStat("nHS") & ARGPARAM)
+        cmd.nHS = GetiParam("nHS");
+    if (GetParamStat("fR0") & ARGPARAM)
+        cmd.fR0 = GetdParam("fR0");
+    if (GetParamStat("screening") & ARGPARAM)
+        cmd.rc_DGP = GetdParam("screening");
+// DGP:
+    if (GetParamStat("eps_DGP") & ARGPARAM)
+        cmd.eps_DGP = GetdParam("eps_DGP");
+    if (GetParamStat("rc_DGP") & ARGPARAM)
+        cmd.rc_DGP = GetdParam("rc_DGP");
+
 // Background cosmology:
     if (GetParamStat("om") & ARGPARAM)
         cmd.om = GetdParam("om");
+    if (GetParamStat("OL") & ARGPARAM)
+        cmd.olstr = GetParam("OL");
     if (GetParamStat("h") & ARGPARAM)
         cmd.h = GetdParam("h");
 
@@ -299,8 +331,13 @@ local void ReadParameterFile(char *fname)
     IPName(cmd.nHS,"nHS");
     RPName(cmd.fR0,"fR0");
     RPName(cmd.screening,"screening");
+// DGP:
+    RPName(cmd.eps_DGP,"eps_DGP");
+    RPName(cmd.rc_DGP,"rc_DGP");
 //
+// Background cosmology:
     RPName(cmd.om,"Om");
+    SPName(cmd.olstr,"OL",100);
     RPName(cmd.h,"h");
 //
 // Differential equations evolution parameters:
@@ -423,8 +460,13 @@ local void PrintParameterFile(char *fname)
         fprintf(fdout,FMTI,"nHS",cmd.nHS);
         fprintf(fdout,FMTR,"fR0",cmd.fR0);
         fprintf(fdout,FMTR,"screening",cmd.screening);
+// DGP:
+        fprintf(fdout,FMTR,"eps_DGP",cmd.eps_DGP);
+        fprintf(fdout,FMTR,"rc_DGP",cmd.rc_DGP);
 //
+// Background cosmology:
         fprintf(fdout,FMTR,"Om",cmd.om);
+        fprintf(fdout,FMTT,"OL",cmd.olstr);
         fprintf(fdout,FMTR,"h",cmd.h);
 //
 // Differential equations evolution parameters:
@@ -730,3 +772,16 @@ local void GaussLegendrePoints(void)
 
 }
 
+global  real psInterpolation_nr(real k, double kPS[], double pPS[], int nPS)
+{
+    pointPSTableptr pf, pi;
+    real psftmp;
+    real dps;
+    
+    pi = PSLCDMtab;
+    pf = PSLCDMtab+nPSTable-1;
+    
+    splint(kPS,pPS,pPS2,nPS,k,&psftmp);
+    
+    return (psftmp);
+}

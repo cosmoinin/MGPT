@@ -302,7 +302,7 @@ local real OmM_HS(real eta)
 {
     real OmMtmp;
     
-    OmMtmp=1.0/(1.0 + ( (1.0-cmd.om)/cmd.om)*rexp(3.0*eta) );
+    OmMtmp=1.0/(1.0 + ( (gd.ol)/cmd.om)*rexp(3.0*eta) );
     return (OmMtmp);
 }
 
@@ -310,7 +310,7 @@ local  real H_HS(real eta)
 {
     real Htmp;
     
-    Htmp=rsqrt(cmd.om*rexp(-3.0*eta)+(1.0-cmd.om));
+    Htmp=rsqrt(cmd.om*rexp(-3.0*eta)+(gd.ol));
     return (Htmp);
 }
 
@@ -320,7 +320,7 @@ local  real f1_HS(real eta)
     real f1tmp;
     
     f1tmp=3.0/(2.0*(1.0
-                    + ((1.0-cmd.om)/cmd.om)*rexp(3.0*eta)
+                    + ((gd.ol)/cmd.om)*rexp(3.0*eta)
                     )
                );
     return (f1tmp);
@@ -331,7 +331,7 @@ local  real f2_HS(real eta)
     real f2tmp;
     
     f2tmp=2.0 - 3.0/(2.0*(1.0
-                          + ((1.0-cmd.om)/cmd.om)*rexp(3.0*eta)
+                          + ((gd.ol)/cmd.om)*rexp(3.0*eta)
                           )
                      );
     return (f2tmp);
@@ -396,8 +396,8 @@ local real mass_HS(real eta)
     real masstmp;
     
     masstmp = (1.0/invH0)*rsqrt(1.0/(2.0*cmd.fR0))
-                * rpow(cmd.om*rexp(-3.0*eta) + 4.0*(1.0-cmd.om),(2.0+cmd.nHS)/2.0)
-                / rpow(cmd.om+4.0*(1.0-cmd.om),(1.0+cmd.nHS)/2.0);
+                * rpow(cmd.om*rexp(-3.0*eta) + 4.0*(gd.ol),(2.0+cmd.nHS)/2.0)
+                / rpow(cmd.om+4.0*(gd.ol),(1.0+cmd.nHS)/2.0);
 
     return (masstmp);
 }
@@ -430,8 +430,8 @@ local real M2_HS(real eta)
 
     M2tmp = cmd.screening;
     M2tmp *= (9.0/(4.0*rsqr(invH0)))*rsqr(1.0/cmd.fR0)
-    * rpow(cmd.om*rexp(-3.0*eta)+4.0*(1.0-cmd.om),5.0)
-    / rpow(cmd.om+4*(1.0-cmd.om),4.0);
+    * rpow(cmd.om*rexp(-3.0*eta)+4.0*(gd.ol),5.0)
+    / rpow(cmd.om+4*(gd.ol),4.0);
     
     return (M2tmp);
 }
@@ -521,8 +521,8 @@ local real M3_HS(real eta)
 
     M3tmp = cmd.screening;
     M3tmp *= (45.0/(8.0*rsqr(invH0)))*rpow(1.0/cmd.fR0,3.0)
-    * rpow(cmd.om*rexp(-3.0*eta)+4.0*(1.0-cmd.om),7.0)
-    / rpow(cmd.om+4*(1.0-cmd.om),6.0);
+    * rpow(cmd.om*rexp(-3.0*eta)+4.0*(gd.ol),7.0)
+    / rpow(cmd.om+4*(gd.ol),6.0);
     
     return (M3tmp);
 }
@@ -837,7 +837,7 @@ local real OmM_DGP(real eta)
 {
     real OmMtmp;
     
-    OmMtmp=1.0/(1.0 + ( (1.0-cmd.om)/cmd.om)*rexp(3.0*eta) );
+    OmMtmp=1.0/(1.0 + ( (gd.ol)/cmd.om)*rexp(3.0*eta) );
     return (OmMtmp);
 }
 
@@ -845,7 +845,7 @@ local  real H_DGP(real eta)
 {
     real Htmp;
     
-    Htmp=rsqrt(cmd.om*rexp(-3.0*eta)+(1.0-cmd.om));
+    Htmp=rsqrt(cmd.om*rexp(-3.0*eta)+(gd.ol));
     return (Htmp);
 }
 
@@ -855,7 +855,7 @@ local  real f1_DGP(real eta)
     real f1tmp;
     
     f1tmp=3.0/(2.0*(1.0
-                    + ((1.0-cmd.om)/cmd.om)*rexp(3.0*eta)
+                    + ((gd.ol)/cmd.om)*rexp(3.0*eta)
                     )
                );
     return (f1tmp);
@@ -866,7 +866,7 @@ local  real f2_DGP(real eta)
     real f2tmp;
     
     f2tmp=2.0 - 3.0/(2.0*(1.0
-                          + ((1.0-cmd.om)/cmd.om)*rexp(3.0*eta)
+                          + ((gd.ol)/cmd.om)*rexp(3.0*eta)
                           )
                      );
     return (f2tmp);
@@ -931,8 +931,8 @@ local real mass_DGP(real eta)
     real masstmp;
     
     masstmp = (1.0/invH0)*rsqrt(1.0/(2.0*cmd.fR0))
-    * rpow(cmd.om*rexp(-3.0*eta) + 4.0*(1.0-cmd.om),(2.0+cmd.nHS)/2.0)
-    / rpow(cmd.om+4.0*(1.0-cmd.om),(1.0+cmd.nHS)/2.0);
+    * rpow(cmd.om*rexp(-3.0*eta) + 4.0*(gd.ol),(2.0+cmd.nHS)/2.0)
+    / rpow(cmd.om+4.0*(gd.ol),(1.0+cmd.nHS)/2.0);
     
     return (masstmp);
 }
@@ -965,8 +965,8 @@ local real M2_DGP(real eta)
     
     M2tmp = cmd.screening;
     M2tmp *= (9.0/(4.0*rsqr(invH0)))*rsqr(1.0/cmd.fR0)
-    * rpow(cmd.om*rexp(-3.0*eta)+4.0*(1.0-cmd.om),5.0)
-    / rpow(cmd.om+4*(1.0-cmd.om),4.0);
+    * rpow(cmd.om*rexp(-3.0*eta)+4.0*(gd.ol),5.0)
+    / rpow(cmd.om+4*(gd.ol),4.0);
     
     return (M2tmp);
 }
@@ -1056,8 +1056,8 @@ local real M3_DGP(real eta)
     
     M3tmp = cmd.screening;
     M3tmp *= (45.0/(8.0*rsqr(invH0)))*rpow(1.0/cmd.fR0,3.0)
-    * rpow(cmd.om*rexp(-3.0*eta)+4.0*(1.0-cmd.om),7.0)
-    / rpow(cmd.om+4*(1.0-cmd.om),6.0);
+    * rpow(cmd.om*rexp(-3.0*eta)+4.0*(gd.ol),7.0)
+    / rpow(cmd.om+4*(gd.ol),6.0);
     
     return (M3tmp);
 }
@@ -1403,7 +1403,7 @@ local real OmM_LCDM(real eta)
 {
     real OmMtmp;
     
-    OmMtmp=1.0/(1.0 + ( (1.0-cmd.om)/cmd.om)*rexp(3.0*eta) );
+    OmMtmp=1.0/(1.0 + ( (gd.ol)/cmd.om)*rexp(3.0*eta) );
     return (OmMtmp);
 }
 
@@ -1411,7 +1411,7 @@ local  real H_LCDM(real eta)
 {
     real Htmp;
     
-    Htmp=rsqrt(cmd.om*rexp(-3.0*eta)+(1.0-cmd.om));
+    Htmp=rsqrt(cmd.om*rexp(-3.0*eta)+(gd.ol));
     return (Htmp);
 }
 
@@ -1421,7 +1421,7 @@ local  real f1_LCDM(real eta)
     real f1tmp;
     
     f1tmp=3.0/(2.0*(1.0
-                    + ((1.0-cmd.om)/cmd.om)*rexp(3.0*eta)
+                    + ((gd.ol)/cmd.om)*rexp(3.0*eta)
                     )
                );
     return (f1tmp);
@@ -1432,7 +1432,7 @@ local  real f2_LCDM(real eta)
     real f2tmp;
     
     f2tmp=2.0 - 3.0/(2.0*(1.0
-                          + ((1.0-cmd.om)/cmd.om)*rexp(3.0*eta)
+                          + ((gd.ol)/cmd.om)*rexp(3.0*eta)
                           )
                      );
     return (f2tmp);
@@ -1497,8 +1497,8 @@ local real mass_LCDM(real eta)
     real masstmp;
     
     masstmp = (1.0/invH0)*rsqrt(1.0/(2.0*cmd.fR0))
-    * rpow(cmd.om*rexp(-3.0*eta) + 4.0*(1.0-cmd.om),(2.0+cmd.nHS)/2.0)
-    / rpow(cmd.om+4.0*(1.0-cmd.om),(1.0+cmd.nHS)/2.0);
+    * rpow(cmd.om*rexp(-3.0*eta) + 4.0*(gd.ol),(2.0+cmd.nHS)/2.0)
+    / rpow(cmd.om+4.0*(gd.ol),(1.0+cmd.nHS)/2.0);
     
     return (masstmp);
 }
@@ -1531,8 +1531,8 @@ local real M2_LCDM(real eta)
     real M2tmp;
     
     M2tmp = (9.0/(4.0*rsqr(invH0)))*rsqr(1.0/cmd.fR0)
-    * rpow(cmd.om*rexp(-3.0*eta)+4.0*(1.0-cmd.om),5.0)
-    / rpow(cmd.om+4*(1.0-cmd.om),4.0);
+    * rpow(cmd.om*rexp(-3.0*eta)+4.0*(gd.ol),5.0)
+    / rpow(cmd.om+4*(gd.ol),4.0);
     
     return (M2tmp);
 }
@@ -1621,8 +1621,8 @@ local real M3_LCDM(real eta)
     real M3tmp;
     
     M3tmp = (45.0/(8.0*rsqr(invH0)))*rpow(1.0/cmd.fR0,3.0)
-    * rpow(cmd.om*rexp(-3.0*eta)+4.0*(1.0-cmd.om),7.0)
-    / rpow(cmd.om+4*(1.0-cmd.om),6.0);
+    * rpow(cmd.om*rexp(-3.0*eta)+4.0*(gd.ol),7.0)
+    / rpow(cmd.om+4*(gd.ol),6.0);
     
     return (M3tmp);
 }

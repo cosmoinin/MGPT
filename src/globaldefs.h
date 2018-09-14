@@ -32,7 +32,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-//#define H02     2997.92458   //This is H_0^{-1} in Mpc/h units
 #define invH0     2997.92458   //This is H_0^{-1} in Mpc/h units
 #define FOURPI2   39.4784176043574    //but see 0903.5321
 #define PI2     9.8696044010893586188
@@ -69,8 +68,13 @@ typedef struct {
     real fR0;
     real omegaBD;
     real screening;
+// DGP:
+    real eps_DGP;
+    real rc_DGP;
 //
+// Background cosmology:
     real om;
+    string olstr;
     real h;
 //
 // Quadrature parameters:
@@ -104,6 +108,8 @@ typedef struct {
 
 	int stopflag;
     
+    real ol;
+
     real xnow;
     real xout;
     real xoutinfo;
@@ -424,6 +430,30 @@ typedef struct {
 #define Lapxiclptcorrfun(x)    (((global_clptcorrfunctions_ptr) (x))->Lapxi)
 #define nabla4xiclptcorrfun(x)    (((global_clptcorrfunctions_ptr) (x))->nabla4xi)
 // END :: CLPT correlation auxiliary functions and structures
+
+
+//
+#define IPName(param,paramtext) \
+{strcpy(tag[nt],paramtext); \
+addr[nt]=&(param); \
+id[nt++]=INT;}
+
+#define RPName(param,paramtext) \
+{strcpy(tag[nt],paramtext); \
+addr[nt]=&param; \
+id[nt++]=DOUBLE;}
+
+#define BPName(param,paramtext) \
+{strcpy(tag[nt],paramtext); \
+addr[nt]=&param; \
+id[nt++]=BOOLEAN;}
+
+#define SPName(param,paramtext,n) \
+{strcpy(tag[nt],paramtext); \
+param=(string) malloc(n); \
+addr[nt]=param; \
+id[nt++]=STRING;}
+
 
 #endif // ! _globaldefs_h
 

@@ -55,6 +55,7 @@ global real A0(real eta)
 }
 */
 
+/*
 global  real psInterpolation_nr(real k, double kPS[], double pPS[], int nPS)
 {
     pointPSTableptr pf, pi;
@@ -68,4 +69,4 @@ global  real psInterpolation_nr(real k, double kPS[], double pPS[], int nPS)
 
     return (psftmp);
 }
-
+*/

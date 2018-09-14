@@ -24,8 +24,13 @@ string defv[] = {  ";"HEAD1": " HEAD2 "\n\t " HEAD3,
     "nHS=1",                        ";Hu-Sawicki index",
     "fR0=1.0e-5",                   ";Hu-Sawicki f_R0",
     "screening=1.0",                ";Hu-Sawicki screening", ":sc",
+// DGP:
+    "eps_DGP=-1.0",                 ";DGP parameter, use with mgModel=DGP",":epsdgp",
+    "rc_DGP=1.0",                   ";DGP parameter, use with mgModel=DGP",":rcdgp",
 //
+// Background cosmology:
     "Om=0.281",                     ";Omega matter value (z=0)",":om",
+    "OL=1-Om",                     ";Omega Lambda value (z=0)",":ol",
     "h=0.697",                      ";Hubble parameter value (z=0)",
 //
 // Differential equations evolution parameters:
