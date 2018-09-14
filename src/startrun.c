@@ -111,6 +111,7 @@ local void ReadParametersCmdline(void)
 local void startrun_Common(void)
 {
 	real dx1, dx2;
+    char astr1[50],astr2[50];
 
     setFilesDirs_log();
     strcpy(gd.mode,"w");
@@ -119,11 +120,19 @@ local void startrun_Common(void)
 
 //
 // Background cosmology:
-    gd.ol = (sscanf(cmd.olstr, "%lf-Om", &dx1) == 1 ?
-             dx1-cmd.om : atof(cmd.olstr));
-    fprintf(gd.outlog,"\nOLambda : %g\n",gd.ol);
+//    gd.ol = (sscanf(cmd.olstr, "%lf-Om", &dx1) == 1 ?
+//             dx1-cmd.om : atof(cmd.olstr));
+//    fprintf(gd.outlog,"\nOLambda : %g\n",gd.ol);
 //    if ( gd.ol < 0. )
 //        error("\n\nstartrun_ParamStat: OL (=%g) : must be positive\n",gd.ol);
+
+    gd.ol = (sscanf(cmd.olstr, "%s-%s", astr1, astr2) == 2 ?
+             atof(astr1)-cmd.om : atof(cmd.olstr));
+    fprintf(gd.outlog,"\nOL string input :: %s %s\n",astr1, astr2);
+    fprintf(gd.outlog,"\nOLambda : %g\n",gd.ol);
+    if (!(strcmp(astr2,"Om") == 0) && *astr2 != '\0')
+        error("\nstart_Common: OL not in the format (1-Om) '%s' \n",astr2);
+
 
     gd.dx = (sscanf(cmd.dxstr, "%lf/%lf", &dx1, &dx2) == 2 ?
 				dx1/dx2 : atof(cmd.dxstr));
