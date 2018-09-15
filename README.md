@@ -12,7 +12,7 @@ alejandro.aviles.conacyt@inin.gob.mx, avilescervantes@gmail.com
 #
 
 
-MGPT (Modified Gravity Perturbation Theory) code computes 2-point statistics for LCDM model and Hu-Sawicky-Starobinsky f(R) gravity. It is easily modifiable to other models. 
+MGPT (Modified Gravity Perturbation Theory) code computes 2-point statistics for LCDM model, DGP and Hu-Sawicky-Starobinsky f(R) gravity. The source code can be adapted for other models. 
 
 Specifically, it computes:
 
