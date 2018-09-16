@@ -85,7 +85,6 @@ local real S3dI_LCDM(real eta, real x, real k, real p, real Dpk, real Dpp,
 local void model_string_to_int(string, int *);
 
 #define HS                          0
-//#define fR1                         1
 #define DGP                         3
 
 global void set_model(void)
@@ -96,7 +95,6 @@ global void set_model(void)
     model_int_flag = model_int;
     switch (model_int){
         case HS: set_Model_HS(); break;
-//        case fR1: set_Model_fR1(); break;
         case DGP: set_Model_DGP(); break;
         case LCDM: set_Model_LCDM(); break;
         default: error("\nUnknown model type %s\n\n",cmd.mgmodel);
@@ -107,7 +105,6 @@ local void model_string_to_int(string model_str,int *model_int)
 {
     *model_int = -1;
     if (strcmp(model_str,"HS") == 0)                *model_int=HS;
-//    if (strcmp(model_str,"fR1") == 0)               *model_int=fR1;
     if (strcmp(model_str,"DGP") == 0)               *model_int=DGP;
     if (strcmp(model_str,"LCDM") == 0)              *model_int=LCDM;
 }
@@ -275,7 +272,6 @@ global real S3dI(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f,
 
 #undef HS
 #undef DGP
-//#undef fR1
 
 // ===========================================================================
 // END :: SWITCHING MODELS ROUTINES
@@ -306,7 +302,6 @@ local  real H_HS(real eta)
     Htmp=rsqrt(cmd.om*rexp(-3.0*eta)+(gd.ol));
     return (Htmp);
 }
-
 
 local  real f1_HS(real eta)
 {
@@ -881,8 +876,8 @@ local real KFL_DGP(real eta, real k, real k1, real k2);
 local real KFL2_DGP(real eta, real x, real k, real p);
 local real PiF_DGP(real eta, real k);
 local real M1_DGP(real eta);
-local real M2_DGP(real eta);
-local real M3_DGP(real eta);
+local real M2_DGP(real eta, real k, real k1, real k2);
+local real M3_DGP(real eta, real x, real k, real p);
 local real S2a_DGP(real eta, real x, real k, real p);
 local real S2b_DGP(real eta, real x, real k, real p);
 local real S2FL_DGP(real eta, real x, real k, real p);
@@ -897,11 +892,11 @@ local real S3IIminus_DGP(real eta, real x, real k, real p, real Dpk, real Dpp, r
 local real S3FLplus_DGP(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f);
 local real S3FLminus_DGP(real eta, real x, real k, real p, real Dpk, real Dpp, real D2mf);
 local real D2phiplus_DGP(real eta, real x, real k, real p,
-                        real Dpk, real Dpp, real D2f);
+                         real Dpk, real Dpp, real D2f);
 local real D2phiminus_DGP(real eta, real x, real k, real p,
-                         real Dpk, real Dpp, real D2mf);
+                          real Dpk, real Dpp, real D2mf);
 local real K3dI_DGP(real eta, real x, real k,  real p,
-                   real Dpk, real Dpp, real D2f, real D2mf);
+                    real Dpk, real Dpp, real D2f, real D2mf);
 // End: DGP Model local HEADERS
 
 local void set_Model_DGP(void)
@@ -914,34 +909,46 @@ local void set_Model_DGP(void)
     //    beta2=1.0/6.0;
     //    omegaBD = 0.0;
     //    screening = 1.0;
-    gd.beta2 = 1.0/6.0;
-    cmd.omegaBD = 0.0;
+//    gd.beta2 = 1.0/6.0; // Not used
+//    cmd.omegaBD = 0.0;  // Not used
 }
 
-local real mass_DGP(real eta)
+local real mass_DGP(real eta)  // Not used
 {
     real masstmp;
     
-    masstmp = (1.0/invH0)*rsqrt(1.0/(2.0*cmd.fR0))
-    * rpow(cmd.om*rexp(-3.0*eta) + 4.0*(gd.ol),(2.0+cmd.nHS)/2.0)
-    / rpow(cmd.om+4.0*(gd.ol),(1.0+cmd.nHS)/2.0);
+    masstmp = 0;
     
     return (masstmp);
 }
 
 local real mu_DGP(real eta, real k)
 {
-    real mutmp;
-    mutmp = 1.0 + (2.0*gd.beta2*k*k)/(k*k + rexp(2.0*eta)*rsqr(mass_DGP(eta)));
+    //~ real mutmp;
+    //~ mutmp = 1.0 + (2.0*gd.beta2*k*k)/(k*k + rexp(2.0*eta)*rsqr(mass_DGP(eta)));
+    
+    //~ return (mutmp);
+    
+    real mutmp, betadgp;
+    
+    
+    betadgp = 1.0 - 2.0 * cmd.eps_DGP * cmd.rc_DGP * H_DGP(eta) *
+    (1.0 - 1.0/(2.0*(1.0 + gd.ol/cmd.om * rexp(3.0*eta) ) ) );
+    
+    mutmp = 1.0 + 1.0 / 3.0 / betadgp ;
     
     return (mutmp);
 }
 
 local real PiF_DGP(real eta, real k)
 {
-    real PiFtmp;
+    real PiFtmp, betadgp;
     
-    PiFtmp = k*k/rexp(2.0*eta) + rsqr(mass_DGP(eta));
+    
+    betadgp = 1.0 - 2.0 * cmd.eps_DGP * cmd.rc_DGP * H_DGP(eta) *
+    (1.0 - 1.0/(2.0*(1.0 + gd.ol/cmd.om * rexp(3.0*eta) ) ) );
+    
+    PiFtmp = betadgp * k*k/rexp(2.0*eta) ;
     
     return (PiFtmp);
 }
@@ -951,26 +958,25 @@ local real PiF_DGP(real eta, real k)
 // BEGIN :: SECOND ORDER (six second order differential equations)
 //
 
-local real M2_DGP(real eta)
+local real M2_DGP(real eta, real kf, real k1, real k2)
 {
     real M2tmp;
     
-    M2tmp = cmd.screening;
-    M2tmp *= (9.0/(4.0*rsqr(invH0)))*rsqr(1.0/cmd.fR0)
-    * rpow(cmd.om*rexp(-3.0*eta)+4.0*(gd.ol),5.0)
-    / rpow(cmd.om+4*(gd.ol),4.0);
+    M2tmp  = cmd.screening;
+    M2tmp *= 2.0 * rsqr( cmd.rc_DGP * invH0 / cmd.h ) / rexp( 4.0 * eta)
+    * ( rsqr(k1)*rsqr(k2)
+       - 0.25 * rsqr( -rsqr(k1) - rsqr(k2) + rsqr(kf) ) )  ;
+    
     
     return (M2tmp);
 }
 
-
+//This is zero in DGP
 local real KFL_DGP(real eta, real k, real k1, real k2)
 {
     real KFLtmp;
     
-    KFLtmp = 0.5*(rsqr(sqr(k)-sqr(k1)-sqr(k2))/(sqr(k1)*sqr(k2)))*(mu_DGP(eta,k1)+mu_DGP(eta,k2)-2.0)
-    + 0.5*((sqr(k)-sqr(k1)-sqr(k2))/sqr(k1))*(mu_DGP(eta,k1)-1.0)
-    + 0.5*((sqr(k)-sqr(k1)-sqr(k2))/sqr(k2))*(mu_DGP(eta,k2)-1.0);
+    KFLtmp = 0;
     
     return (KFLtmp);
 }
@@ -980,7 +986,7 @@ local real sourceA_DGP(real eta, real kf, real k1, real k2)
     real Stmp;
     
     Stmp = sourcea_DGP(eta, kf)
-    + sourceFL_DGP(eta, kf, k1, k2)
+    //~ + sourceFL_DGP(eta, kf, k1, k2)
     - sourcedI_DGP(eta, kf, k1, k2);
     
     return Stmp;
@@ -989,8 +995,11 @@ local real sourceA_DGP(real eta, real kf, real k1, real k2)
 local real sourcea_DGP(real eta, real kf)
 {
     real Stmp;
+    real anyk;
     
-    Stmp = f1(eta)*mu_DGP(eta, kf);
+    anyk=1.0;
+    
+    Stmp = f1(eta)*mu_DGP(eta, anyk);
     
     return Stmp;
 }
@@ -998,17 +1007,20 @@ local real sourcea_DGP(real eta, real kf)
 local real sourceb_DGP(real eta, real kf, real k1, real k2)
 {
     real Stmp;
+    real anyk;
     
-    Stmp = f1(eta)*( mu_DGP(eta, k1) + mu_DGP(eta, k2) - mu_DGP(eta, kf));
+    anyk=1.0;
+    
+    Stmp = f1(eta)*mu_DGP(eta, anyk);
     
     return Stmp;
 }
 
-local real sourceFL_DGP(real eta, real kf, real k1, real k2)
+local real sourceFL_DGP(real eta, real kf, real k1, real k2) //This is zero in DGP
 {
     real Stmp;
     
-    Stmp = f1(eta)*(rsqr(mass_DGP(eta))/PiF_DGP(eta,kf))*KFL_DGP(eta, kf, k1, k2);
+    Stmp = 0;
     
     return Stmp;
 }
@@ -1018,7 +1030,7 @@ local real sourcedI_DGP(real eta, real kf, real k1, real k2)
     real Stmp;
     
     Stmp = (1.0/6.0)*rsqr(OmM(eta)*H(eta)/(rexp(eta)*invH0))
-    * rsqr(kf)*M2_DGP(eta)/ ( PiF_DGP(eta,kf)*PiF_DGP(eta,k1)*PiF_DGP(eta,k2) );
+    * rsqr(kf)*M2_DGP(eta, kf, k1, k2)/ ( PiF_DGP(eta,kf)*PiF_DGP(eta,k1)*PiF_DGP(eta,k2) );
     
     return Stmp;
 }
@@ -1032,26 +1044,25 @@ local real sourcedI_DGP(real eta, real kf, real k1, real k2)
 // BEGIN :: THIRD ORDER (Dsymmetric, five second order differential equations)
 //
 
-local real M1_DGP(real eta)
+local real M1_DGP(real eta) //This is zero in DGP
 {
     real M1tmp;
     
-    M1tmp = 3.0*rsqr(mass_DGP(eta));
+    M1tmp = 0;
     
     return (M1tmp);
 }
 
-local real M3_DGP(real eta)
+local real M3_DGP(real eta, real x, real k, real p) // This is introduced below ...
 {
     real M3tmp;
     
     M3tmp = cmd.screening;
-    M3tmp *= (45.0/(8.0*rsqr(invH0)))*rpow(1.0/cmd.fR0,3.0)
-    * rpow(cmd.om*rexp(-3.0*eta)+4.0*(gd.ol),7.0)
-    / rpow(cmd.om+4*(gd.ol),6.0);
+    M3tmp *= 0;
     
     return (M3tmp);
 }
+
 
 local real KFL2_DGP(real eta, real x, real k, real p)
 {
@@ -1075,78 +1086,82 @@ local real JFL_DGP(real eta, real x, real k, real p)
 }
 
 local real D2phiplus_DGP(real eta, real x, real k, real p,
-                        real Dpk, real Dpp, real D2f)
+                         real Dpk, real Dpp, real D2f)
 {
     real D2tmp;
     
-    D2tmp = (
-             (1.0 + rsqr(x))
-             -( 2.0*A0(eta)/3.0 )
-             * (
-                ( M2_DGP(eta) + JFL_DGP(eta,x,k,p)*(3.0+2.0*cmd.omegaBD) )
-                / (3.0*PiF_DGP(eta,k)*PiF_DGP(eta,p))
-                )
-             ) * Dpk*Dpp + D2f;
+    //~ D2tmp = (
+    //~ (1.0 + rsqr(x))
+    //~ -( 2.0*A0(eta)/3.0 )
+    //~ * (
+    //~ ( M2_DGP(eta) + JFL_DGP(eta,x,k,p)*(3.0+2.0*cmd.omegaBD) )
+    //~ / (3.0*PiF_DGP(eta,k)*PiF_DGP(eta,p))
+    //~ )
+    //~ ) * Dpk*Dpp + D2f;
+    D2tmp = 0;
     
     return (D2tmp);
 }
 
 local real D2phiminus_DGP(real eta, real x, real k, real p,
-                         real Dpk, real Dpp, real D2mf)
+                          real Dpk, real Dpp, real D2mf)
 {
     real D2tmp;
     
-    D2tmp = (
-             (1.0 + rsqr(x))
-             -( 2.0*A0(eta)/3.0 )
-             * (
-                ( M2_DGP(eta) + JFL_DGP(eta,-x,k,p)*(3.0+2.0*cmd.omegaBD) )
-                / (3.0*PiF_DGP(eta,k)*PiF_DGP(eta,p))
-                )
-             ) * Dpk*Dpp + D2mf;
+    //~ D2tmp = (
+    //~ (1.0 + rsqr(x))
+    //~ -( 2.0*A0(eta)/3.0 )
+    //~ * (
+    //~ ( M2_DGP(eta) + JFL_DGP(eta,-x,k,p)*(3.0+2.0*cmd.omegaBD) )
+    //~ / (3.0*PiF_DGP(eta,k)*PiF_DGP(eta,p))
+    //~ )
+    //~ ) * Dpk*Dpp + D2mf;
+    D2tmp = 0;
     
     return (D2tmp);
 }
 
 local real K3dI_DGP(real eta, real x, real k,  real p,
-                   real Dpk, real Dpp, real D2f, real D2mf)
+                    real Dpk, real Dpp, real D2f, real D2mf)
 {
     real K3tmp, kplusp, kpluspm;
     real t1, t2, t3, t4, t5, t6;
+    real zero;
     
     kplusp = kpp(x,k,p);
     kpluspm = kpp(-x,k,p);
+    zero=0.0000001;
     
     t1 = 2.0*rsqr(OmM(eta)*H(eta)/invH0)
-    *(M2_DGP(eta)/(PiF_DGP(eta,k)*PiF_DGP(eta,0)));
+    *(M2_DGP(eta,k,k,0.)/(PiF_DGP(eta,k)*PiF_DGP(eta,zero)));
     
     t2 = (1.0/3.0)*(rpow(OmM(eta),3.0)*rpow(H(eta),4.0)/rpow(invH0,4) )
     *(
-      M3_DGP(eta) - M2_DGP(eta)*(M2_DGP(eta) + JFL_DGP(eta,-1.0,p,p)*(3.0+2.0*cmd.omegaBD))
-      /(PiF_DGP(eta,0))
+      M3_DGP(eta,x,k,p) - M2_DGP(eta,k,k,0)*(M2_DGP(eta,0,p,p))
+      /(PiF_DGP(eta,zero))
       ) / ( rsqr(PiF_DGP(eta,p)) * PiF_DGP(eta,k) );
     
     t3 = rsqr(OmM(eta)*H(eta)/invH0)
-    *(M2_DGP(eta)/(PiF_DGP(eta,p)*PiF_DGP(eta,kplusp)))
+    *(M2_DGP(eta,k,p,kplusp)/(PiF_DGP(eta,p)*PiF_DGP(eta,kplusp)))
     *(
       1.0 + rsqr(x) + (D2f)/(Dpk*Dpp)
       );
     
     t4 = (1.0/3.0)*(rpow(OmM(eta),3.0)*rpow(H(eta),4.0)/rpow(invH0,4) )
     *(
-      M3_DGP(eta) - M2_DGP(eta)*(M2_DGP(eta) + JFL_DGP(eta,x,k,p)*(3.0+2.0*cmd.omegaBD))
+      M3_DGP(eta,x,k,p) - M2_DGP(eta,k,p,kplusp)*(M2_DGP(eta,kplusp,k,p))
       /(PiF_DGP(eta,kplusp))
       ) / ( rsqr(PiF_DGP(eta,p)) * PiF_DGP(eta,k) );
     
     t5 = rsqr(OmM(eta)*H(eta)/invH0)
-    *(M2_DGP(eta)/(PiF_DGP(eta,p)*PiF_DGP(eta,kpluspm)))
+    *(M2_DGP(eta,k,p,kpluspm)/(PiF_DGP(eta,p)*PiF_DGP(eta,kpluspm)))
     *(
       1.0 + rsqr(x) + (D2mf)/(Dpk*Dpp)
       );
     
     t6 = (1.0/3.0)*(rpow(OmM(eta),3.0)*rpow(H(eta),4.0)/rpow(invH0,4) )
     *(
-      M3_DGP(eta) - M2_DGP(eta)*(M2_DGP(eta) + JFL_DGP(eta,-x,k,p)*(3.0+2.0*cmd.omegaBD))
+      M3_DGP(eta,x,k,p) -  M2_DGP(eta,k,p,kpluspm)*(M2_DGP(eta,kpluspm,k,p))
       /(PiF_DGP(eta,kpluspm))
       ) / ( rsqr(PiF_DGP(eta,p)) * PiF_DGP(eta,k) );
     
@@ -1157,10 +1172,10 @@ local real K3dI_DGP(real eta, real x, real k,  real p,
 
 local real S2a_DGP(real eta, real x, real k, real p)
 {
-    real Dtmp, kplusp;
+    real Dtmp;
     
-    kplusp = kpp(x,k,p);
-    Dtmp = f1(eta)*mu_DGP(eta,kplusp);
+    //~ kplusp = kpp(x,k,p);
+    Dtmp = f1(eta)*mu_DGP(eta,1);
     
     return Dtmp;
 }
@@ -1170,7 +1185,7 @@ local real S2b_DGP(real eta, real x, real k, real p)
     real Dtmp, kplusp;
     
     kplusp = kpp(x,k,p);
-    Dtmp = f1(eta)*(mu_DGP(eta,k)+mu_DGP(eta,p)-mu_DGP(eta,kplusp));
+    Dtmp = f1(eta)*mu_DGP(eta,1);
     
     return Dtmp;
 }
@@ -1179,11 +1194,14 @@ local real S2FL_DGP(real eta, real x, real k, real p)
 {
     real Dtmp, kplusp;
     
-    kplusp = kpp(x,k,p);
-    Dtmp = f1(eta)*(
-                    M1_DGP(eta)/(3.0*PiF_DGP(eta,kplusp))
-                    *KFL2_DGP(eta,x,k,p)
-                    );
+    //~ kplusp = kpp(x,k,p);
+    //~ Dtmp = f1(eta)*(
+    //~ M1_DGP(eta)/(3.0*PiF_DGP(eta,kplusp))
+    //~ *KFL2_DGP(eta,x,k,p)
+    //~ );
+    
+    Dtmp = 0;
+    
     return Dtmp;
 }
 
@@ -1194,7 +1212,7 @@ local real S2dI_DGP(real eta, real x, real k, real p)
     kplusp = kpp(x,k,p);
     Dtmp = (1.0/6.0)*
     rsqr(OmM(eta)*H(eta)/(rexp(eta)*invH0))
-    * ( (rsqr(kplusp)*M2_DGP(eta)) / (PiF_DGP(eta,kplusp)*PiF_DGP(eta,k)*PiF_DGP(eta,p)));
+    * ( (rsqr(kplusp)*M2_DGP(eta,kplusp,k,p)) / (PiF_DGP(eta,kplusp)*PiF_DGP(eta,k)*PiF_DGP(eta,p)));
     
     return Dtmp;
 }
@@ -1210,7 +1228,7 @@ local real SD2_DGP(real eta, real x, real k, real p)
 }
 
 local real S3I_DGP(real eta, real x, real k, real p, real Dpk, real Dpp,
-                  real D2f, real D2mf)
+                   real D2f, real D2mf)
 {
     real Stmp, kplusp, kpluspm;
     
@@ -1228,11 +1246,15 @@ local real S3I_DGP(real eta, real x, real k, real p, real Dpk, real Dpp,
     return (Stmp);
 }
 
+
+//The next is zero for DGP
 local real S3IIplus_DGP(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f)
 {
     real Stmp, kplusp;
+    real tc; //tocheck value
     
     kplusp = kpp(x,k,p);
+    
     
     Stmp =
     -f1(eta)*(mu_DGP(eta,p)+mu_DGP(eta,kplusp)-2.0*mu_DGP(eta,k))
@@ -1243,16 +1265,18 @@ local real S3IIplus_DGP(real eta, real x, real k, real p, real Dpk, real Dpp, re
     -(
       (M1_DGP(eta)/(3.0*PiF_DGP(eta,kplusp))) * f1(eta)*KFL2_DGP(eta,x,k,p)
       -rsqr(OmM(eta)*H(eta)/invH0)
-      * (M2_DGP(eta)*kplusp*kplusp*rexp(-2.0*eta))
+      * (M2_DGP(eta,tc,tc,tc)*kplusp*kplusp*rexp(-2.0*eta))
       / (6.0*PiF_DGP(eta,kplusp)*PiF_DGP(eta,k)*PiF_DGP(eta,p))
       )*Dpk*Dpp*Dpp;
     
     return (Stmp);
 }
 
+//The next is zero for DGP
 local real S3IIminus_DGP(real eta, real x, real k, real p, real Dpk, real Dpp, real D2mf)
 {
     real Stmp, kpluspm;
+    real tc; //tocheck value
     
     kpluspm = kpp(-x,k,p);
     
@@ -1265,23 +1289,28 @@ local real S3IIminus_DGP(real eta, real x, real k, real p, real Dpk, real Dpp, r
     -(
       (M1_DGP(eta)/(3.0*PiF_DGP(eta,kpluspm))) * f1(eta)*KFL2_DGP(eta,-x,k,p)
       -rsqr(OmM(eta)*H(eta)/invH0)
-      * (M2_DGP(eta)*kpluspm*kpluspm*rexp(-2.0*eta))
+      * (M2_DGP(eta,tc,tc,tc)*kpluspm*kpluspm*rexp(-2.0*eta))
       / (6.0*PiF_DGP(eta,kpluspm)*PiF_DGP(eta,k)*PiF_DGP(eta,p))
       )*Dpk*Dpp*Dpp;
     
     return (Stmp);
 }
 
+//The next is zero for DGP
 local real S3II_DGP(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f, real D2mf)
 {
     real Stmp;
     
-    Stmp =  S3IIplus_DGP(eta, x, k, p, Dpk, Dpp, D2f)
-    + S3IIminus_DGP(eta, x, k, p, Dpk, Dpp, D2mf);
+    //uncomment for general models
+    //~ Stmp =  S3IIplus_DGP(eta, x, k, p, Dpk, Dpp, D2f)
+    //~ + S3IIminus_DGP(eta, x, k, p, Dpk, Dpp, D2mf);
+    Stmp =  0;
     
     return (Stmp);
 }
 
+
+//The next is zero for DGP
 local real S3FLplus_DGP(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f)
 {
     real Stmp, kplusp;
@@ -1302,6 +1331,8 @@ local real S3FLplus_DGP(real eta, real x, real k, real p, real Dpk, real Dpp, re
     return (Stmp);
 }
 
+
+//The next is zero for DGP
 local real S3FLminus_DGP(real eta, real x, real k, real p, real Dpk, real Dpp, real D2mf)
 {
     real Stmp, kpluspm;
@@ -1322,18 +1353,22 @@ local real S3FLminus_DGP(real eta, real x, real k, real p, real Dpk, real Dpp, r
     return (Stmp);
 }
 
+
+//The next is zero for DGP
 local real S3FL_DGP(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f, real D2mf)
 {
     real Stmp;
     
-    Stmp = S3FLplus_DGP(eta, x, k, p, Dpk, Dpp, D2f)
-    + S3FLminus_DGP(eta, x, k, p, Dpk, Dpp, D2mf);
+    //uncomment for general models
+    //~ Stmp = S3FLplus_DGP(eta, x, k, p, Dpk, Dpp, D2f)
+    //~ + S3FLminus_DGP(eta, x, k, p, Dpk, Dpp, D2mf);
+    Stmp =0;
     
     return (Stmp);
 }
 
 local real S3dI_DGP(real eta, real x, real k, real p, real Dpk, real Dpp,
-                   real D2f, real D2mf)
+                    real D2f, real D2mf)
 {
     real Stmp;
     
@@ -1347,7 +1382,6 @@ local real S3dI_DGP(real eta, real x, real k, real p, real Dpk, real Dpp,
 //
 // END :: THIRD ORDER (Dsymmetric, five second order differential equations)
 // ---------------------------------------------------------------------------
-
 
 // ===========================================================================
 // End: DGP Model
@@ -1448,8 +1482,8 @@ local void set_Model_LCDM(void)
     //    beta2=1.0/6.0;
     //    omegaBD = 0.0;
     //    screening = 1.0;
-    gd.beta2 = 0.0;
-    cmd.omegaBD = 0.0;
+//    gd.beta2 = 0.0;
+//    cmd.omegaBD = 0.0;
 }
 
 local real mass_LCDM(real eta)

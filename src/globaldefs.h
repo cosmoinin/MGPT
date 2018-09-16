@@ -24,7 +24,34 @@
 #include "general_libs/strings.h"
 
 
-#include "data_struc_defs.h"
+//#include "data_struc_defs.h"
+// CONTENTS OF data_struc_defs.h
+#if !defined(global)
+#  define global extern
+#endif
+
+#define IPName(param,paramtext)    \
+{strcpy(tag[nt],paramtext);    \
+addr[nt]=&(param);    \
+id[nt++]=INT;}
+
+#define RPName(param,paramtext)    \
+{strcpy(tag[nt],paramtext);    \
+addr[nt]=&param;    \
+id[nt++]=DOUBLE;}
+
+#define BPName(param,paramtext)    \
+{strcpy(tag[nt],paramtext);    \
+addr[nt]=&param;    \
+id[nt++]=BOOLEAN;}
+
+#define SPName(param,paramtext,n)    \
+{strcpy(tag[nt],paramtext);    \
+param=(string) malloc(n);    \
+addr[nt]=param;    \
+id[nt++]=STRING;}
+//
+
 #include "models.h"
 
 
@@ -106,7 +133,7 @@ typedef struct {
 
 	FILE *outlog;
 
-	int stopflag;
+//	int stopflag;
     
     real ol;
 
@@ -430,31 +457,6 @@ typedef struct {
 #define Lapxiclptcorrfun(x)    (((global_clptcorrfunctions_ptr) (x))->Lapxi)
 #define nabla4xiclptcorrfun(x)    (((global_clptcorrfunctions_ptr) (x))->nabla4xi)
 // END :: CLPT correlation auxiliary functions and structures
-
-
-//
-/*
-#define IPName(param,paramtext) \
-{strcpy(tag[nt],paramtext); \
-addr[nt]=&(param); \
-id[nt++]=INT;}
-
-#define RPName(param,paramtext) \
-{strcpy(tag[nt],paramtext); \
-addr[nt]=&param; \
-id[nt++]=DOUBLE;}
-
-#define BPName(param,paramtext) \
-{strcpy(tag[nt],paramtext); \
-addr[nt]=&param; \
-id[nt++]=BOOLEAN;}
-
-#define SPName(param,paramtext,n) \
-{strcpy(tag[nt],paramtext); \
-param=(string) malloc(n); \
-addr[nt]=param; \
-id[nt++]=STRING;}
-*/
 
 #endif // ! _globaldefs_h
 

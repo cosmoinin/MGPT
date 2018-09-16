@@ -33,7 +33,7 @@ void StartRun(string head0, string head1, string head2, string head3)
     printf("\n%s\n%s: %s\n\t %s\n",
 		gd.headline0, gd.headline1, gd.headline2, gd.headline3);
 
-	gd.stopflag = 0;
+//	gd.stopflag = 0;
 
     cmd.paramfile = GetParam("paramfile");
     if (!strnull(cmd.paramfile))
