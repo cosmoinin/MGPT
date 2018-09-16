@@ -23,7 +23,7 @@ global  real H(real eta)
 }
 
 
-global  real f1(real eta)
+global  real f1(real eta)  //This is 3/2 OmegaM
 {
     real f1tmp;
     
@@ -34,7 +34,7 @@ global  real f1(real eta)
     return (f1tmp);
 }
 
-global  real f2(real eta)
+global  real f2(real eta) //This is 2 + H'(t)/H^2
 {
     real f2tmp;
     
