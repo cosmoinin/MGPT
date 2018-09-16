@@ -8,7 +8,7 @@
 void integration_method_string_to_int(string,int *);
 void quadraturemethod_string_to_int(string,int *);
 
-void output(void);
+//void output(void);
 
 void MainLoop(void);
 void StartRun(string, string, string, string);
@@ -30,6 +30,9 @@ global global_D3v2_ptr DsThirdOrder_func(real x, real k, real p);
 global_QRs QsRs_functions_driver(real eta, real ki);
 global_QRs QsRs_functions_driver_LCDM(real eta, real ki);
 
+// I/O directories:
+global void setFilesDirs_log(void);
+global void setFilesDirs(void);
 
 global  real psInterpolation_nr(real k, double kPS[], double pPS[], int nPS);
 //

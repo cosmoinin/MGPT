@@ -16,8 +16,8 @@ local void startrun_Common(void);
 local void startrun_ParamStat(void);
 local void CheckParameters(void);
 
-local void setFilesDirs_log(void);
-local void setFilesDirs(void);
+//local void setFilesDirs_log(void);
+//local void setFilesDirs(void);
 
 local void InputPSTable(void);
 local void PSLTable(void);
@@ -297,6 +297,7 @@ local void CheckParameters(void)
         error("CheckParameters: absurd value for epsquad\n");
 }
 
+/*
 // I/O directories:
 local void setFilesDirs_log(void)
 {
@@ -324,6 +325,7 @@ local void setFilesDirs(void)
     sprintf(gd.fpfnameqfunctions,"CLPT/qfunctions%s.dat",cmd.suffixModel);
     sprintf(gd.fpfnameclptfunctions,"CorrelationFunction%s.dat",cmd.suffixModel);
 }
+*/
 
 local void ReadParameterFile(char *fname)
 {
