@@ -39,7 +39,7 @@ OBJS	= main.o mgpt_io.o mgpt.o startrun.o \
 	$(H_PATH)/mathfns.o $(H_PATH)/numrec.o \
 	$(H_PATH)/inout.o $(H_PATH)/quads.o
 
-INCL	= globaldefs.h data_struc_defs.h cmdline_defs.h protodefs.h \
+INCL	= globaldefs.h cmdline_defs.h protodefs.h \
 	models.h $(H_PATH)/diffeqs.h \
 	$(H_PATH)/getparam.h $(H_PATH)/machines.h \
 	$(H_PATH)/mathfns.h $(H_PATH)/stdinc.h \
