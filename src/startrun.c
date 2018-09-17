@@ -179,7 +179,7 @@ local void startrun_Common(void)
 
 #define usrmodel_parameter_null    "usrmodel_parameters_null"
     
-    if ((strcmp(cmd.mgmodel,"USERMODEL") == 0))
+    if ((strcmp(cmd.mgmodel,"USER") == 0))
         if (!strnull(cmd.model_paramfile)) {
             fprintf(stdout,"\n\nUser model :: using parameter file: %s\n",cmd.model_paramfile);
             ReadMGModelParameterFile(cmd.model_paramfile);

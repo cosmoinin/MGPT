@@ -5,6 +5,10 @@
 %	    ...
 %-------------------------------------------------------------------
 %
+% Use:
+% $ ./mgpt parameters.in
+%
+%
 % Power spectrum table:
 fnamePS                            psLCDM.in
 kmin                               0.0001
@@ -12,14 +16,20 @@ kmax                               100
 Nk                                 300
 %
 % Modified gravity model parameters:
-mgModel                            HS
-suffixModel                        _HS
+mgModel                            LCDM
+suffixModel                        _LCDM
+modelParamfile                     
 nHS                                1
 fR0                                1e-05
 screening                          1
 %
+% DGP model parameters (use with mgModel=DGP):
+eps_DGP                            -1
+rc_DGP                             1
+%
 % Background cosmology:
 Om                                 0.281
+OL                                  1 - Om
 h                                  0.697
 %
 % Differential equations evolution parameters:
@@ -29,12 +39,17 @@ eps                                0.0001
 deta                               2/5
 zout                               0
 maxnsteps                          10000
-integrationMethod                  bsstep
+solverMethod                       bsstep
 %
-% Integration parameters:
+% Quadrature parameters:
+quadratureMethod                   trapezoid
+nquadSteps                         100
 ngausslegpoints                    10
 epsquad                            1e-05
+%
+% Post processing:
 postprocessing                     false
 options                            
+
 
 
