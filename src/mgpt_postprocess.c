@@ -273,6 +273,11 @@ local real *PSLMGT;
 local real *PSLMGT2;
 
 
+#define FMTCORRELATIONFUNCTIONSDAT    \
+"%10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e \
+%10.3e %10.3e %10.3e %10.3e %10.3e \
+%10.3e\n"
+
 global void CLPT_correlation_processing(void)
 {
     stream outstr;
@@ -373,15 +378,31 @@ global void CLPT_correlation_processing(void)
     fprintf(stdout,"\nWriting CLPT correlation functions to file %s...",
             gd.fpfnameclptfunctions);
     outstr = stropen(gd.fpfnameclptfunctions,"w!");
+
+    fprintf(outstr,"%1s%5s%12s%11s%11s%11s%12s%13s%10s%13s%9s%11s%11s%11s%13s",
+            "#","r","<xiL>","<xiZA>","<xiA>",
+            "<xiW>","<xi10L>","<xi10loop>","<xi20L>",
+            "<xi20loop>","<xi01>","<xi02>","<xi11>",
+            "<Lapxi>",
+            "<nabla4xi>\n");
     
+    fprintf(outstr,
+            "%1s%6s%11s%11s%11s%11s%11s%11s%11s%11s%12s%11s%11s%11s%11s",
+            "#","<1>","<2>","<3>","<4>",
+            "<5>","<6>","<7>","<8>",
+            "<9>","<10>","<11>","<12>",
+            "<13>",
+            "<14>\n");
+
     for (i=1; i<=Nr; i++) {
         aTime = cputime();
         ri = rmin + dr*((real)(i - 1));
         zacorrfun = zacorrelation_functions(ri);
         clptcorrfun = clptcorrelation_functions(ri);
         
-        fprintf(outstr,"%g %g %g %g %g %g %g %g %g %g %g %g %g\n",
+        fprintf(outstr,FMTCORRELATIONFUNCTIONSDAT,
                 zacorrfun.r,
+                xiLF(ri),
                 zacorrfun.xi,
                 clptcorrfun.xiA,
                 clptcorrfun.xiW,
@@ -432,7 +453,13 @@ global void CLPT_correlation_processing(void)
     free_dvector(qTab,1,nqfunctionsTable);
     free(Pqfunctab);
 }
+#undef FMTCORRELATIONFUNCTIONSDAT
 
+
+#define FMTQFUNCTIONSDAT    \
+"%10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e \
+%10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e \
+%10.3e\n"
 
 global void qfunctions_processing(void)
 {
@@ -512,6 +539,22 @@ global void qfunctions_processing(void)
     //
     fprintf(stdout,"\n\nWriting q functions to file %s...",gd.fpfnameqfunctions);
     outstr = stropen(gd.fpfnameqfunctions,"w!");
+
+    fprintf(outstr,"%1s%5s%12s%11s%11s%11s%11s%11s%11s%11s%12s%13s%9s%11s%11s%11s%14s",
+            "#","q","<XL>","<YL>","<Xloop>",
+            "<Yloop>","<VT>","<TT>","<X10>",
+            "<Y10>","<U10L>","<U10loop>","<U11>",
+            "<U20>","<xi>","<Lapxi>",
+            "<nabla4xi>\n");
+    
+    fprintf(outstr,
+            "%1s%6s%11s%11s%11s%11s%11s%11s%11s%11s%12s%11s%11s%11s%11s%11s%11s",
+            "#","<1>","<2>","<3>","<4>",
+            "<5>","<6>","<7>","<8>",
+            "<9>","<10>","<11>","<12>",
+            "<13>","<14>","<15>",
+            "<16>\n");
+
     for (i=1; i<=Nq; i++) {
         aTime = cputime();
         qval = rlog10(qmin) + dq*((real)(i - 1));
@@ -519,7 +562,8 @@ global void qfunctions_processing(void)
         fflush(stdout);
         qfun = qfunctions(qi);
         corrfun = correlation_functions(qi);
-        fprintf(outstr,"%g %g %g %g %g %g %g %g %g %g %g %g %g %g %g %g\n",
+
+        fprintf(outstr,FMTQFUNCTIONSDAT,
                 qfun.q,
                 qfun.XL,
                 qfun.YL,
@@ -564,6 +608,7 @@ global void qfunctions_processing(void)
     free_dvector(kTab,1,nQsRsTable);
     free(PQsRstab);
 }
+#undef FMTQFUNCTIONSDAT
 
 
 #define FMTBIASTERMDAT    \
