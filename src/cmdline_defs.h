@@ -40,7 +40,7 @@ string defv[] = {  ";"HEAD1": " HEAD2 "\n\t " HEAD3,
     "deta=2/5",                     ";deta integration step",
     "detamin=0.",                   ";Min eta integration step size",
     "eps=1.0e-4",                   ";Differential equations solver tolerance error parameter",
-    "zout=0.0",                     ";redshift value to stop integration :: eta = exp[-zout] - 1",
+    "zout=0.0",                     ";Output redshift value",
     "maxnsteps=10000",              ";Maximum number of integration steps", ":maxn",
     "solverMethod=bsstep",	        ";Integration method to use", ":solver",
 //

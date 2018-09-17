@@ -23,6 +23,7 @@ global void CLPT_correlation_processing(void);
 
 // MGLPT DIFFEQS and QUAD
 global real DpFunction(real k);
+global real DpFunction_LCDM(real k);
 global global_D2v2_ptr DsSecondOrder_func(real kf, real k1, real k2);
 global global_D3v2_ptr DsThirdOrder_func(real x, real k, real p);
 

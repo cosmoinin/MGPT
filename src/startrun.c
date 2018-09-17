@@ -743,7 +743,8 @@ local void PSLTable(void)
 
     xstoptmp = gd.xstop;
     gd.xstop = 0.;
-    Dp0 = DpFunction(0.);
+//    Dp0 = DpFunction(0.); // LCDM
+    Dp0 = DpFunction_LCDM(0.); // LCDM
     fprintf(gd.outlog,"\n\n Dp(0) = %g\n",Dp0);
     gd.xstop = xstoptmp;
     Dpzout = DpFunction(0.);

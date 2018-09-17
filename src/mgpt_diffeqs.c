@@ -10,6 +10,7 @@ local void integration(double ystart[], int nvar, double x1, double x2, double e
                         void (*derivsin)(double, double [], double []));
 
 local void derivsFirstOrder(double x,double y[],double dydx[]);
+local void derivsFirstOrder_LCDM(double x,double y[],double dydx[]);
 local void derivsSecondOrder(double x,double y[],double dydx[]);
 local void derivsThirdOrder(double eta,double y[],double dydx[]);
 
@@ -19,6 +20,15 @@ global void derivsFirstOrder(double x,double y[],double dydx[])
 
     dydx[1] = y[2];
     dydx[2]=f1(x)*mu(x,gd.kf)*y[1]-f2(x)*y[2];
+}
+
+local void derivsFirstOrder_LCDM(double x,double y[],double dydx[])
+{
+    nrhs++;
+    
+    dydx[1] = y[2];
+    dydx[2]=f1(x)*y[1]-f2(x)*y[2];
+    //    dydx[2]=f1(x)*mu(x,gd.kf)*y[1]-f2(x)*y[2];
 }
 
 local void derivsSecondOrder(double x,double y[],double dydx[])
@@ -102,6 +112,37 @@ global real DpFunction(real k)
     free_dvector(xp,1,200);
     free_dvector(ystart,1,NEQS1Order);
 
+    return (Dptmp);
+}
+
+global real DpFunction_LCDM(real k)
+{
+    int nbad,nok;
+    double *ystart;
+    real Dptmp;
+    
+    gd.kf = k;
+    
+    ystart=dvector(1,NEQS1Order);
+    xp=dvector(1,200);
+    yp=dmatrix(1,NEQS1Order,1,200);
+    
+    ystart[1]=rexp(gd.xnow);
+    ystart[2]=rexp(gd.xnow);
+    
+    nrhs=0;
+    kmax=100;
+    dxsav=(gd.xstop-gd.xnow)/20.0;
+//
+    integration(ystart,NEQS1Order,gd.xnow,gd.xstop,cmd.eps,gd.dx,cmd.dxmin,
+                &nok,&nbad,cmd.maxnsteps,derivsFirstOrder_LCDM);
+    
+    Dptmp = yp[1][kount];
+    
+    free_dmatrix(yp,1,NEQS1Order,1,200);
+    free_dvector(xp,1,200);
+    free_dvector(ystart,1,NEQS1Order);
+    
     return (Dptmp);
 }
 
