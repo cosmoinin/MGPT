@@ -68,7 +68,7 @@ local void computingQRs(void)
     } else
         dk = (rlog10(cmd.kmax) - rlog10(cmd.kmin))/((real)(cmd.Nk - 1));
 //
-    fprintf(stdout,"\nUsing %g tolerance quad...\n",cmd.epsquad);
+//    fprintf(stdout,"\nUsing %g tolerance quad...\n",cmd.epsquad);
     loopQsRs(outstrQsRs, 1, cmd.Nk, dk);
 
     fclose(outstrQsRs);

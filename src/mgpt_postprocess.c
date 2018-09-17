@@ -1123,14 +1123,16 @@ local real YLF(real q)
 local real XloopF(real q)
 {
     real func;
-    func = Interpolation_nr(q, qTab, YloopT, nqfunctionsTable, YloopT2);
+//    func = Interpolation_nr(q, qTab, YloopT, nqfunctionsTable, YloopT2);
+    func = Interpolation_nr(q, qTab, XloopT, nqfunctionsTable, XloopT2);
     return (func);
 }
 
 local real YloopF(real q)
 {
     real func;
-    func = Interpolation_nr(q, qTab, XloopT, nqfunctionsTable, XloopT2);
+//    func = Interpolation_nr(q, qTab, XloopT, nqfunctionsTable, XloopT2);
+    func = Interpolation_nr(q, qTab, YloopT, nqfunctionsTable, YloopT2);
     return (func);
 }
 
