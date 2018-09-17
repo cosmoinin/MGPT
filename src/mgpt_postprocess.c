@@ -632,7 +632,11 @@ global void biasterms_processing(void)
 
     fprintf(gd.outlog,"\n\nBias terms processing...\n");
     InputQsRsTable();
-    
+
+    if (nQsRsTable<=1) {
+        error("\nNumber of k's in kfunctions table must be greater than 1...\n\n",nQsRsTable);
+    }
+
     kTab = dvector(1,nQsRsTable);
     PSLMGT = dvector(1,nQsRsTable);
     PSLMGT2 = dvector(1,nQsRsTable);
