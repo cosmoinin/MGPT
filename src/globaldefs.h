@@ -23,9 +23,6 @@
 #include "general_libs/machines.h"
 #include "general_libs/strings.h"
 
-
-//#include "data_struc_defs.h"
-// CONTENTS OF data_struc_defs.h
 #if !defined(global)
 #  define global extern
 #endif
@@ -91,6 +88,7 @@ typedef struct {
 // Modified gravity model parameters:
     string mgmodel;
     string suffixModel;
+    string model_paramfile;
     int nHS;
     real fR0;
     real omegaBD;

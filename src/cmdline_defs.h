@@ -28,6 +28,8 @@ string defv[] = {  ";"HEAD1": " HEAD2 "\n\t " HEAD3,
     "eps_DGP=-1.0",                 ";DGP parameter, use with mgModel=DGP",":epsdgp",
     "rc_DGP=1.0",                   ";DGP parameter, use with mgModel=DGP",":rcdgp",
 //
+    "modelParamfile=",              ";If mgmodel=USER, you may give its parameter file name", ":mpf",
+//
 // Background cosmology:
     "Om=0.281",                     ";Omega matter value (z=0)",":om",
     "OL= 1 - Om",                   ";Omega Lambda value (z=0)",":ol",

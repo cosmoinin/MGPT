@@ -5,7 +5,11 @@
 #define global
 #include "globaldefs.h"
 #include "protodefs.h"
-#include "models.h"
+//#include "models.h"
+
+// TEMPLATE FOR THE USER
+#include "models_user.h"
+
 
 // ===========================================================================
 // MODELS SECTION 1
@@ -96,6 +100,7 @@ global void set_model(void)
     switch (model_int){
         case HS: set_Model_HS(); break;
         case DGP: set_Model_DGP(); break;
+        case USERMODEL: set_Model_USER(); break; // In models_user.h
         case LCDM: set_Model_LCDM(); break;
         default: error("\nUnknown model type %s\n\n",cmd.mgmodel);
     }
@@ -106,6 +111,7 @@ local void model_string_to_int(string model_str,int *model_int)
     *model_int = -1;
     if (strcmp(model_str,"HS") == 0)                *model_int=HS;
     if (strcmp(model_str,"DGP") == 0)               *model_int=DGP;
+    if (strcmp(model_str,"USERMODEL") == 0)         *model_int=USERMODEL;
     if (strcmp(model_str,"LCDM") == 0)              *model_int=LCDM;
 }
 
@@ -133,6 +139,7 @@ global real OmM(real eta)
     switch (model_int_flag){
         case HS: tmp=OmM_HS(eta); break;
         case DGP: tmp=OmM_DGP(eta); break;
+        case USERMODEL: tmp=OmM_USER(eta); break;
         case LCDM: tmp=OmM_LCDM(eta); break;
     }
     return tmp;
@@ -144,6 +151,7 @@ global real H(real eta)
     switch (model_int_flag){
         case HS: tmp=H_HS(eta); break;
         case DGP: tmp=H_DGP(eta); break;
+        case USERMODEL: tmp=H_USER(eta); break;
         case LCDM: tmp=H_LCDM(eta); break;
     }
     return tmp;
@@ -155,6 +163,7 @@ global real f1(real eta)
     switch (model_int_flag){
         case HS: tmp=f1_HS(eta); break;
         case DGP: tmp=f1_DGP(eta); break;
+        case USERMODEL: tmp=f1_USER(eta); break;
         case LCDM: tmp=f1_LCDM(eta); break;
     }
     return tmp;
@@ -166,6 +175,7 @@ global real f2(real eta)
     switch (model_int_flag){
         case HS: tmp=f2_HS(eta); break;
         case DGP: tmp=f2_DGP(eta); break;
+        case USERMODEL: tmp=f2_USER(eta); break;
         case LCDM: tmp=f2_LCDM(eta); break;
     }
     return tmp;
@@ -177,6 +187,7 @@ global real A0(real eta)
     switch (model_int_flag){
         case HS: tmp=A0_HS(eta); break;
         case DGP: tmp=A0_DGP(eta); break;
+        case USERMODEL: tmp=A0_USER(eta); break;
         case LCDM: tmp=A0_LCDM(eta); break;
     }
     return tmp;
@@ -188,6 +199,7 @@ global real mu(real eta, real k)
     switch (model_int_flag){
         case HS: tmp=mu_HS(eta, k); break;
         case DGP: tmp=mu_DGP(eta, k); break;
+        case USERMODEL: tmp=mu_USER(eta, k); break;
         case LCDM: tmp=mu_LCDM(eta, k); break;
     }
     return tmp;
@@ -199,6 +211,7 @@ global real sourceA(real eta, real kf, real k1, real k2)
     switch (model_int_flag){
         case HS: tmp=sourceA_HS(eta, kf, k1, k2); break;
         case DGP: tmp=sourceA_DGP(eta, kf, k1, k2); break;
+        case USERMODEL: tmp=sourceA_USER(eta, kf, k1, k2); break;
         case LCDM: tmp=sourceA_LCDM(eta, kf, k1, k2); break;
     }
     return tmp;
@@ -210,6 +223,7 @@ global real sourceb(real eta, real kf, real k1, real k2)
     switch (model_int_flag){
         case HS: tmp=sourceb_HS(eta, kf, k1, k2); break;
         case DGP: tmp=sourceb_DGP(eta, kf, k1, k2); break;
+        case USERMODEL: tmp=sourceb_USER(eta, kf, k1, k2); break;
         case LCDM: tmp=sourceb_LCDM(eta, kf, k1, k2); break;
     }
     return tmp;
@@ -221,6 +235,7 @@ global real SD2(real eta, real x, real k, real p)
     switch (model_int_flag){
         case HS: tmp=SD2_HS(eta, x, k, p); break;
         case DGP: tmp=SD2_DGP(eta, x, k, p); break;
+        case USERMODEL: tmp=SD2_USER(eta, x, k, p); break;
         case LCDM: tmp=SD2_LCDM(eta, x, k, p); break;
     }
     return tmp;
@@ -232,6 +247,7 @@ global real S3I(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f, 
     switch (model_int_flag){
         case HS: tmp=S3I_HS(eta, x, k, p, Dpk, Dpp, D2f, D2mf); break;
         case DGP: tmp=S3I_DGP(eta, x, k, p, Dpk, Dpp, D2f, D2mf); break;
+        case USERMODEL: tmp=S3I_USER(eta, x, k, p, Dpk, Dpp, D2f, D2mf); break;
         case LCDM: tmp=S3I_LCDM(eta, x, k, p, Dpk, Dpp, D2f, D2mf); break;
     }
     return tmp;
@@ -243,6 +259,7 @@ global real S3II(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f,
     switch (model_int_flag){
         case HS: tmp=S3II_HS(eta, x, k, p, Dpk, Dpp, D2f, D2mf); break;
         case DGP: tmp=S3II_DGP(eta, x, k, p, Dpk, Dpp, D2f, D2mf); break;
+        case USERMODEL: tmp=S3II_USER(eta, x, k, p, Dpk, Dpp, D2f, D2mf); break;
         case LCDM: tmp=S3II_LCDM(eta, x, k, p, Dpk, Dpp, D2f, D2mf); break;
     }
     return tmp;
@@ -254,6 +271,7 @@ global real S3FL(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f,
     switch (model_int_flag){
         case HS: tmp=S3FL_HS(eta, x, k, p, Dpk, Dpp, D2f, D2mf); break;
         case DGP: tmp=S3FL_DGP(eta, x, k, p, Dpk, Dpp, D2f, D2mf); break;
+        case USERMODEL: tmp=S3FL_USER(eta, x, k, p, Dpk, Dpp, D2f, D2mf); break;
         case LCDM: tmp=S3FL_LCDM(eta, x, k, p, Dpk, Dpp, D2f, D2mf); break;
     }
     return tmp;
@@ -265,6 +283,7 @@ global real S3dI(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f,
     switch (model_int_flag){
         case HS: tmp=S3dI_HS(eta, x, k, p, Dpk, Dpp, D2f, D2mf); break;
         case DGP: tmp=S3dI_DGP(eta, x, k, p, Dpk, Dpp, D2f, D2mf); break;
+        case USERMODEL: tmp=S3dI_USER(eta, x, k, p, Dpk, Dpp, D2f, D2mf); break;
         case LCDM: tmp=S3dI_LCDM(eta, x, k, p, Dpk, Dpp, D2f, D2mf); break;
     }
     return tmp;

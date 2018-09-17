@@ -37,5 +37,8 @@ global real S3dI(real eta, real x, real k, real p, real Dpk, real Dpp,
                  real D2f, real D2mf);
 // ==========================================
 
+// User model :: reading/printing parameters
+global void ReadMGModelParameterFile(char *);
+global void PrintMGModelParameterFile(char *);
 
 #endif // !_models_h

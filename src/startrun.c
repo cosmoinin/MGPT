@@ -69,6 +69,7 @@ local void ReadParametersCmdline(void)
 // Modified gravity model parameters:
     cmd.mgmodel = GetParam("mgModel");
     cmd.suffixModel = GetParam("suffixModel");
+    cmd.model_paramfile = GetParam("modelParamfile");
     cmd.nHS = GetiParam("nHS");
     cmd.fR0 = GetdParam("fR0");
     cmd.screening = GetdParam("screening");
@@ -176,6 +177,17 @@ local void startrun_Common(void)
     if (cmd.nquadSteps > nPSLT)
         error("CheckParameters: nquadSteps > nPSLT\n");
 
+#define usrmodel_parameter_null    "usrmodel_parameters_null"
+    
+    if ((strcmp(cmd.mgmodel,"USERMODEL") == 0))
+        if (!strnull(cmd.model_paramfile)) {
+            fprintf(stdout,"\n\nUser model :: using parameter file: %s\n",cmd.model_paramfile);
+            ReadMGModelParameterFile(cmd.model_paramfile);
+            PrintMGModelParameterFile(cmd.model_paramfile);
+        } else
+            PrintMGModelParameterFile(usrmodel_parameter_null);
+#undef usrmodel_parameter_null
+
 }
 
 local void startrun_ParamStat(void)
@@ -274,6 +286,7 @@ local void CheckParameters(void)
     if (cmd.Nk < 0)
         error("CheckParameters: absurd value for Nk\n");
 //
+// Background cosmology:
     if (cmd.om > 1.0 || cmd.om < 0.0)
         error("CheckParameters: absurd value for om\n");
     if ( gd.ol < 0. )
@@ -281,6 +294,7 @@ local void CheckParameters(void)
     if (cmd.h < 0.0)
         error("CheckParameters: absurd value for h\n");
 
+// Differential equations evolution parameters:
     if (gd.dx == 0)
         error("CheckParameters: absurd value for deta\n");
     if(cmd.x == rlog(1.0/(1.0+cmd.xstop)) )
@@ -289,6 +303,7 @@ local void CheckParameters(void)
     if (cmd.maxnsteps < 1)
         error("CheckParameters: absurd value for maxnsteps\n");
 
+// Quadrature parameters:
     if (cmd.nquadSteps <= 1)
         error("CheckParameters: absurd value for nquadSteps\n");
     if (cmd.ngausslegpoints <= 1)
@@ -355,6 +370,7 @@ local void ReadParameterFile(char *fname)
 // Modified gravity model parameters:
     SPName(cmd.mgmodel,"mgModel",100);
     SPName(cmd.suffixModel,"suffixModel",100);
+    SPName(cmd.model_paramfile,"modelParamfile",100);
     IPName(cmd.nHS,"nHS");
     RPName(cmd.fR0,"fR0");
     RPName(cmd.screening,"screening");
@@ -484,6 +500,7 @@ local void PrintParameterFile(char *fname)
 // Modified gravity model parameters:
         fprintf(fdout,FMTT,"mgModel",cmd.mgmodel);
         fprintf(fdout,FMTT,"suffixModel",cmd.suffixModel);
+        fprintf(fdout,FMTT,"modelParamfile",cmd.model_paramfile);
         fprintf(fdout,FMTI,"nHS",cmd.nHS);
         fprintf(fdout,FMTR,"fR0",cmd.fR0);
         fprintf(fdout,FMTR,"screening",cmd.screening);
