@@ -24,8 +24,8 @@ fR0                                1e-05
 screening                          1
 %
 % DGP model parameters (use with mgModel=DGP):
-eps_DGP                            -1
-rc_DGP                             1
+epsDGP                            -1
+rcDGP                             1
 %
 % Background cosmology:
 Om                                 0.281

@@ -19,14 +19,14 @@ string defv[] = {  ";"HEAD1": " HEAD2 "\n\t " HEAD3,
     "Nk=300",                       ";Total number of k to analyse from the power spectrum table",":nk",
 //
 // Modified gravity model parameters:
-    "mgModel=HS",                   ";Modified gravity model to study, default f(R) Hu-Sawicki", ":mgm",
+    "mgModel=LCDM",                 ";Modified gravity model to study, default f(R) Hu-Sawicki", ":mgm",
     "suffixModel=",                 ";Suffix model to add to output filenames", ":suffix",
     "nHS=1",                        ";Hu-Sawicki index",
     "fR0=1.0e-5",                   ";Hu-Sawicki f_R0",
     "screening=1.0",                ";Hu-Sawicki screening", ":sc",
 // DGP:
-    "eps_DGP=-1.0",                 ";DGP parameter, use with mgModel=DGP",":epsdgp",
-    "rc_DGP=1.0",                   ";DGP parameter, use with mgModel=DGP",":rcdgp",
+    "epsDGP=-1.0",                 ";DGP parameter, use with mgModel=DGP",":epsdgp",
+    "rcDGP=1.0",                   ";DGP parameter, use with mgModel=DGP",":rcdgp",
 //
     "modelParamfile=",              ";If mgmodel=USER, you may give its parameter file name", ":mpf",
 //

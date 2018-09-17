@@ -653,11 +653,11 @@ global void ReadMGModelParameterFile(char *fname)
     
     nt=0;
     
-    // Modified gravity model parameters:
-    IPName(nHS_u,"nHS");
-    RPName(fR0_u,"fR0");
-    RPName(screening_u,"screening");
-    //
+// Modified gravity model parameters:
+    IPName(nHS_u,"nHS_u");
+    RPName(fR0_u,"fR0_u");
+    RPName(screening_u,"screening_u");
+//
     if((fd=fopen(fname,"r"))) {
         while(!feof(fd)) {
             fgets(buf,200,fd);
@@ -746,12 +746,12 @@ global void PrintMGModelParameterFile(char *fname)
         fprintf(fdout,"%s\n%s\n",
                 "%-------------------------------------------------------------------",
                 "%");
-        //
-        // Modified gravity model parameters:
-        fprintf(fdout,FMTI,"nHS",nHS_u);
-        fprintf(fdout,FMTR,"fR0",fR0_u);
-        fprintf(fdout,FMTR,"screening",screening_u);
-        //
+//
+// Modified gravity model parameters:
+        fprintf(fdout,FMTI,"nHS_u",nHS_u);
+        fprintf(fdout,FMTR,"fR0_u",fR0_u);
+        fprintf(fdout,FMTR,"screening_u",screening_u);
+//
         fprintf(fdout,"\n\n");
     }
     fclose(fdout);

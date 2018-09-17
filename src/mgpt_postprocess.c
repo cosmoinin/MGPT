@@ -477,7 +477,11 @@ global void qfunctions_processing(void)
     
     fprintf(stdout,"\n\nqfunctions processing...\n");
     InputQsRsTable();
-    
+
+    if (nQsRsTable<=1) {
+        error("\nNumber of k's in kfunctions table must be greater than 1...\n\n",nQsRsTable);
+    }
+
     kTab = dvector(1,nQsRsTable);
     Q1T = dvector(1,nQsRsTable);
     Q1T2 = dvector(1,nQsRsTable);

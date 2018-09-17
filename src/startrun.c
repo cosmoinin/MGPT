@@ -75,8 +75,8 @@ local void ReadParametersCmdline(void)
     cmd.screening = GetdParam("screening");
 //
 // DGP:
-    cmd.eps_DGP = GetdParam("eps_DGP");
-    cmd.rc_DGP = GetdParam("rc_DGP");
+    cmd.eps_DGP = GetdParam("epsDGP");
+    cmd.rc_DGP = GetdParam("rcDGP");
 //
 // Power spectrum table:
     cmd.fnamePS = GetParam("fnamePS");
@@ -216,10 +216,10 @@ local void startrun_ParamStat(void)
     if (GetParamStat("screening") & ARGPARAM)
         cmd.rc_DGP = GetdParam("screening");
 // DGP:
-    if (GetParamStat("eps_DGP") & ARGPARAM)
-        cmd.eps_DGP = GetdParam("eps_DGP");
-    if (GetParamStat("rc_DGP") & ARGPARAM)
-        cmd.rc_DGP = GetdParam("rc_DGP");
+    if (GetParamStat("epsDGP") & ARGPARAM)
+        cmd.eps_DGP = GetdParam("epsDGP");
+    if (GetParamStat("rcDGP") & ARGPARAM)
+        cmd.rc_DGP = GetdParam("rcDGP");
 
 // Background cosmology:
     if (GetParamStat("om") & ARGPARAM)
@@ -375,8 +375,8 @@ local void ReadParameterFile(char *fname)
     RPName(cmd.fR0,"fR0");
     RPName(cmd.screening,"screening");
 // DGP:
-    RPName(cmd.eps_DGP,"eps_DGP");
-    RPName(cmd.rc_DGP,"rc_DGP");
+    RPName(cmd.eps_DGP,"epsDGP");
+    RPName(cmd.rc_DGP,"rcDGP");
 //
 // Background cosmology:
     RPName(cmd.om,"Om");
@@ -505,8 +505,8 @@ local void PrintParameterFile(char *fname)
         fprintf(fdout,FMTR,"fR0",cmd.fR0);
         fprintf(fdout,FMTR,"screening",cmd.screening);
 // DGP:
-        fprintf(fdout,FMTR,"eps_DGP",cmd.eps_DGP);
-        fprintf(fdout,FMTR,"rc_DGP",cmd.rc_DGP);
+        fprintf(fdout,FMTR,"epsDGP",cmd.eps_DGP);
+        fprintf(fdout,FMTR,"rcDGP",cmd.rc_DGP);
 //
 // Background cosmology:
         fprintf(fdout,FMTR,"Om",cmd.om);
