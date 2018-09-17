@@ -111,7 +111,7 @@ local void model_string_to_int(string model_str,int *model_int)
     *model_int = -1;
     if (strcmp(model_str,"HS") == 0)                *model_int=HS;
     if (strcmp(model_str,"DGP") == 0)               *model_int=DGP;
-    if (strcmp(model_str,"USERMODEL") == 0)         *model_int=USERMODEL;
+    if (strcmp(model_str,"USER") == 0)         *model_int=USERMODEL;
     if (strcmp(model_str,"LCDM") == 0)              *model_int=LCDM;
 }
 
