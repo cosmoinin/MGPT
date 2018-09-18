@@ -15,6 +15,11 @@ kmin                               0.0001
 kmax                               100
 Nk                                 300
 %
+% Power spectrum table:
+rmin                               50
+rmax                               130
+Nr                                 100
+%
 % Modified gravity model parameters:
 mgModel                            LCDM
 suffixModel                        _LCDM
