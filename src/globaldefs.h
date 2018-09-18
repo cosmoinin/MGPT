@@ -79,6 +79,10 @@ typedef struct {
     real kmax;
     int Nk;
 //
+// CLPT correlation functions table:
+    real rmin;
+    real rmax;
+    int Nr;
 // Post processing parameters:
     bool postprocessing;
     string options;

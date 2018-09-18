@@ -283,8 +283,10 @@ global void CLPT_correlation_processing(void)
     stream outstr;
     pointqfunctionsTableptr p;
     real aTime;
-    real rmin, rmax, dr, ri;
-    int i, Nr;
+//    real rmin, rmax,
+    real dr, ri;
+    int i;
+//    Nr;
     
     global_zacorrfunctions zacorrfun;
     global_clptcorrfunctions clptcorrfun;
@@ -365,15 +367,15 @@ global void CLPT_correlation_processing(void)
     spline(qTab,LapxiT,nqfunctionsTable,1.0e30,1.0e30,LapxiT2);
     spline(qTab,nabla4xiT,nqfunctionsTable,1.0e30,1.0e30,nabla4xiT2);
     
-    rmin = 50.0;
-    rmax = 130.0;
-    Nr = 100;
+//    cmd.rmin = 50.0;
+//    cmd.rmax = 130.0;
+//    cmd.Nr = 100;
     fprintf(stdout,"\nTesting Nr values from rmin to rmax to compute CLPT: %d %g %g\n",
-            Nr, rmin, rmax);
-    if (Nr==1) {
+            cmd.Nr, cmd.rmin, cmd.rmax);
+    if (cmd.Nr==1) {
         dr = 0.;
     } else
-        dr = (rmax - rmin)/((real)(Nr - 1));
+        dr = (cmd.rmax - cmd.rmin)/((real)(cmd.Nr - 1));
     
     fprintf(stdout,"\nWriting CLPT correlation functions to file %s...",
             gd.fpfnameclptfunctions);
@@ -394,9 +396,9 @@ global void CLPT_correlation_processing(void)
             "<13>","<14>",
             "<15>\n");
 
-    for (i=1; i<=Nr; i++) {
+    for (i=1; i<=cmd.Nr; i++) {
         aTime = cputime();
-        ri = rmin + dr*((real)(i - 1));
+        ri = cmd.rmin + dr*((real)(i - 1));
         zacorrfun = zacorrelation_functions(ri);
         clptcorrfun = clptcorrelation_functions(ri);
         

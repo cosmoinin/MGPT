@@ -84,6 +84,10 @@ local void ReadParametersCmdline(void)
     cmd.kmax = GetdParam("kmax");
     cmd.Nk = GetiParam("Nk");
 //
+// CLPT correlation functions table:
+    cmd.rmin = GetdParam("rmin");
+    cmd.rmax = GetdParam("rmax");
+    cmd.Nr = GetiParam("Nr");
 // Background cosmology:
     cmd.om = GetdParam("Om");
     cmd.olstr = GetParam("OL");
@@ -203,6 +207,13 @@ local void startrun_ParamStat(void)
         cmd.kmax = GetdParam("kmax");
     if (GetParamStat("Nk") & ARGPARAM)
         cmd.Nk = GetiParam("Nk");
+// CLPT correlation functions table:
+    if (GetParamStat("rmin") & ARGPARAM)
+        cmd.rmin = GetdParam("rmin");
+    if (GetParamStat("rmax") & ARGPARAM)
+        cmd.rmax = GetdParam("rmax");
+    if (GetParamStat("Nr") & ARGPARAM)
+        cmd.Nr = GetiParam("Nr");
 
 // Modified gravity model parameters:
     if (GetParamStat("mgModel") & ARGPARAM)
@@ -286,6 +297,15 @@ local void CheckParameters(void)
     if (cmd.Nk < 0)
         error("CheckParameters: absurd value for Nk\n");
 //
+// CLPT correlation functions table:
+    if (cmd.rmin < 0.0)
+        error("CheckParameters: absurd value for rmin\n");
+    if (cmd.rmax < 0.0)
+        error("CheckParameters: absurd value for rmax\n");
+    if (cmd.rmin > cmd.rmax)
+        error("CheckParameters: rmin can not be greater than rmax\n");
+    if (cmd.Nr < 0)
+        error("CheckParameters: absurd value for Nr\n");
 // Background cosmology:
     if (cmd.om > 1.0 || cmd.om < 0.0)
         error("CheckParameters: absurd value for om\n");
@@ -367,6 +387,10 @@ local void ReadParameterFile(char *fname)
     RPName(cmd.kmax,"kmax");
     IPName(cmd.Nk,"Nk");
 //
+// CLPT correlation functions table:
+    RPName(cmd.rmin,"rmin");
+    RPName(cmd.rmax,"rmax");
+    IPName(cmd.Nr,"Nr");
 // Modified gravity model parameters:
     SPName(cmd.mgmodel,"mgModel",100);
     SPName(cmd.suffixModel,"suffixModel",100);
@@ -497,6 +521,10 @@ local void PrintParameterFile(char *fname)
         fprintf(fdout,FMTR,"kmax",cmd.kmax);
         fprintf(fdout,FMTI,"Nk",cmd.Nk);
 //
+// CLPT correlation functions table:
+        fprintf(fdout,FMTR,"rmin",cmd.rmin);
+        fprintf(fdout,FMTR,"rmax",cmd.rmax);
+        fprintf(fdout,FMTI,"Nr",cmd.Nr);
 // Modified gravity model parameters:
         fprintf(fdout,FMTT,"mgModel",cmd.mgmodel);
         fprintf(fdout,FMTT,"suffixModel",cmd.suffixModel);

@@ -18,6 +18,10 @@ string defv[] = {  ";"HEAD1": " HEAD2 "\n\t " HEAD3,
     "kmax=100",                     ";kmax to analyse from the power spectrum table",
     "Nk=300",                       ";Total number of k to analyse from the power spectrum table",":nk",
 //
+// CLPT correlation functions table:
+    "rmin=50",                      ";rmin of the range for CLPT correlation functions table",
+    "rmax=130",                     ";rmax of the range for CLPT correlation functions table",
+    "Nr=100",                       ";Total number of r´s to analyse for the CLPT correlation functions table",":nr",
 // Modified gravity model parameters:
     "mgModel=LCDM",                 ";Modified gravity model to study, default f(R) Hu-Sawicki", ":mgm",
     "suffixModel=_LCDM",            ";Suffix model to add to output filenames", ":suffix",
