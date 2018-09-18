@@ -15,7 +15,7 @@ kmin                               0.0001
 kmax                               100
 Nk                                 300
 %
-% Power spectrum table:
+% CLPT correlation functions table:
 rmin                               50
 rmax                               130
 Nr                                 100
