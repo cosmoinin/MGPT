@@ -275,7 +275,7 @@ local real *PSLMGT2;
 
 #define FMTCORRELATIONFUNCTIONSDAT    \
 "%10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e \
-%10.3e %10.3e %10.3e %10.3e %10.3e \
+%10.3e %10.3e %10.3e %10.3e %10.3e %10.3e \
 %10.3e\n"
 
 global void CLPT_correlation_processing(void)
@@ -379,20 +379,20 @@ global void CLPT_correlation_processing(void)
             gd.fpfnameclptfunctions);
     outstr = stropen(gd.fpfnameclptfunctions,"w!");
 
-    fprintf(outstr,"%1s%5s%12s%11s%11s%11s%12s%13s%10s%13s%9s%11s%11s%11s%13s",
+    fprintf(outstr,"%1s%5s%13s%12s%10s%11s%12s%12s%10s%12s%10s%11s%11s%11s%12s%11s",
             "#","r","<xiL>","<xiZA>","<xiA>",
             "<xiW>","<xi10L>","<xi10loop>","<xi20L>",
             "<xi20loop>","<xi01>","<xi02>","<xi11>",
-            "<Lapxi>",
-            "<nabla4xi>\n");
+            "<Lapxi>","<nabla4xi>",
+            "<xiCLPT>\n");
     
     fprintf(outstr,
-            "%1s%6s%11s%11s%11s%11s%11s%11s%11s%11s%12s%11s%11s%11s%11s",
+            "%1s%6s%11s%11s%11s%11s%11s%11s%11s%11s%12s%11s%11s%11s%11s%11s",
             "#","<1>","<2>","<3>","<4>",
             "<5>","<6>","<7>","<8>",
             "<9>","<10>","<11>","<12>",
-            "<13>",
-            "<14>\n");
+            "<13>","<14>",
+            "<15>\n");
 
     for (i=1; i<=Nr; i++) {
         aTime = cputime();
@@ -414,7 +414,8 @@ global void CLPT_correlation_processing(void)
                 clptcorrfun.xi02,
                 clptcorrfun.xi11,
                 clptcorrfun.Lapxi,
-                clptcorrfun.nabla4xi
+                clptcorrfun.nabla4xi,
+                zacorrfun.xi+clptcorrfun.xiA+clptcorrfun.xiW
                 );
     }
     fclose(outstr);
@@ -544,7 +545,7 @@ global void qfunctions_processing(void)
     fprintf(stdout,"\n\nWriting q functions to file %s...",gd.fpfnameqfunctions);
     outstr = stropen(gd.fpfnameqfunctions,"w!");
 
-    fprintf(outstr,"%1s%5s%12s%11s%11s%11s%11s%11s%11s%11s%12s%13s%9s%11s%11s%11s%14s",
+    fprintf(outstr,"%1s%5s%12s%11s%13s%11s%9s%11s%12s%11s%11s%13s%8s%11s%11s%13s%13s",
             "#","q","<XL>","<YL>","<Xloop>",
             "<Yloop>","<VT>","<TT>","<X10>",
             "<Y10>","<U10L>","<U10loop>","<U11>",
@@ -552,7 +553,7 @@ global void qfunctions_processing(void)
             "<nabla4xi>\n");
     
     fprintf(outstr,
-            "%1s%6s%11s%11s%11s%11s%11s%11s%11s%11s%12s%11s%11s%11s%11s%11s%11s",
+            "%1s%6s%11s%11s%11s%11s%11s%11s%11s%11s%11s%11s%11s%11s%11s%11s%12s",
             "#","<1>","<2>","<3>","<4>",
             "<5>","<6>","<7>","<8>",
             "<9>","<10>","<11>","<12>",
@@ -616,7 +617,7 @@ global void qfunctions_processing(void)
 
 
 #define FMTBIASTERMDAT    \
-"%10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e\n"
+"%10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e\n"
 
 global void biasterms_processing(void)
 {
@@ -654,17 +655,17 @@ global void biasterms_processing(void)
 // a02 offset
     a02Off = (1./2.)*Q13QsRs(PQsRstab + 2);
 
-    fprintf(stdout,"\n\nWriting bias terms and the power spectrum to file %s...\n",gd.fpfnameSPTPowerSpectrum);
+    fprintf(stdout,"\n\nWriting bias terms and the power spectrum to file %s...",gd.fpfnameSPTPowerSpectrum);
     outstr = stropen(gd.fpfnameSPTPowerSpectrum,"w!");
 
-    fprintf(outstr,"%1s%5s%12s%11s%11s%11s%11s%11s%11s%11s",
+    fprintf(outstr,"%1s%5s%13s%11s%11s%11s%11s%11s%11s%11s%13s",
             "#","k","<PSLT>","<P22>","<P13>",
-            "<a10>","<a01>","<a20>","<a11>",
-            "<a02>\n");
+            "<a10>","<a01>","<a20>","<a11>","<a02>",
+            "<Ploop>\n");
     
     fprintf(outstr,
-            "%1s%6s%11s%11s%11s%11s%11s%11s%11s%11s",
-            "#","<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>","<9>\n");
+            "%1s%6s%11s%11s%11s%11s%11s%11s%11s%11s%12s",
+            "#","<1>","<2>","<3>","<4>","<5>","<6>","<7>","<8>","<9>","<10>\n");
 
 
     for (p=PQsRstab; p<PQsRstab+nQsRsTable; p++) {
@@ -685,10 +686,11 @@ global void biasterms_processing(void)
         a02 = (1./2.)*Q13QsRs(p) - a02Off;
         Ploop = PSLT + P22 + P13;
         fprintf(outstr,FMTBIASTERMDAT,
-                k, PSLT, P22, P13, a10, a01, a20, a11, a02
+                k, PSLT, P22, P13, a10, a01, a20, a11, a02, Ploop
                 );
     }
     fclose(outstr);
+    fprintf(stdout," finished writing.\n");
 //
     free_dvector(PSLMGT2,1,nQsRsTable);
     free_dvector(PSLMGT,1,nQsRsTable);
