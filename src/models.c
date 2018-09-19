@@ -498,7 +498,7 @@ local real sourcedI_HS(real eta, real kf, real k1, real k2)
 {
     real Stmp;
     
-    Stmp = (1.0/6.0)*rsqr(OmM(eta)*H(eta)/(rexp(eta)*invH0))
+    Stmp = (1.0/6.0)*rsqr(OmM_HS(eta)*H_HS(eta)/(rexp(eta)*invH0))
             * rsqr(kf)*M2_HS(eta)/ ( PiF_HS(eta,kf)*PiF_HS(eta,k1)*PiF_HS(eta,k2) );
     
     return Stmp;
@@ -598,34 +598,34 @@ local real K3dI_HS(real eta, real x, real k,  real p,
     kplusp = kpp(x,k,p);
     kpluspm = kpp(-x,k,p);
 
-    t1 = 2.0*rsqr(OmM(eta)*H(eta)/invH0)
+    t1 = 2.0*rsqr(OmM_HS(eta)*H_HS(eta)/invH0)
             *(M2_HS(eta)/(PiF_HS(eta,k)*PiF_HS(eta,0)));
 
-    t2 = (1.0/3.0)*(rpow(OmM(eta),3.0)*rpow(H(eta),4.0)/rpow(invH0,4) )
+    t2 = (1.0/3.0)*(rpow(OmM_HS(eta),3.0)*rpow(H_HS(eta),4.0)/rpow(invH0,4) )
         *(
             M3_HS(eta) - M2_HS(eta)*(M2_HS(eta) + JFL_HS(eta,-1.0,p,p)*(3.0+2.0*cmd.omegaBD))
                         /(PiF_HS(eta,0))
           ) / ( rsqr(PiF_HS(eta,p)) * PiF_HS(eta,k) );
 
-    t3 = rsqr(OmM(eta)*H(eta)/invH0)
+    t3 = rsqr(OmM_HS(eta)*H_HS(eta)/invH0)
         *(M2_HS(eta)/(PiF_HS(eta,p)*PiF_HS(eta,kplusp)))
         *(
             1.0 + rsqr(x) + (D2f)/(Dpk*Dpp)
           );
     
-    t4 = (1.0/3.0)*(rpow(OmM(eta),3.0)*rpow(H(eta),4.0)/rpow(invH0,4) )
+    t4 = (1.0/3.0)*(rpow(OmM_HS(eta),3.0)*rpow(H_HS(eta),4.0)/rpow(invH0,4) )
         *(
             M3_HS(eta) - M2_HS(eta)*(M2_HS(eta) + JFL_HS(eta,x,k,p)*(3.0+2.0*cmd.omegaBD))
                         /(PiF_HS(eta,kplusp))
           ) / ( rsqr(PiF_HS(eta,p)) * PiF_HS(eta,k) );
     
-    t5 = rsqr(OmM(eta)*H(eta)/invH0)
+    t5 = rsqr(OmM_HS(eta)*H_HS(eta)/invH0)
         *(M2_HS(eta)/(PiF_HS(eta,p)*PiF_HS(eta,kpluspm)))
         *(
             1.0 + rsqr(x) + (D2mf)/(Dpk*Dpp)
           );
     
-    t6 = (1.0/3.0)*(rpow(OmM(eta),3.0)*rpow(H(eta),4.0)/rpow(invH0,4) )
+    t6 = (1.0/3.0)*(rpow(OmM_HS(eta),3.0)*rpow(H_HS(eta),4.0)/rpow(invH0,4) )
         *(
           M3_HS(eta) - M2_HS(eta)*(M2_HS(eta) + JFL_HS(eta,-x,k,p)*(3.0+2.0*cmd.omegaBD))
                 /(PiF_HS(eta,kpluspm))
@@ -674,7 +674,7 @@ local real S2dI_HS(real eta, real x, real k, real p)
     
     kplusp = kpp(x,k,p);
     Dtmp = (1.0/6.0)*
-            rsqr(OmM(eta)*H(eta)/(rexp(eta)*invH0))
+            rsqr(OmM_HS(eta)*H_HS(eta)/(rexp(eta)*invH0))
         * ( (rsqr(kplusp)*M2_HS(eta)) / (PiF_HS(eta,kplusp)*PiF_HS(eta,k)*PiF_HS(eta,p)));
 
     return Dtmp;
@@ -723,7 +723,7 @@ local real S3IIplus_HS(real eta, real x, real k, real p, real Dpk, real Dpp, rea
     
     -(
       (M1_HS(eta)/(3.0*PiF_HS(eta,kplusp))) * f1(eta)*KFL2_HS(eta,x,k,p)
-      -rsqr(OmM(eta)*H(eta)/invH0)
+      -rsqr(OmM_HS(eta)*H_HS(eta)/invH0)
       * (M2_HS(eta)*kplusp*kplusp*rexp(-2.0*eta))
       / (6.0*PiF_HS(eta,kplusp)*PiF_HS(eta,k)*PiF_HS(eta,p))
       )*Dpk*Dpp*Dpp;
@@ -745,7 +745,7 @@ local real S3IIminus_HS(real eta, real x, real k, real p, real Dpk, real Dpp, re
     
     -(
       (M1_HS(eta)/(3.0*PiF_HS(eta,kpluspm))) * f1(eta)*KFL2_HS(eta,-x,k,p)
-      -rsqr(OmM(eta)*H(eta)/invH0)
+      -rsqr(OmM_HS(eta)*H_HS(eta)/invH0)
       * (M2_HS(eta)*kpluspm*kpluspm*rexp(-2.0*eta))
       / (6.0*PiF_HS(eta,kpluspm)*PiF_HS(eta,k)*PiF_HS(eta,p))
       )*Dpk*Dpp*Dpp;
@@ -1049,7 +1049,7 @@ local real sourcedI_DGP(real eta, real kf, real k1, real k2)
 {
     real Stmp;
     
-    Stmp = (1.0/6.0)*rsqr(OmM(eta)*H(eta)/(rexp(eta)*invH0))
+    Stmp = (1.0/6.0)*rsqr(OmM_DGP(eta)*H_DGP(eta)/(rexp(eta)*invH0))
     * rsqr(kf)*M2_DGP(eta, kf, k1, k2)/ ( PiF_DGP(eta,kf)*PiF_DGP(eta,k1)*PiF_DGP(eta,k2) );
     
     return Stmp;
@@ -1152,34 +1152,34 @@ local real K3dI_DGP(real eta, real x, real k,  real p,
     kpluspm = kpp(-x,k,p);
     zero=0.0000001;
     
-    t1 = 2.0*rsqr(OmM(eta)*H(eta)/invH0)
+    t1 = 2.0*rsqr(OmM_DGP(eta)*H_DGP(eta)/invH0)
     *(M2_DGP(eta,k,k,0.)/(PiF_DGP(eta,k)*PiF_DGP(eta,zero)));
     
-    t2 = (1.0/3.0)*(rpow(OmM(eta),3.0)*rpow(H(eta),4.0)/rpow(invH0,4) )
+    t2 = (1.0/3.0)*(rpow(OmM_DGP(eta),3.0)*rpow(H_DGP(eta),4.0)/rpow(invH0,4) )
     *(
       M3_DGP(eta,x,k,p) - M2_DGP(eta,k,k,0)*(M2_DGP(eta,0,p,p))
       /(PiF_DGP(eta,zero))
       ) / ( rsqr(PiF_DGP(eta,p)) * PiF_DGP(eta,k) );
     
-    t3 = rsqr(OmM(eta)*H(eta)/invH0)
+    t3 = rsqr(OmM_DGP(eta)*H_DGP(eta)/invH0)
     *(M2_DGP(eta,k,p,kplusp)/(PiF_DGP(eta,p)*PiF_DGP(eta,kplusp)))
     *(
       1.0 + rsqr(x) + (D2f)/(Dpk*Dpp)
       );
     
-    t4 = (1.0/3.0)*(rpow(OmM(eta),3.0)*rpow(H(eta),4.0)/rpow(invH0,4) )
+    t4 = (1.0/3.0)*(rpow(OmM_DGP(eta),3.0)*rpow(H_DGP(eta),4.0)/rpow(invH0,4) )
     *(
       M3_DGP(eta,x,k,p) - M2_DGP(eta,k,p,kplusp)*(M2_DGP(eta,kplusp,k,p))
       /(PiF_DGP(eta,kplusp))
       ) / ( rsqr(PiF_DGP(eta,p)) * PiF_DGP(eta,k) );
     
-    t5 = rsqr(OmM(eta)*H(eta)/invH0)
+    t5 = rsqr(OmM_DGP(eta)*H_DGP(eta)/invH0)
     *(M2_DGP(eta,k,p,kpluspm)/(PiF_DGP(eta,p)*PiF_DGP(eta,kpluspm)))
     *(
       1.0 + rsqr(x) + (D2mf)/(Dpk*Dpp)
       );
     
-    t6 = (1.0/3.0)*(rpow(OmM(eta),3.0)*rpow(H(eta),4.0)/rpow(invH0,4) )
+    t6 = (1.0/3.0)*(rpow(OmM_DGP(eta),3.0)*rpow(H_DGP(eta),4.0)/rpow(invH0,4) )
     *(
       M3_DGP(eta,x,k,p) -  M2_DGP(eta,k,p,kpluspm)*(M2_DGP(eta,kpluspm,k,p))
       /(PiF_DGP(eta,kpluspm))
@@ -1231,7 +1231,7 @@ local real S2dI_DGP(real eta, real x, real k, real p)
     
     kplusp = kpp(x,k,p);
     Dtmp = (1.0/6.0)*
-    rsqr(OmM(eta)*H(eta)/(rexp(eta)*invH0))
+    rsqr(OmM_DGP(eta)*H_DGP(eta)/(rexp(eta)*invH0))
     * ( (rsqr(kplusp)*M2_DGP(eta,kplusp,k,p)) / (PiF_DGP(eta,kplusp)*PiF_DGP(eta,k)*PiF_DGP(eta,p)));
     
     return Dtmp;
@@ -1284,7 +1284,7 @@ local real S3IIplus_DGP(real eta, real x, real k, real p, real Dpk, real Dpp, re
     
     -(
       (M1_DGP(eta)/(3.0*PiF_DGP(eta,kplusp))) * f1(eta)*KFL2_DGP(eta,x,k,p)
-      -rsqr(OmM(eta)*H(eta)/invH0)
+      -rsqr(OmM_DGP(eta)*H_DGP(eta)/invH0)
       * (M2_DGP(eta,tc,tc,tc)*kplusp*kplusp*rexp(-2.0*eta))
       / (6.0*PiF_DGP(eta,kplusp)*PiF_DGP(eta,k)*PiF_DGP(eta,p))
       )*Dpk*Dpp*Dpp;
@@ -1308,7 +1308,7 @@ local real S3IIminus_DGP(real eta, real x, real k, real p, real Dpk, real Dpp, r
     
     -(
       (M1_DGP(eta)/(3.0*PiF_DGP(eta,kpluspm))) * f1(eta)*KFL2_DGP(eta,-x,k,p)
-      -rsqr(OmM(eta)*H(eta)/invH0)
+      -rsqr(OmM_DGP(eta)*H_DGP(eta)/invH0)
       * (M2_DGP(eta,tc,tc,tc)*kpluspm*kpluspm*rexp(-2.0*eta))
       / (6.0*PiF_DGP(eta,kpluspm)*PiF_DGP(eta,k)*PiF_DGP(eta,p))
       )*Dpk*Dpp*Dpp;
@@ -1603,7 +1603,7 @@ local real sourcedI_LCDM(real eta, real kf, real k1, real k2)
 {
     real Stmp;
     
-    Stmp = (1.0/6.0)*rsqr(OmM(eta)*H(eta)/(rexp(eta)*invH0))
+    Stmp = (1.0/6.0)*rsqr(OmM_LCDM(eta)*H_LCDM(eta)/(rexp(eta)*invH0))
     * rsqr(kf)*M2_LCDM(eta)/ ( PiF_LCDM(eta,kf)*PiF_LCDM(eta,k1)*PiF_LCDM(eta,k2) );
     
     return Stmp;
@@ -1702,34 +1702,34 @@ local real K3dI_LCDM(real eta, real x, real k,  real p,
     kplusp = kpp(x,k,p);
     kpluspm = kpp(-x,k,p);
     
-    t1 = 2.0*rsqr(OmM(eta)*H(eta)/invH0)
+    t1 = 2.0*rsqr(OmM_LCDM(eta)*H_LCDM(eta)/invH0)
     *(M2_LCDM(eta)/(PiF_LCDM(eta,k)*PiF_LCDM(eta,0)));
     
-    t2 = (1.0/3.0)*(rpow(OmM(eta),3.0)*rpow(H(eta),4.0)/rpow(invH0,4) )
+    t2 = (1.0/3.0)*(rpow(OmM_LCDM(eta),3.0)*rpow(H_LCDM(eta),4.0)/rpow(invH0,4) )
     *(
       M3_LCDM(eta) - M2_LCDM(eta)*(M2_LCDM(eta) + JFL_LCDM(eta,-1.0,p,p)*(3.0+2.0*cmd.omegaBD))
       /(PiF_LCDM(eta,0))
       ) / ( rsqr(PiF_LCDM(eta,p)) * PiF_LCDM(eta,k) );
     
-    t3 = rsqr(OmM(eta)*H(eta)/invH0)
+    t3 = rsqr(OmM_LCDM(eta)*H_LCDM(eta)/invH0)
     *(M2_LCDM(eta)/(PiF_LCDM(eta,p)*PiF_LCDM(eta,kplusp)))
     *(
       1.0 + rsqr(x) + (D2f)/(Dpk*Dpp)
       );
     
-    t4 = (1.0/3.0)*(rpow(OmM(eta),3.0)*rpow(H(eta),4.0)/rpow(invH0,4) )
+    t4 = (1.0/3.0)*(rpow(OmM_LCDM(eta),3.0)*rpow(H_LCDM(eta),4.0)/rpow(invH0,4) )
     *(
       M3_LCDM(eta) - M2_LCDM(eta)*(M2_LCDM(eta) + JFL_LCDM(eta,x,k,p)*(3.0+2.0*cmd.omegaBD))
       /(PiF_LCDM(eta,kplusp))
       ) / ( rsqr(PiF_LCDM(eta,p)) * PiF_LCDM(eta,k) );
     
-    t5 = rsqr(OmM(eta)*H(eta)/invH0)
+    t5 = rsqr(OmM_LCDM(eta)*H_LCDM(eta)/invH0)
     *(M2_LCDM(eta)/(PiF_LCDM(eta,p)*PiF_LCDM(eta,kpluspm)))
     *(
       1.0 + rsqr(x) + (D2mf)/(Dpk*Dpp)
       );
     
-    t6 = (1.0/3.0)*(rpow(OmM(eta),3.0)*rpow(H(eta),4.0)/rpow(invH0,4) )
+    t6 = (1.0/3.0)*(rpow(OmM_LCDM(eta),3.0)*rpow(H_LCDM(eta),4.0)/rpow(invH0,4) )
     *(
       M3_LCDM(eta) - M2_LCDM(eta)*(M2_LCDM(eta) + JFL_LCDM(eta,-x,k,p)*(3.0+2.0*cmd.omegaBD))
       /(PiF_LCDM(eta,kpluspm))
@@ -1778,7 +1778,7 @@ local real S2dI_LCDM(real eta, real x, real k, real p)
     
     kplusp = kpp(x,k,p);
     Dtmp = (1.0/6.0)*
-    rsqr(OmM(eta)*H(eta)/(rexp(eta)*invH0))
+    rsqr(OmM_LCDM(eta)*H_LCDM(eta)/(rexp(eta)*invH0))
     * ( (rsqr(kplusp)*M2_LCDM(eta)) / (PiF_LCDM(eta,kplusp)*PiF_LCDM(eta,k)*PiF_LCDM(eta,p)));
     
     return Dtmp;
@@ -1827,7 +1827,7 @@ local real S3IIplus_LCDM(real eta, real x, real k, real p, real Dpk, real Dpp, r
     
     -(
       (M1_LCDM(eta)/(3.0*PiF_LCDM(eta,kplusp))) * f1(eta)*KFL2_LCDM(eta,x,k,p)
-      -rsqr(OmM(eta)*H(eta)/invH0)
+      -rsqr(OmM_LCDM(eta)*H_LCDM(eta)/invH0)
       * (M2_LCDM(eta)*kplusp*kplusp*rexp(-2.0*eta))
       / (6.0*PiF_LCDM(eta,kplusp)*PiF_LCDM(eta,k)*PiF_LCDM(eta,p))
       )*Dpk*Dpp*Dpp;
@@ -1849,7 +1849,7 @@ local real S3IIminus_LCDM(real eta, real x, real k, real p, real Dpk, real Dpp, 
     
     -(
       (M1_LCDM(eta)/(3.0*PiF_LCDM(eta,kpluspm))) * f1(eta)*KFL2_LCDM(eta,-x,k,p)
-      -rsqr(OmM(eta)*H(eta)/invH0)
+      -rsqr(OmM_LCDM(eta)*H_LCDM(eta)/invH0)
       * (M2_LCDM(eta)*kpluspm*kpluspm*rexp(-2.0*eta))
       / (6.0*PiF_LCDM(eta,kpluspm)*PiF_LCDM(eta,k)*PiF_LCDM(eta,p))
       )*Dpk*Dpp*Dpp;

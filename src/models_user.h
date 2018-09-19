@@ -2,17 +2,18 @@
 	MODULE: models_user.h			[mgpt]
 ================================================================================*/
 
-// AS IT IS HERE, IS EQUIVALENT TO HS MODEL... results must be the same.
+// AS IS HERE IS EQUIVALENT TO DGP MODEL... results must be the same.
 
 #define USERMODEL 100
 
 // User model parameters to appear in model parameters input file
 typedef struct {
-    int ipar1;       // nHS
+    int ipar1;          // There is no int parameter
 
-    real par1;       // fR0
-    real par2;       // screening
-
+    real par1;          // eps_DGP
+    real par2;          // rc_DGP
+    real par3;          // screening
+    
 } usrparam_struct, *usrparam_struct_ptr;
 
 local usrparam_struct usrp;
@@ -21,18 +22,19 @@ local usrparam_struct usrp;
 // (will be constant always for this model)
 
 typedef struct {
-    real par1;    // beta2
-    real par2;    // omegaBD
+    real par1;    // Not local parameter needed
+    real par2;    // Not local parameter needed
 } local_usrparam, *usrparam_ptr;
 
 local local_usrparam usrpl;
 
 // MACROS :: user parameters
-#define nHS_u     usrp.ipar1
-#define fR0_u     usrp.par1
-#define screening_u   usrp.par2
-#define beta2_u       usrpl.par1
-#define omegaBD_u     usrpl.par2
+//#define nHS_u     usrp.ipar1    // There is no int parameter
+#define eps_DGP_u           usrp.par1
+#define rc_DGP_u            usrp.par2
+#define screening_DGP_u     usrp.par3
+//#define beta2_u       usrpl.par1      // Not local parameter needed
+//#define omegaBD_u     usrpl.par2      // Not local parameter needed
 
 
 local void set_Model_USER(void)
@@ -41,12 +43,12 @@ local void set_Model_USER(void)
 //
 // Parameters set and default values:
 // Local in parameter file parameters:
-    usrp.ipar1  =1.0;              //    nHS=1.0;
-    usrp.par1   =1.0e-5;           //    fR0=1.0e-5;
-    usrp.par2   =1.0;               //    screening = 1.0;
+//    usrp.ipar1  =1.0;             //    nHS=1.0;     // There is no int parameter
+    usrp.par1   =-1.0;                  //    eps_DGP=-1.0;
+    usrp.par2   =1.0;                   //    rc_DGP = 1.0;
 // Local parameters:
-    usrpl.par1  =1.0/6.0;           //    beta2=1.0/6.0;
-    usrpl.par2  =0.0;               //    omegaBD = 0.0;
+//    usrpl.par1  =1.0/6.0;           //    beta2=1.0/6.0;  // Not local parameter needed
+//    usrpl.par2  =0.0;               //    omegaBD = 0.0;  // Not local parameter needed
 }
 
 
@@ -65,12 +67,12 @@ local real sourceA_USER(real eta, real kf, real k1, real k2);
 local real sourceb_USER(real eta, real kf, real k1, real k2);
 local real SD2_USER(real eta, real x, real k, real p);
 local real S3I_USER(real eta, real x, real k, real p, real Dpk, real Dpp,
-                  real D2f, real D2mf);
+                    real D2f, real D2mf);
 local real S3II_USER(real eta, real x, real k, real p, real Dpk, real Dpp,
-                   real D2f, real D2mf);
+                     real D2f, real D2mf);
 local real S3FL_USER(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f, real D2mf);
 local real S3dI_USER(real eta, real x, real k, real p, real Dpk, real Dpp,
-                   real D2f, real D2mf);
+                     real D2f, real D2mf);
 // End: HS Model global HEADERS
 // ==========================================
 
@@ -101,7 +103,7 @@ local real S3dI_USER(real eta, real x, real k, real p, real Dpk, real Dpp,
 local real OmM_USER(real eta)
 {
     real OmMtmp;
-
+    
     OmMtmp=1.0/(1.0 + ( (gd.ol)/cmd.om)*rexp(3.0*eta) );
     return (OmMtmp);
 }
@@ -113,6 +115,7 @@ local  real H_USER(real eta)
     Htmp=rsqrt(cmd.om*rexp(-3.0*eta)+(gd.ol));
     return (Htmp);
 }
+
 
 local  real f1_USER(real eta)
 {
@@ -146,15 +149,15 @@ local real A0_USER(real eta)
 }
 // End :: mglpt_fns
 
-// Begin: Hu-Sawicky Model local HEADERS
+// Begin: USER Model local HEADERS
 local real mass_USER(real eta);
 local real JFL_USER(real eta, real x, real k, real p);
 local real KFL_USER(real eta, real k, real k1, real k2);
 local real KFL2_USER(real eta, real x, real k, real p);
 local real PiF_USER(real eta, real k);
 local real M1_USER(real eta);
-local real M2_USER(real eta);
-local real M3_USER(real eta);
+local real M2_USER(real eta, real k, real k1, real k2);
+local real M3_USER(real eta, real x, real k, real p);
 local real S2a_USER(real eta, real x, real k, real p);
 local real S2b_USER(real eta, real x, real k, real p);
 local real S2FL_USER(real eta, real x, real k, real p);
@@ -169,120 +172,123 @@ local real S3IIminus_USER(real eta, real x, real k, real p, real Dpk, real Dpp, 
 local real S3FLplus_USER(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f);
 local real S3FLminus_USER(real eta, real x, real k, real p, real Dpk, real Dpp, real D2mf);
 local real D2phiplus_USER(real eta, real x, real k, real p,
-                     real Dpk, real Dpp, real D2f);
+                          real Dpk, real Dpp, real D2f);
 local real D2phiminus_USER(real eta, real x, real k, real p,
-                      real Dpk, real Dpp, real D2mf);
+                           real Dpk, real Dpp, real D2mf);
 local real K3dI_USER(real eta, real x, real k,  real p,
-                real Dpk, real Dpp, real D2f, real D2mf);
-// End: Hu-Sawicky Model local HEADERS
+                     real Dpk, real Dpp, real D2f, real D2mf);
+// End: USER Model local HEADERS
 
-/*
-local void set_Model_USER(void)
-{
-    strcpy(gd.model_comment, "USER Model");
-//
-// Parameters set and default values:
-//    nHS=1.0;
-//    fR0=1.0e-5;
-//    beta2=1.0/6.0;
-//    omegaBD = 0.0;
-//    screening = 1.0;
-    gd.beta2 = 1.0/6.0;
-    cmd.omegaBD = 0.0;
-}
-*/
 
-local real mass_USER(real eta)
+local real mass_USER(real eta)  // Not used
 {
     real masstmp;
     
-    masstmp = (1.0/invH0)*rsqrt(1.0/(2.0*fR0_u))
-                * rpow(cmd.om*rexp(-3.0*eta) + 4.0*(gd.ol),(2.0+nHS_u)/2.0)
-                / rpow(cmd.om+4.0*(gd.ol),(1.0+nHS_u)/2.0);
-
+    masstmp = 0;
+    
     return (masstmp);
 }
 
 local real mu_USER(real eta, real k)
 {
-    real mutmp;
-    mutmp = 1.0 + (2.0*beta2_u*k*k)/(k*k + rexp(2.0*eta)*rsqr(mass_USER(eta)));
-
+    //~ real mutmp;
+    //~ mutmp = 1.0 + (2.0*gd.beta2*k*k)/(k*k + rexp(2.0*eta)*rsqr(mass_DGP(eta)));
+    
+    //~ return (mutmp);
+    
+    real mutmp, betadgp;
+    
+    
+    betadgp = 1.0 - 2.0 * eps_DGP_u * rc_DGP_u * H_USER(eta) *
+    (1.0 - 1.0/(2.0*(1.0 + gd.ol/cmd.om * rexp(3.0*eta) ) ) );
+    
+    mutmp = 1.0 + 1.0 / 3.0 / betadgp ;
+    
     return (mutmp);
 }
 
 local real PiF_USER(real eta, real k)
 {
-    real PiFtmp;
+    real PiFtmp, betadgp;
     
-    PiFtmp = k*k/rexp(2.0*eta) + rsqr(mass_USER(eta));
+    
+    betadgp = 1.0 - 2.0 * eps_DGP_u * rc_DGP_u * H_USER(eta) *
+    (1.0 - 1.0/(2.0*(1.0 + gd.ol/cmd.om * rexp(3.0*eta) ) ) );
+    
+    PiFtmp = betadgp * k*k/rexp(2.0*eta) ;
     
     return (PiFtmp);
 }
 
 
-// ===========================================================================
+// ---------------------------------------------------------------------------
 // BEGIN :: SECOND ORDER (six second order differential equations)
 //
 
-local real M2_USER(real eta)
+local real M2_USER(real eta, real kf, real k1, real k2)
 {
     real M2tmp;
     
-    M2tmp = screening_u;
-    M2tmp *= (9.0/(4.0*rsqr(invH0)))*rsqr(1.0/fR0_u)
-            * rpow(cmd.om*rexp(-3.0*eta)+4.0*(gd.ol),5.0)
-            / rpow(cmd.om+4*(gd.ol),4.0);
+    M2tmp  = screening_DGP_u;
+    M2tmp *= 2.0 * rsqr( rc_DGP_u * invH0 / cmd.h ) / rexp( 4.0 * eta)
+    * ( rsqr(k1)*rsqr(k2)
+       - 0.25 * rsqr( -rsqr(k1) - rsqr(k2) + rsqr(kf) ) )  ;
+    
     
     return (M2tmp);
 }
 
+//This is zero in DGP
 local real KFL_USER(real eta, real k, real k1, real k2)
 {
     real KFLtmp;
-
-    KFLtmp = 0.5*(rsqr(sqr(k)-sqr(k1)-sqr(k2))/(sqr(k1)*sqr(k2)))*(mu_USER(eta,k1)+mu_USER(eta,k2)-2.0)
-        + 0.5*((sqr(k)-sqr(k1)-sqr(k2))/sqr(k1))*(mu_USER(eta,k1)-1.0)
-        + 0.5*((sqr(k)-sqr(k1)-sqr(k2))/sqr(k2))*(mu_USER(eta,k2)-1.0);
-
+    
+    KFLtmp = 0;
+    
     return (KFLtmp);
 }
 
 local real sourceA_USER(real eta, real kf, real k1, real k2)
 {
     real Stmp;
-
+    
     Stmp = sourcea_USER(eta, kf)
-            + sourceFL_USER(eta, kf, k1, k2)
-            - sourcedI_USER(eta, kf, k1, k2);
-
+    //~ + sourceFL_DGP(eta, kf, k1, k2)
+    - sourcedI_USER(eta, kf, k1, k2);
+    
     return Stmp;
 }
 
 local real sourcea_USER(real eta, real kf)
 {
     real Stmp;
+    real anyk;
     
-    Stmp = f1(eta)*mu_USER(eta, kf);
-
+    anyk=1.0;
+    
+    Stmp = f1(eta)*mu_USER(eta, anyk);
+    
     return Stmp;
 }
 
 local real sourceb_USER(real eta, real kf, real k1, real k2)
 {
     real Stmp;
+    real anyk;
     
-    Stmp = f1(eta)*( mu_USER(eta, k1) + mu_USER(eta, k2) - mu_USER(eta, kf));
-
+    anyk=1.0;
+    
+    Stmp = f1(eta)*mu_USER(eta, anyk);
+    
     return Stmp;
 }
 
-local real sourceFL_USER(real eta, real kf, real k1, real k2)
+local real sourceFL_USER(real eta, real kf, real k1, real k2) //This is zero in DGP
 {
     real Stmp;
     
-    Stmp = f1(eta)*(rsqr(mass_USER(eta))/PiF_USER(eta,kf))*KFL_USER(eta, kf, k1, k2);
-
+    Stmp = 0;
+    
     return Stmp;
 }
 
@@ -291,49 +297,48 @@ local real sourcedI_USER(real eta, real kf, real k1, real k2)
     real Stmp;
     
     Stmp = (1.0/6.0)*rsqr(OmM_USER(eta)*H_USER(eta)/(rexp(eta)*invH0))
-            * rsqr(kf)*M2_USER(eta)/ ( PiF_USER(eta,kf)*PiF_USER(eta,k1)*PiF_USER(eta,k2) );
+    * rsqr(kf)*M2_USER(eta, kf, k1, k2)/ ( PiF_USER(eta,kf)*PiF_USER(eta,k1)*PiF_USER(eta,k2) );
     
     return Stmp;
 }
 
 //
 // END :: SECOND ORDER (six second order differential equations)
-// ===========================================================================
+// ---------------------------------------------------------------------------
 
 
-// ===========================================================================
+// ---------------------------------------------------------------------------
 // BEGIN :: THIRD ORDER (Dsymmetric, five second order differential equations)
 //
 
-local real M1_USER(real eta)
+local real M1_USER(real eta) //This is zero in DGP
 {
     real M1tmp;
     
-    M1tmp = 3.0*rsqr(mass_USER(eta));
+    M1tmp = 0;
     
     return (M1tmp);
 }
 
-local real M3_USER(real eta)
+local real M3_USER(real eta, real x, real k, real p) // This is introduced below ...
 {
     real M3tmp;
 
-    M3tmp = screening_u;
-    M3tmp *= (45.0/(8.0*rsqr(invH0)))*rpow(1.0/fR0_u,3.0)
-        * rpow(cmd.om*rexp(-3.0*eta)+4.0*(gd.ol),7.0)
-        / rpow(cmd.om+4*(gd.ol),6.0);
-
+    M3tmp = screening_DGP_u;
+    M3tmp *= 0;
+    
     return (M3tmp);
 }
+
 
 local real KFL2_USER(real eta, real x, real k, real p)
 {
     real KFLtmp;
     
     KFLtmp = 2.0*rsqr(x)*( mu_USER(eta,k) + mu_USER(eta,p)-2.0 )
-            + (p*x/k)*(mu_USER(eta,k) - 1.0)
-            + (k*x/p)*(mu_USER(eta,p) - 1.0);
-
+    + (p*x/k)*(mu_USER(eta,k) - 1.0)
+    + (k*x/p)*(mu_USER(eta,p) - 1.0);
+    
     return (KFLtmp);
 }
 
@@ -341,100 +346,104 @@ local real JFL_USER(real eta, real x, real k, real p)
 {
     real JFLtmp;
     
-    JFLtmp = (9.0/(2.0*A0(eta)))
-            * KFL2_USER(eta, x, k, p) * PiF_USER(eta, k) * PiF_USER(eta, p);
-
+    JFLtmp = (9.0/(2.0*A0_USER(eta)))
+    * KFL2_USER(eta, x, k, p) * PiF_USER(eta, k) * PiF_USER(eta, p);
+    
     return (JFLtmp);
 }
 
 local real D2phiplus_USER(real eta, real x, real k, real p,
-                     real Dpk, real Dpp, real D2f)
+                          real Dpk, real Dpp, real D2f)
 {
     real D2tmp;
     
-    D2tmp = (
-             (1.0 + rsqr(x))
-             -( 2.0*A0(eta)/3.0 )
-             * (
-                ( M2_USER(eta) + JFL_USER(eta,x,k,p)*(3.0+2.0*omegaBD_u) )
-                / (3.0*PiF_USER(eta,k)*PiF_USER(eta,p))
-                )
-             ) * Dpk*Dpp + D2f;
+    //~ D2tmp = (
+    //~ (1.0 + rsqr(x))
+    //~ -( 2.0*A0(eta)/3.0 )
+    //~ * (
+    //~ ( M2_DGP(eta) + JFL_DGP(eta,x,k,p)*(3.0+2.0*cmd.omegaBD) )
+    //~ / (3.0*PiF_DGP(eta,k)*PiF_DGP(eta,p))
+    //~ )
+    //~ ) * Dpk*Dpp + D2f;
+    D2tmp = 0;
     
     return (D2tmp);
 }
 
 local real D2phiminus_USER(real eta, real x, real k, real p,
-                     real Dpk, real Dpp, real D2mf)
+                           real Dpk, real Dpp, real D2mf)
 {
     real D2tmp;
     
-    D2tmp = (
-             (1.0 + rsqr(x))
-             -( 2.0*A0(eta)/3.0 )
-             * (
-                ( M2_USER(eta) + JFL_USER(eta,-x,k,p)*(3.0+2.0*omegaBD_u) )
-                / (3.0*PiF_USER(eta,k)*PiF_USER(eta,p))
-                )
-             ) * Dpk*Dpp + D2mf;
-
+    //~ D2tmp = (
+    //~ (1.0 + rsqr(x))
+    //~ -( 2.0*A0(eta)/3.0 )
+    //~ * (
+    //~ ( M2_DGP(eta) + JFL_DGP(eta,-x,k,p)*(3.0+2.0*cmd.omegaBD) )
+    //~ / (3.0*PiF_DGP(eta,k)*PiF_DGP(eta,p))
+    //~ )
+    //~ ) * Dpk*Dpp + D2mf;
+    D2tmp = 0;
+    
     return (D2tmp);
 }
 
 local real K3dI_USER(real eta, real x, real k,  real p,
-                 real Dpk, real Dpp, real D2f, real D2mf)
+                     real Dpk, real Dpp, real D2f, real D2mf)
 {
     real K3tmp, kplusp, kpluspm;
     real t1, t2, t3, t4, t5, t6;
-
+    real zero;
+    
     kplusp = kpp(x,k,p);
     kpluspm = kpp(-x,k,p);
-
-    t1 = 2.0*rsqr(OmM(eta)*H(eta)/invH0)
-            *(M2_USER(eta)/(PiF_USER(eta,k)*PiF_USER(eta,0)));
-
-    t2 = (1.0/3.0)*(rpow(OmM(eta),3.0)*rpow(H(eta),4.0)/rpow(invH0,4) )
-        *(
-            M3_USER(eta) - M2_USER(eta)*(M2_USER(eta) + JFL_USER(eta,-1.0,p,p)*(3.0+2.0*omegaBD_u))
-                        /(PiF_USER(eta,0))
-          ) / ( rsqr(PiF_USER(eta,p)) * PiF_USER(eta,k) );
-
-    t3 = rsqr(OmM(eta)*H(eta)/invH0)
-        *(M2_USER(eta)/(PiF_USER(eta,p)*PiF_USER(eta,kplusp)))
-        *(
-            1.0 + rsqr(x) + (D2f)/(Dpk*Dpp)
-          );
+    zero=0.0000001;
     
-    t4 = (1.0/3.0)*(rpow(OmM(eta),3.0)*rpow(H(eta),4.0)/rpow(invH0,4) )
-        *(
-            M3_USER(eta) - M2_USER(eta)*(M2_USER(eta) + JFL_USER(eta,x,k,p)*(3.0+2.0*omegaBD_u))
-                        /(PiF_USER(eta,kplusp))
-          ) / ( rsqr(PiF_USER(eta,p)) * PiF_USER(eta,k) );
+    t1 = 2.0*rsqr(OmM_USER(eta)*H_USER(eta)/invH0)
+    *(M2_USER(eta,k,k,0.)/(PiF_USER(eta,k)*PiF_USER(eta,zero)));
     
-    t5 = rsqr(OmM(eta)*H(eta)/invH0)
-        *(M2_USER(eta)/(PiF_USER(eta,p)*PiF_USER(eta,kpluspm)))
-        *(
-            1.0 + rsqr(x) + (D2mf)/(Dpk*Dpp)
-          );
+    t2 = (1.0/3.0)*(rpow(OmM_USER(eta),3.0)*rpow(H_USER(eta),4.0)/rpow(invH0,4) )
+    *(
+      M3_USER(eta,x,k,p) - M2_USER(eta,k,k,0)*(M2_USER(eta,0,p,p))
+      /(PiF_USER(eta,zero))
+      ) / ( rsqr(PiF_USER(eta,p)) * PiF_USER(eta,k) );
     
-    t6 = (1.0/3.0)*(rpow(OmM(eta),3.0)*rpow(H(eta),4.0)/rpow(invH0,4) )
-        *(
-          M3_USER(eta) - M2_USER(eta)*(M2_USER(eta) + JFL_USER(eta,-x,k,p)*(3.0+2.0*omegaBD_u))
-                /(PiF_USER(eta,kpluspm))
-          ) / ( rsqr(PiF_USER(eta,p)) * PiF_USER(eta,k) );
-
+    t3 = rsqr(OmM_USER(eta)*H_USER(eta)/invH0)
+    *(M2_USER(eta,k,p,kplusp)/(PiF_USER(eta,p)*PiF_USER(eta,kplusp)))
+    *(
+      1.0 + rsqr(x) + (D2f)/(Dpk*Dpp)
+      );
+    
+    t4 = (1.0/3.0)*(rpow(OmM_USER(eta),3.0)*rpow(H_USER(eta),4.0)/rpow(invH0,4) )
+    *(
+      M3_USER(eta,x,k,p) - M2_USER(eta,k,p,kplusp)*(M2_USER(eta,kplusp,k,p))
+      /(PiF_USER(eta,kplusp))
+      ) / ( rsqr(PiF_USER(eta,p)) * PiF_USER(eta,k) );
+    
+    t5 = rsqr(OmM_USER(eta)*H_USER(eta)/invH0)
+    *(M2_USER(eta,k,p,kpluspm)/(PiF_USER(eta,p)*PiF_USER(eta,kpluspm)))
+    *(
+      1.0 + rsqr(x) + (D2mf)/(Dpk*Dpp)
+      );
+    
+    t6 = (1.0/3.0)*(rpow(OmM_USER(eta),3.0)*rpow(H_USER(eta),4.0)/rpow(invH0,4) )
+    *(
+      M3_USER(eta,x,k,p) -  M2_USER(eta,k,p,kpluspm)*(M2_USER(eta,kpluspm,k,p))
+      /(PiF_USER(eta,kpluspm))
+      ) / ( rsqr(PiF_USER(eta,p)) * PiF_USER(eta,k) );
+    
     K3tmp = t1 + t2 + t3 + t4 + t5 + t6;
-
+    
     return (K3tmp);
 }
 
 local real S2a_USER(real eta, real x, real k, real p)
 {
-    real Dtmp, kplusp;
-
-    kplusp = kpp(x,k,p);
-    Dtmp = f1(eta)*mu_USER(eta,kplusp);
-
+    real Dtmp;
+    
+    //~ kplusp = kpp(x,k,p);
+    Dtmp = f1(eta)*mu_USER(eta,1);
+    
     return Dtmp;
 }
 
@@ -443,7 +452,7 @@ local real S2b_USER(real eta, real x, real k, real p)
     real Dtmp, kplusp;
     
     kplusp = kpp(x,k,p);
-    Dtmp = f1(eta)*(mu_USER(eta,k)+mu_USER(eta,p)-mu_USER(eta,kplusp));
+    Dtmp = f1(eta)*mu_USER(eta,1);
     
     return Dtmp;
 }
@@ -452,11 +461,14 @@ local real S2FL_USER(real eta, real x, real k, real p)
 {
     real Dtmp, kplusp;
     
-    kplusp = kpp(x,k,p);
-    Dtmp = f1(eta)*(
-                    M1_USER(eta)/(3.0*PiF_USER(eta,kplusp))
-                    *KFL2_USER(eta,x,k,p)
-                    );
+    //~ kplusp = kpp(x,k,p);
+    //~ Dtmp = f1(eta)*(
+    //~ M1_DGP(eta)/(3.0*PiF_DGP(eta,kplusp))
+    //~ *KFL2_DGP(eta,x,k,p)
+    //~ );
+    
+    Dtmp = 0;
+    
     return Dtmp;
 }
 
@@ -466,46 +478,50 @@ local real S2dI_USER(real eta, real x, real k, real p)
     
     kplusp = kpp(x,k,p);
     Dtmp = (1.0/6.0)*
-            rsqr(OmM(eta)*H(eta)/(rexp(eta)*invH0))
-        * ( (rsqr(kplusp)*M2_USER(eta)) / (PiF_USER(eta,kplusp)*PiF_USER(eta,k)*PiF_USER(eta,p)));
-
+    rsqr(OmM_USER(eta)*H_USER(eta)/(rexp(eta)*invH0))
+    * ( (rsqr(kplusp)*M2_USER(eta,kplusp,k,p)) / (PiF_USER(eta,kplusp)*PiF_USER(eta,k)*PiF_USER(eta,p)));
+    
     return Dtmp;
 }
 
 local real SD2_USER(real eta, real x, real k, real p)
 {
     real Dtmp;
-
+    
     Dtmp = S2a_USER(eta, x, k, p) -  S2b_USER(eta, x, k, p)*rsqr(x)
-        + S2FL_USER(eta, x, k, p) - S2dI_USER(eta, x, k, p);
-
+    + S2FL_USER(eta, x, k, p) - S2dI_USER(eta, x, k, p);
+    
     return Dtmp;
 }
 
 local real S3I_USER(real eta, real x, real k, real p, real Dpk, real Dpp,
-                real D2f, real D2mf)
+                    real D2f, real D2mf)
 {
     real Stmp, kplusp, kpluspm;
-
+    
     kplusp = kpp(x,k,p);
     kpluspm = kpp(-x,k,p);
     Stmp = (
             f1(eta)*(mu_USER(eta,p)+mu_USER(eta,kplusp)-mu_USER(eta,k))*D2f*Dpp
-                + SD2_USER(eta,x,k,p)*Dpk*Dpp*Dpp
+            + SD2_USER(eta,x,k,p)*Dpk*Dpp*Dpp
             )*(1.0 - rsqr(x))/(1.0 + rsqr(p/k) + 2.0*(p/k)*x)
-        + (
-           f1(eta)*(mu_USER(eta,p)+mu_USER(eta,kpluspm)-mu_USER(eta,k))*D2mf*Dpp
-            + SD2_USER(eta,-x,k,p)*Dpk*Dpp*Dpp
-           )*(1.0 - rsqr(x))/(1.0 + rsqr(p/k) - 2.0*(p/k)*x);
-
+    + (
+       f1(eta)*(mu_USER(eta,p)+mu_USER(eta,kpluspm)-mu_USER(eta,k))*D2mf*Dpp
+       + SD2_USER(eta,-x,k,p)*Dpk*Dpp*Dpp
+       )*(1.0 - rsqr(x))/(1.0 + rsqr(p/k) - 2.0*(p/k)*x);
+    
     return (Stmp);
 }
 
+
+//The next is zero for DGP
 local real S3IIplus_USER(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f)
 {
     real Stmp, kplusp;
+    real tc; //tocheck value
     
     kplusp = kpp(x,k,p);
+    
     
     Stmp =
     -f1(eta)*(mu_USER(eta,p)+mu_USER(eta,kplusp)-2.0*mu_USER(eta,k))
@@ -515,20 +531,22 @@ local real S3IIplus_USER(real eta, real x, real k, real p, real Dpk, real Dpp, r
     
     -(
       (M1_USER(eta)/(3.0*PiF_USER(eta,kplusp))) * f1(eta)*KFL2_USER(eta,x,k,p)
-      -rsqr(OmM(eta)*H(eta)/invH0)
-      * (M2_USER(eta)*kplusp*kplusp*rexp(-2.0*eta))
+      -rsqr(OmM_USER(eta)*H_USER(eta)/invH0)
+      * (M2_USER(eta,tc,tc,tc)*kplusp*kplusp*rexp(-2.0*eta))
       / (6.0*PiF_USER(eta,kplusp)*PiF_USER(eta,k)*PiF_USER(eta,p))
       )*Dpk*Dpp*Dpp;
     
     return (Stmp);
 }
 
+//The next is zero for DGP
 local real S3IIminus_USER(real eta, real x, real k, real p, real Dpk, real Dpp, real D2mf)
 {
     real Stmp, kpluspm;
-
+    real tc; //tocheck value
+    
     kpluspm = kpp(-x,k,p);
-
+    
     Stmp =
     -f1(eta)*(mu_USER(eta,p)+mu_USER(eta,kpluspm)-2.0*mu_USER(eta,k))
     * Dpp*( D2mf + Dpk*Dpp*rsqr(x) )
@@ -537,24 +555,29 @@ local real S3IIminus_USER(real eta, real x, real k, real p, real Dpk, real Dpp, 
     
     -(
       (M1_USER(eta)/(3.0*PiF_USER(eta,kpluspm))) * f1(eta)*KFL2_USER(eta,-x,k,p)
-      -rsqr(OmM(eta)*H(eta)/invH0)
-      * (M2_USER(eta)*kpluspm*kpluspm*rexp(-2.0*eta))
+      -rsqr(OmM_USER(eta)*H_USER(eta)/invH0)
+      * (M2_USER(eta,tc,tc,tc)*kpluspm*kpluspm*rexp(-2.0*eta))
       / (6.0*PiF_USER(eta,kpluspm)*PiF_USER(eta,k)*PiF_USER(eta,p))
       )*Dpk*Dpp*Dpp;
     
     return (Stmp);
 }
 
+//The next is zero for DGP
 local real S3II_USER(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f, real D2mf)
 {
     real Stmp;
     
-    Stmp =  S3IIplus_USER(eta, x, k, p, Dpk, Dpp, D2f)
-         + S3IIminus_USER(eta, x, k, p, Dpk, Dpp, D2mf);
-
+    //uncomment for general models
+    //~ Stmp =  S3IIplus_DGP(eta, x, k, p, Dpk, Dpp, D2f)
+    //~ + S3IIminus_DGP(eta, x, k, p, Dpk, Dpp, D2mf);
+    Stmp =  0;
+    
     return (Stmp);
 }
 
+
+//The next is zero for DGP
 local real S3FLplus_USER(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f)
 {
     real Stmp, kplusp;
@@ -563,18 +586,20 @@ local real S3FLplus_USER(real eta, real x, real k, real p, real Dpk, real Dpp, r
     
     Stmp = f1(eta)*(M1_USER(eta)/(3.0*PiF_USER(eta,k)))
     *(
-        (2.0*rsqr(p+k*x)/rsqr(kplusp) - 1.0 - (k*x)/p )
-        *( mu_USER(eta,p)-1.0 )* D2f * Dpp
+      (2.0*rsqr(p+k*x)/rsqr(kplusp) - 1.0 - (k*x)/p )
+      *( mu_USER(eta,p)-1.0 )* D2f * Dpp
       
-        + ( (rsqr(p) + 3.0*k*p*x + 2.0*k*k * x*x)/rsqr(kplusp) )
-        *( mu_USER(eta,kplusp) - 1.0) * D2phiplus_USER(eta,x,k,p,Dpk,Dpp,D2f) * Dpp
+      + ( (rsqr(p) + 3.0*k*p*x + 2.0*k*k * x*x)/rsqr(kplusp) )
+      *( mu_USER(eta,kplusp) - 1.0) * D2phiplus_USER(eta,x,k,p,Dpk,Dpp,D2f) * Dpp
       
       + 3.0*rsqr(x)*( mu_USER(eta,k) + mu_USER(eta,p) - 2.0 ) * Dpk * Dpp * Dpp
-    );
+      );
     
     return (Stmp);
 }
 
+
+//The next is zero for DGP
 local real S3FLminus_USER(real eta, real x, real k, real p, real Dpk, real Dpp, real D2mf)
 {
     real Stmp, kpluspm;
@@ -595,31 +620,35 @@ local real S3FLminus_USER(real eta, real x, real k, real p, real Dpk, real Dpp, 
     return (Stmp);
 }
 
+
+//The next is zero for DGP
 local real S3FL_USER(real eta, real x, real k, real p, real Dpk, real Dpp, real D2f, real D2mf)
 {
     real Stmp;
-
-    Stmp = S3FLplus_USER(eta, x, k, p, Dpk, Dpp, D2f)
-        + S3FLminus_USER(eta, x, k, p, Dpk, Dpp, D2mf);
-
+    
+    //uncomment for general models
+    //~ Stmp = S3FLplus_DGP(eta, x, k, p, Dpk, Dpp, D2f)
+    //~ + S3FLminus_DGP(eta, x, k, p, Dpk, Dpp, D2mf);
+    Stmp =0;
+    
     return (Stmp);
 }
 
 local real S3dI_USER(real eta, real x, real k, real p, real Dpk, real Dpp,
-                 real D2f, real D2mf)
+                     real D2f, real D2mf)
 {
     real Stmp;
     
     Stmp = -(rsqr(k)/rexp(2.0*eta))
-        *(1.0/(6.0*PiF_USER(eta,k)))
-        *K3dI_USER(eta,x,k,p,Dpk,Dpp,D2f,D2mf)*Dpk*Dpp*Dpp;
-
+    *(1.0/(6.0*PiF_USER(eta,k)))
+    *K3dI_USER(eta,x,k,p,Dpk,Dpp,D2f,D2mf)*Dpk*Dpp*Dpp;
+    
     return (Stmp);
 }
 
 //
 // END :: THIRD ORDER (Dsymmetric, five second order differential equations)
-// ===========================================================================
+// ---------------------------------------------------------------------------
 
 // ===========================================================================
 // End: USER Model
@@ -652,11 +681,12 @@ global void ReadMGModelParameterFile(char *fname)
     int  errorFlag=0;
     
     nt=0;
-    
+
 // Modified gravity model parameters:
-    IPName(nHS_u,"nHS_u");
-    RPName(fR0_u,"fR0_u");
-    RPName(screening_u,"screening_u");
+//    IPName(nHS_u,"nHS_u");                // There is no int parameter
+    RPName(eps_DGP_u,"eps_DGP_u");
+    RPName(rc_DGP_u,"rc_DGP_u");
+    RPName(screening_DGP_u,"screening_DGP_u");
 //
     if((fd=fopen(fname,"r"))) {
         while(!feof(fd)) {
@@ -748,9 +778,10 @@ global void PrintMGModelParameterFile(char *fname)
                 "%");
 //
 // Modified gravity model parameters:
-        fprintf(fdout,FMTI,"nHS_u",nHS_u);
-        fprintf(fdout,FMTR,"fR0_u",fR0_u);
-        fprintf(fdout,FMTR,"screening_u",screening_u);
+//        fprintf(fdout,FMTI,"nHS_u",nHS_u);                // There is no int parameter
+        fprintf(fdout,FMTR,"eps_DGP_u",eps_DGP_u);
+        fprintf(fdout,FMTR,"rc_DGP_u",rc_DGP_u);
+        fprintf(fdout,FMTR,"screening_DGP_u",screening_DGP_u);
 //
         fprintf(fdout,"\n\n");
     }
@@ -763,3 +794,4 @@ global void PrintMGModelParameterFile(char *fname)
 
 // End: Modified gravity model reading and writing parameters
 //=============================================================
+
