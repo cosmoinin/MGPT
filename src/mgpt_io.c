@@ -50,14 +50,17 @@ global void setFilesDirs(void)
 {
     char buf[200];
     
-    sprintf(gd.clptDir,"CLPT");
+//    sprintf(gd.clptDir,"CLPT");
+    sprintf(gd.clptDir,"Output");
     sprintf(buf,"if [ ! -d %s ]; then mkdir %s; fi",gd.clptDir,gd.clptDir);
     fprintf(gd.outlog,"system: %s\n",buf);
     system(buf);
     
-    sprintf(gd.fpfnamekfun,"CLPT/kfunctions%s.dat",cmd.suffixModel);
+//    sprintf(gd.fpfnamekfun,"CLPT/kfunctions%s.dat",cmd.suffixModel);
+    sprintf(gd.fpfnamekfun,"Output/kfunctions%s.dat",cmd.suffixModel);
     sprintf(gd.fpfnameSPTPowerSpectrum,"SPTPowerSpectrum%s.dat",cmd.suffixModel);
-    sprintf(gd.fpfnameqfunctions,"CLPT/qfunctions%s.dat",cmd.suffixModel);
+//    sprintf(gd.fpfnameqfunctions,"CLPT/qfunctions%s.dat",cmd.suffixModel);
+    sprintf(gd.fpfnameqfunctions,"Output/qfunctions%s.dat",cmd.suffixModel);
     sprintf(gd.fpfnameclptfunctions,"CorrelationFunction%s.dat",cmd.suffixModel);
 }
 
