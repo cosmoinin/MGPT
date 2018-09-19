@@ -1804,7 +1804,8 @@ global_qfunctions qfunctions(real qi)
 {
     global_qfunctions_ptr qfunp;
     int i, Nk;
-    real kmin, kmax, dk, kvali, kvalim1, ki, kim1;
+//    real kmin, kmax,
+    real dk, kvali, kvalim1, ki, kim1;
     real kk;
     real deltak;
 //
@@ -1825,44 +1826,44 @@ global_qfunctions qfunctions(real qi)
     
     qfunp = (global_qfunctions_ptr) allocate(1 * sizeof(global_qfunctions));
     
-    kmin = 0.0001;
-    kmax = 100.0;
+//    kmin = 0.0001;
+//    kmax = 100.0;
     Nk = 1200;
     if (Nk==1)
         dk = 0.;
     else
-        dk = (rlog10(kmax) - rlog10(kmin))/((real)(Nk - 1));
+        dk = (rlog10(cmd.kmax) - rlog10(cmd.kmin))/((real)(Nk - 1));
     
     U10Lp = 0.;
-    U10LA = -kmin*PSLF(kmin)*rj1Bessel(kmin*qi);
+    U10LA = -cmd.kmin*PSLF(cmd.kmin)*rj1Bessel(cmd.kmin*qi);
     U10loopp = 0.;
-    U10loopA = -kmin*( (5./21.)*R1F(kmin) )*rj1Bessel(kmin*qi);
+    U10loopA = -cmd.kmin*( (5./21.)*R1F(cmd.kmin) )*rj1Bessel(cmd.kmin*qi);
     U11p = 0.;
-    U11A = -kmin*( (6./7.)*R1plus2F(kmin) )*rj1Bessel(kmin*qi);
+    U11A = -cmd.kmin*( (6./7.)*R1plus2F(cmd.kmin) )*rj1Bessel(cmd.kmin*qi);
     U20p = 0.;
-    U20A = -kmin*( (3./7.)*Q8F(kmin) )*rj1Bessel(kmin*qi);
+    U20A = -cmd.kmin*( (3./7.)*Q8F(cmd.kmin) )*rj1Bessel(cmd.kmin*qi);
     //
     XLp = 0.;
-    XLA = xL(kmin, qi);
+    XLA = xL(cmd.kmin, qi);
     Xloopp = 0.;
-    XloopA = xloop(kmin, qi);
+    XloopA = xloop(cmd.kmin, qi);
     X10p = 0.;
-    X10A = x10(kmin, qi);
+    X10A = x10(cmd.kmin, qi);
     YLp = 0.;
-    YLA = yL(kmin, qi);
+    YLA = yL(cmd.kmin, qi);
     Yloopp = 0.;
-    YloopA = yloop(kmin, qi);
+    YloopA = yloop(cmd.kmin, qi);
     Y10p = 0.;
-    Y10A = y10(kmin, qi);
+    Y10A = y10(cmd.kmin, qi);
 //
     preVp = 0.;
-    preVA = tildeV(kmin)*rj1Bessel(kmin*qi)/kmin;
+    preVA = tildeV(cmd.kmin)*rj1Bessel(cmd.kmin*qi)/cmd.kmin;
     Tp = 0.;
-    TA = tildeT(kmin)*rj3Bessel(kmin*qi)/kmin;
+    TA = tildeT(cmd.kmin)*rj3Bessel(cmd.kmin*qi)/cmd.kmin;
 //
     for (i=2; i<=Nk; i++) {
-        kvali = rlog10(kmin) + dk*((real)(i - 1));
-        kvalim1 = rlog10(kmin) + dk*((real)(i - 2));
+        kvali = rlog10(cmd.kmin) + dk*((real)(i - 1));
+        kvalim1 = rlog10(cmd.kmin) + dk*((real)(i - 2));
         ki = rpow(10.0,kvali);
         kim1 = rpow(10.0,kvalim1);
         deltak = (ki - kim1);
