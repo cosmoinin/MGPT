@@ -70,7 +70,7 @@ local void ReadParametersCmdline(void)
     cmd.mgmodel = GetParam("mgModel");
     cmd.suffixModel = GetParam("suffixModel");
     cmd.model_paramfile = GetParam("modelParamfile");
-    cmd.nHS = GetiParam("nHS");
+//    cmd.nHS = GetiParam("nHS");
     cmd.fR0 = GetdParam("fR0");
     cmd.screening = GetdParam("screening");
 //
@@ -220,8 +220,8 @@ local void startrun_ParamStat(void)
         cmd.mgmodel = GetParam("mgModel");
     if (GetParamStat("suffixModel") & ARGPARAM)
         cmd.suffixModel = GetParam("suffixModel");
-    if (GetParamStat("nHS") & ARGPARAM)
-        cmd.nHS = GetiParam("nHS");
+//    if (GetParamStat("nHS") & ARGPARAM)
+//        cmd.nHS = GetiParam("nHS");
     if (GetParamStat("fR0") & ARGPARAM)
         cmd.fR0 = GetdParam("fR0");
     if (GetParamStat("screening") & ARGPARAM)
@@ -395,7 +395,7 @@ local void ReadParameterFile(char *fname)
     SPName(cmd.mgmodel,"mgModel",100);
     SPName(cmd.suffixModel,"suffixModel",100);
     SPName(cmd.model_paramfile,"modelParamfile",100);
-    IPName(cmd.nHS,"nHS");
+//    IPName(cmd.nHS,"nHS");
     RPName(cmd.fR0,"fR0");
     RPName(cmd.screening,"screening");
 // DGP:
@@ -529,7 +529,7 @@ local void PrintParameterFile(char *fname)
         fprintf(fdout,FMTT,"mgModel",cmd.mgmodel);
         fprintf(fdout,FMTT,"suffixModel",cmd.suffixModel);
         fprintf(fdout,FMTT,"modelParamfile",cmd.model_paramfile);
-        fprintf(fdout,FMTI,"nHS",cmd.nHS);
+//        fprintf(fdout,FMTI,"nHS",cmd.nHS);
         fprintf(fdout,FMTR,"fR0",cmd.fR0);
         fprintf(fdout,FMTR,"screening",cmd.screening);
 // DGP:

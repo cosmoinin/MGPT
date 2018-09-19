@@ -14,9 +14,9 @@ string defv[] = {  ";"HEAD1": " HEAD2 "\n\t " HEAD3,
 //
 // Power spectrum table:
     "fnamePS=psLCDM.in",		    ";Filename with power spectrum table",
-    "kmin=1e-4",                    ";kmin to analyse from the power spectrum table",
+    "kmin=1e-3",                    ";kmin to analyse from the power spectrum table",
     "kmax=100",                     ";kmax to analyse from the power spectrum table",
-    "Nk=300",                       ";Total number of k to analyse from the power spectrum table",":nk",
+    "Nk=250",                       ";Total number of k to analyse from the power spectrum table",":nk",
 //
 // CLPT correlation functions table:
     "rmin=50",                      ";rmin of the range for CLPT correlation functions table",
@@ -24,8 +24,8 @@ string defv[] = {  ";"HEAD1": " HEAD2 "\n\t " HEAD3,
     "Nr=100",                       ";Total number of r´s to analyse for the CLPT correlation functions table",":nr",
 // Modified gravity model parameters:
     "mgModel=LCDM",                 ";Modified gravity model to study, default f(R) Hu-Sawicki", ":mgm",
-    "suffixModel=_LCDM",            ";Suffix model to add to output filenames", ":suffix",
-    "nHS=1",                        ";Hu-Sawicky index",
+    "suffixModel=",            ";Suffix model to add to output filenames", ":suffix",
+//    "nHS=1",                        ";Hu-Sawicky index",
     "fR0=1.0e-5",                   ";Hu-Sawicky f_R0",
     "screening=1.0",                ";Hu-Sawicky screening", ":sc",
 // DGP:
@@ -50,7 +50,7 @@ string defv[] = {  ";"HEAD1": " HEAD2 "\n\t " HEAD3,
 //
 // Quadrature parameters:
     "quadratureMethod=trapezoid",   ";Quadrature method to use", ":quadm",
-    "nquadSteps=100",               ";Number of k´s from the power spectrum table to integrate (trapezoid)",":nquad",
+    "nquadSteps=200",               ";Number of k´s from the power spectrum table to integrate (trapezoid)",":nquad",
     "ngausslegpoints=10",           ";Number of Gauss-Legendre of integration points", ":nglpts",
     "epsquad=1.0e-5",               ";Quadrature tolerance error parameter (open Romberg method: romo)",
 //

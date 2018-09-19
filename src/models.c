@@ -396,6 +396,7 @@ local void set_Model_HS(void)
 //    screening = 1.0;
     gd.beta2 = 1.0/6.0;
     cmd.omegaBD = 0.0;
+    cmd.nHS = 1;
 }
 
 local real mass_HS(real eta)
