@@ -110,9 +110,13 @@ local void model_string_to_int(string model_str,int *model_int)
 {
     *model_int = -1;
     if (strcmp(model_str,"HS") == 0)                *model_int=HS;
+    if (strcmp(model_str,"hs") == 0)                *model_int=HS;
     if (strcmp(model_str,"DGP") == 0)               *model_int=DGP;
+    if (strcmp(model_str,"dgp") == 0)               *model_int=DGP;
     if (strcmp(model_str,"USER") == 0)              *model_int=USERMODEL;
+    if (strcmp(model_str,"user") == 0)              *model_int=USERMODEL;
     if (strcmp(model_str,"LCDM") == 0)              *model_int=LCDM;
+    if (strcmp(model_str,"lcdm") == 0)              *model_int=LCDM;
 }
 
 global real kpp(real x, real k, real p)
