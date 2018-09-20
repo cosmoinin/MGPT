@@ -184,7 +184,14 @@ The bias b_{01} from operator (\nabla^2 \delta) can be introduced by adding
 
 xi_CLPT_X = xi_CLPT_X  + 2 (1 + b1)b_{01} xi_nabla2 + b_{01}^2 xi_nabla4.
 
+## Modifying the code
 
+The file MGPT/scr/models_user.c provides a template that the user can fill-up with the functions for her particular model. Then run the code as
+
+```
+/MGPT$ ./mgpt mgm=USER
+```
+If you find problems with this, feel free to contact us.
 
 
 ## Other outputs
