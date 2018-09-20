@@ -31,7 +31,7 @@ The power spectrum convention is
 (2pi)^3 delta_D(k+k') P(k) = <delta(k) delta(k')> 
 
 
-The computes compute the LPT kernels by solving the set of differential equations of arXiv:1705.10719 and from it the functions Q(k) and R(k) of arXiv:1808.XXXXX, that are the building blocks of matter and tracers statistics. 
+The code computes the LPT kernels by solving the set of differential equations of arXiv:1705.10719 and from it the functions Q(k) and R(k) of arXiv:1808.XXXXX, that are the building blocks of matter and tracers statistics. 
 
 DOWNLOAD:
 
