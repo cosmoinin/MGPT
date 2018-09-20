@@ -11,9 +11,9 @@
 %
 % Power spectrum table:
 fnamePS                            psLCDM.in
-kmin                               0.0001
+kmin                               0.001
 kmax                               100
-Nk                                 300
+Nk                                 250
 %
 % CLPT correlation functions table:
 rmin                               50
@@ -22,7 +22,7 @@ Nr                                 100
 %
 % Modified gravity model parameters:
 mgModel                            LCDM
-suffixModel                        _LCDM
+suffixModel                        
 modelParamfile                     
 nHS                                1
 fR0                                1e-05
@@ -48,7 +48,7 @@ solverMethod                       bsstep
 %
 % Quadrature parameters:
 quadratureMethod                   trapezoid
-nquadSteps                         100
+nquadSteps                         200
 ngausslegpoints                    10
 epsquad                            1e-05
 %
