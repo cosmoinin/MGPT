@@ -13,7 +13,7 @@ string defv[] = {  ";"HEAD1": " HEAD2 "\n\t " HEAD3,
     "paramfile=",                   ";Parameter input file. Overwritten by what follows",
 //
 // Power spectrum table:
-    "fnamePS=psLCDM.in",		    ";Input filename with the power spectrum table (k,P(k))",
+    "fnamePS=psLCDM.in",		    ";Input filename with the linear power spectrum table (k,P(k))",
     "kmin=1e-3",                    ";kmin to compute the power spectrum",
     "kmax=100",                     ";kmax to compute the power spectrum",
     "Nk=250",                       ";Total number of k in the power spectrum",":nk",
