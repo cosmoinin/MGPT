@@ -156,7 +156,7 @@ with columns structure
 | ------------: |:---------------| 
 | #1            | r     |
 | #2            |  xi_L     (linear correlation function)          |  
-| #3            |  xi_ZA    (Zel'dovich approximation correlation function)        |  
+| #3            |  xi_ZA    (Zeldovich approximation correlation function)        |  
 | #4            | xi_A       |  
 | #5            | xi_W        |  
 | #6            | xi10_linear        |  
@@ -258,7 +258,8 @@ For the theory in LCDM  see the following papers:
 
 1. https://arxiv.org/abs/0807.1733
 2. https://arxiv.org/abs/1209.0780
-3. https://arxiv.org/abs/1506.05264
-4. https://arxiv.org/abs/1805.05304
+3. https://arxiv.org/abs/1410.1617
+4. https://arxiv.org/abs/1506.05264
+5. https://arxiv.org/abs/1805.05304
 
 
