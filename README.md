@@ -78,7 +78,7 @@ Option screening=1 is the default with screenings, set to screening=0 if you wan
 
 To run DGP just write the option mgm=DGP.
 
-Alternatively you can run the code with a parameters file, for example
+Alternatively you can run the code with a parameters file:
 
 ```
 /MGPT$ ./mgpt parameters.in
