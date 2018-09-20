@@ -72,7 +72,7 @@ In help you can see how to change parameters, in the form [option]=[value], for 
 /MGPT$ ./mgpt om=0.3 h=0.7 mgm=HS fR0=1.0e-6 suffix=_F6 
 ```
 
-computes Hu-Sawicky f_R0 = -10^-6, and LCDM background cosmology with h=0.7, Omega_m = 0.3. The output files will have a suffix _F6
+computes Hu-Sawicky f_R0 = -10^-6, and background cosmology with h=0.7, Omega_m = 0.3. The output files will have a suffix _F6
 
 Option screening=1 is the default with screenings, set to screening=0 if you want no screenings.
 
