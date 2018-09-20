@@ -1,7 +1,6 @@
 # MGPT code
 
 
-Authors:
 
 Mario Alberto Rodriguez-Meza (ININ, Mexico), 
 marioalberto.rodriguez@inin.gob.mx
@@ -186,12 +185,13 @@ xi_CLPT_X = xi_CLPT_X  + 2 (1 + b1)b_{01} xi_nabla2 + b_{01}^2 xi_nabla4.
 
 
 
+## Other outputs
 
+The code gives two other ouputs located in the directory Outputs
 
-MGPT/CLPT/kfunctions.dat
+# kfunctions.dat
 
-kfunctionsT.dat file contains all the Q(k) and R(k) functions. It is the input of the code MGPT-qfunctions.
-
+kfunctionsT.dat file contains all the Q(k) and R(k) functions. 
 
 
 | column  | function  |
@@ -215,17 +215,9 @@ kfunctionsT.dat file contains all the Q(k) and R(k) functions. It is the input o
 | #17           | Dpk  (D+(k): linear growth function as a function of k)         | 
 | #18           | PSL  (Linear power spectrum in MG)       | 
 
-## II. MGPT_qfunctions
+## qfunctions.dat
 
-CLPT/MGPT_qfunctions.nb is a Mathematica notebook that post-process the file kfunctionsT.dat to obtain a set of q-functions
-that are the building blocks of the CLPT correlation function. This code is independent of the gravitational or dark energy model, just fed it with the appropriate file structure. 
-
-The input is the file kfunctions.dat obtained with MGPT-PS (or by other code of your preference)
-
-The output is the file qfunctions.dat, with columns structure
-
-
-
+These are the q functions. The file has the columns structure
 
 
 
@@ -250,14 +242,6 @@ The output is the file qfunctions.dat, with columns structure
 
 
 
-## III. MGPT_CLPT
-
-
-CLPT/MGPT_CLPT.nb is Mathematica notebook post-process the ouput of MGPT_qfunctions.nb to compute the Zel'dovich approximation, and CLPT correlation function for both matter and biased tracers. 
-
-Input: qfunctions.dat obtained from MGPT_qfunctions.nb (or by other means)
-
-Output: 
 
 ## References
 
