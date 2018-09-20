@@ -186,7 +186,7 @@ xi_CLPT_X = xi_CLPT_X  + 2 (1 + b1)b_{01} xi_nabla2 + b_{01}^2 xi_nabla4.
 
 ## Modifying the code
 
-The file MGPT/scr/models_user.c provides a template that the user can fill-up with the functions for her particular model. Then run the code as
+The file MGPT/scr/models_user.h provides a template that the user can fill-up with the functions for her particular model. Then run the code as
 
 ```
 /MGPT$ ./mgpt mgm=USER
