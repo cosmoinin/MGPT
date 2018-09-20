@@ -12,7 +12,7 @@ alejandro.aviles.conacyt@inin.gob.mx, avilescervantes@gmail.com
 #
 
 
-MGPT (Modified Gravity Perturbation Theory) code computes 2-point statistics for LCDM model, DGP and Hu-Sawicky-Starobinsky f(R) gravity. The source code can be adapted for other models. 
+MGPT (Modified Gravity Perturbation Theory) is a C code that computes 2-point statistics for LCDM model, DGP and Hu-Sawicky f(R) gravity. The source code can be modified easily to include other models. 
 
 Specifically, it computes:
 
@@ -29,15 +29,10 @@ Specifically, it computes:
 The code units are Mpc/h. 
 
 The power spectrum convention is 
-(2pi)^3 delta_D(k+k') P(k) = $<delta(k) delta(k')>$ 
+(2pi)^3 delta_D(k+k') P(k) = <delta(k) delta(k')> 
 
 
-The code is divided in three pieces: I. MGPT-PS; II. MGPT-qfunctions; and III. MGPT-CLPT
-
-
-## I. MGPT_PS
-
-A C code that computes the matter and biased SPT power spectra. It computes the kernels in LPT by solving the set of differential equations of arXiv:1705.10719 and from them the functions Q(k) and R(k) of arXiv:1808.XXXXX 
+The computes compute the LPT kernels by solving the set of differential equations of arXiv:1705.10719 and from it the functions Q(k) and R(k) of arXiv:1808.XXXXX 
 
 DOWNLOAD:
 
@@ -61,6 +56,8 @@ Run: in the parent directory
 ```
 /MGPT$ ./mgpt
 ```
+This will compute the LCDM power spectra and correlation functions.
+
 For help:
 
 ```
@@ -68,15 +65,17 @@ For help:
 ```
 
 
-In help you can see how to change parameters, for example:
+In help you can see how to change parameters, in the form [option]=[value], for example:
 
 ```
-/MGPT$ ./mgpt om=0.3 h=0.7 fR0=1.0e-6 ol=0.6 suffix=_F6 
+/MGPT$ ./mgpt om=0.3 h=0.7 mgm=HS fR0=1.0e-6 suffix=_F6 
 ```
 
-computes Hu-Sawicky f_R0 = -10^-6, and LCDM background cosmology with h=0.7, Omega_m = 0.3 Omega_L (default is Omega_L=1-Omega_m). The output files will have a suffix _F6
+computes Hu-Sawicky f_R0 = -10^-6, and LCDM background cosmology with h=0.7, Omega_m = 0.3. The output files will have a suffix _F6
 
 Option screening=1 is the default with screenings, set to screening=0 if you want no screenings.
+
+To run DGP just write the option mgm=DGP.
 
 Alternatively you can run the code with a parameters file, for example
 
@@ -98,7 +97,7 @@ The input of the code is the LCDM linear power spectrum extrapolated to present 
 By default it is located in /MGPT/Input/psLCDM.in
 
 
-The code gives two files as outputs: 
+The code gives two main files as outputs: 
 
 ### output a) SPTPowerSpectrum.dat 
 
@@ -123,9 +122,11 @@ By default the range of wavenumbers is very large, because is necessary to compu
 /MGPT$ ./mgpt Nk=100 kmin=0.001 kmax=0.2
 ```
 
-so the output will contain 100 k-points equally spaced in log intervals, from k=0.001 to kmax=0.2 h/Mpc
+so the output will contain 100 k-points equally spaced in log intervals, from k=0.001 to kmax=0.2 h/Mpc. If you want to survey more precisely the BAO scale do
 
-
+```
+/MGPT$ ./mgpt nquadSteps=400
+```
 
 The 1-loop matter power spectrum is 
 
@@ -145,7 +146,49 @@ Ploop_X = Ploop_X - 2 (1 + b1)b_{01} k^2 PSL + b_{01}^2 k^4 PSL
 In this notation b_{01} = - b_{\nabla^2}
 
 
-### output b) MGPT/CLPT/kfunctions.dat
+### output b) CorrelationFunction.dat, 
+
+with columns structure
+
+
+| column  | function  |
+| ------------: |:---------------| 
+| #1            | r     |
+| #2            |  xi_L     (linear correlation function)          |  
+| #3            |  xi_ZA    (Zel'dovich approximation correlation function)        |  
+| #4            | xi_A       |  
+| #5            | xi_W        |  
+| #6            | xi10_linear        |  
+| #7            | xi10_loop       |  
+| #8            | xi20_linear       | 
+| #9            | xi20_loop       | 
+| #10           | xi01        | 
+| #11           | xi02        | 
+| #12           | xi11        | 
+| #13           | xi_nabla2        | 
+| #14           | xi_nabla4    | 
+
+
+The matter CLPT correlation function is given by 
+
+xi_CLPTm = xi_ZA + xi_A + xi_W
+
+The biased tracers CLPT correlation function is
+
+xi_CLPT_X = xi_CLPTm + b1 * (xi10_linear + xi10_loop)  + b2 * xi01 + b1^2 * (xi20_linear + xi20_loop) +  b1 * b2 * xi11 + b2^2 xi02 
+
+for b1 and b2 local Lagrangian biases.
+
+The bias b_{01} from operator (\nabla^2 \delta) can be introduced by adding 
+
+xi_CLPT_X = xi_CLPT_X  + 2 (1 + b1)b_{01} xi_nabla2 + b_{01}^2 xi_nabla4.
+
+
+
+
+
+
+MGPT/CLPT/kfunctions.dat
 
 kfunctionsT.dat file contains all the Q(k) and R(k) functions. It is the input of the code MGPT-qfunctions.
 
@@ -214,46 +257,7 @@ CLPT/MGPT_CLPT.nb is Mathematica notebook post-process the ouput of MGPT_qfuncti
 
 Input: qfunctions.dat obtained from MGPT_qfunctions.nb (or by other means)
 
-Output: CorrelationFunction.dat, with columns structure
-
-
-
-
-
-| column  | function  |
-| ------------: |:---------------| 
-| #1            | r     |
-| #2            |  xi_L     (linear correlation function)          |  
-| #3            |  xi_ZA    (Zel'dovich approximation correlation function)        |  
-| #4            | xi_A       |  
-| #5            | xi_W        |  
-| #6            | xi10_linear        |  
-| #7            | xi10_loop       |  
-| #8            | xi20_linear       | 
-| #9            | xi20_loop       | 
-| #10           | xi01        | 
-| #11           | xi02        | 
-| #12           | xi11        | 
-| #13           | xi_nabla2        | 
-| #14           | xi_nabla4    | 
-
-
-The matter CLPT correlation function is given by 
-
-xi_CLPTm = xi_ZA + xi_A + xi_W
-
-The biased tracers CLPT correlation function is
-
-xi_CLPT_X = xi_CLPTm + b1 * (xi10_linear + xi10_loop)  + b2 * xi01 + b1^2 * (xi20_linear + xi20_loop) +  b1 * b2 * xi11 + b2^2 xi02 
-
-for b1 and b2 local Lagrangian biases.
-
-
-
-The bias b_{01} from operator (\nabla^2 \delta) can be introduced by adding 
-
-xi_CLPT_X = xi_CLPT_X  + 2 (1 + b1)b_{01} xi_nabla2 + b_{01}^2 xi_nabla4.
-
+Output: 
 
 ## References
 
