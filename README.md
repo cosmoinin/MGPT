@@ -33,6 +33,8 @@ The power spectrum convention is
 
 The code computes the LPT kernels by solving the set of differential equations of arXiv:1705.10719 and from it the functions Q(k) and R(k) of arXiv:1808.XXXXX, that are the building blocks of matter and tracers statistics. 
 
+## Run
+
 DOWNLOAD:
 
 Git clone
