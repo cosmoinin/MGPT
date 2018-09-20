@@ -100,7 +100,7 @@ By default it is located in /MGPT/Input/psLCDM.in
 
 The code gives two main files as outputs: 
 
-### output a) SPTPowerSpectrum.dat 
+## output a) SPTPowerSpectrum.dat 
 
 with structure
 
@@ -147,7 +147,7 @@ Ploop_X = Ploop_X - 2 (1 + b1)b_{01} k^2 PSL + b_{01}^2 k^4 PSL
 In this notation b_{01} = - b_{\nabla^2}
 
 
-### output b) CorrelationFunction.dat, 
+## output b) CorrelationFunction.dat, 
 
 with columns structure
 
@@ -184,7 +184,7 @@ The bias b_{01} from operator (\nabla^2 \delta) can be introduced by adding
 
 xi_CLPT_X = xi_CLPT_X  + 2 (1 + b1)b_{01} xi_nabla2 + b_{01}^2 xi_nabla4.
 
-## Modifying the code
+### Modifying the code
 
 The file MGPT/scr/models_user.c provides a template that the user can fill-up with the functions for her particular model. Then run the code as
 
@@ -194,7 +194,7 @@ The file MGPT/scr/models_user.c provides a template that the user can fill-up wi
 If you find problems with this, feel free to contact us.
 
 
-## Other outputs
+### Other outputs
 
 The code gives two other ouputs located in the directory Outputs
 
@@ -224,7 +224,7 @@ kfunctionsT.dat file contains all the Q(k) and R(k) functions.
 | #17           | Dpk  (D+(k): linear growth function as a function of k)         | 
 | #18           | PSL  (Linear power spectrum in MG)       | 
 
-## qfunctions.dat
+# qfunctions.dat
 
 These are the q functions. The file has the columns structure
 
