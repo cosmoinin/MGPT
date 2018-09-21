@@ -563,7 +563,7 @@ local real KQI_function(real ki, real rr, real xv)
     
     k2 = ki * rsqrt(abskmq);
     if (model_int_flag==LCDM) {
-        KQI = rsqr(rr) * (1.0 - rsqr(xv))/(1.0 + rsqr(rr - 2.0*rr*xv))
+        KQI = rsqr(rr) * (1.0 - rsqr(xv))/(1.0 + rsqr(rr) - 2.0*rr*xv)
             * (
                KA_LCDM - KB_LCDM*(rsqr(xv) + rsqr(rr) - 2.0*rr*xv)/
                 (1.0 + rsqr(rr) - 2.0*rr*xv)
@@ -572,7 +572,7 @@ local real KQI_function(real ki, real rr, real xv)
         ptmp = DsSecondOrder_func(ki, ki*rr, k2);
         KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
         KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-        KQI = rsqr(rr) * (1.0 - rsqr(xv))/(1.0 + rsqr(rr - 2.0*rr*xv))
+        KQI = rsqr(rr) * (1.0 - rsqr(xv))/(1.0 + rsqr(rr) - 2.0*rr*xv)
             * (
                 KA - KB*(rsqr(xv) + rsqr(rr) - 2.0*rr*xv)/
                 (1.0 + rsqr(rr) - 2.0*rr*xv)
