@@ -397,7 +397,7 @@ global void CLPT_correlation_processing(void)
             "<15>\n");
 
     for (i=1; i<=cmd.Nr; i++) {
-        aTime = cputime();
+        aTime = second();
         ri = cmd.rmin + dr*((real)(i - 1));
         zacorrfun = zacorrelation_functions(ri);
         clptcorrfun = clptcorrelation_functions(ri);
@@ -563,7 +563,7 @@ global void qfunctions_processing(void)
             "<16>\n");
 
     for (i=1; i<=Nq; i++) {
-        aTime = cputime();
+        aTime = second();
         qval = rlog10(qmin) + dq*((real)(i - 1));
         qi = rpow(10.0,qval);
         fflush(stdout);
