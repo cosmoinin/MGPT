@@ -13,31 +13,31 @@ string defv[] = {  ";"HEAD1": " HEAD2 "\n\t " HEAD3,
     "paramfile=",                   ";Parameter input file. Overwritten by what follows",
 //
 // Power spectrum table:
-    "fnamePS=psLCDM.in",		    ";Filename with power spectrum table",
-    "kmin=1e-3",                    ";kmin to analyse from the power spectrum table",
-    "kmax=100",                     ";kmax to analyse from the power spectrum table",
-    "Nk=250",                       ";Total number of k to analyse from the power spectrum table",":nk",
+    "fnamePS=psLCDM.in",		    ";Input filename with the linear power spectrum table (k,P(k))",
+    "kmin=1e-3",                    ";kmin to compute the power spectrum",
+    "kmax=100",                     ";kmax to compute the power spectrum",
+    "Nk=250",                       ";Total number of k in the power spectrum",":nk",
 //
 // CLPT correlation functions table:
-    "rmin=50",                      ";rmin of the range for CLPT correlation functions table",
-    "rmax=130",                     ";rmax of the range for CLPT correlation functions table",
-    "Nr=100",                       ";Total number of r´s to analyse for the CLPT correlation functions table",":nr",
+    "rmin=50",                      ";rmin of the range for CLPT correlation functions",
+    "rmax=130",                     ";rmax of the range for CLPT correlation functions",
+    "Nr=100",                       ";Total number of r´s in the CLPT correlation function",":nr",
 // Modified gravity model parameters:
-    "mgModel=LCDM",                 ";Modified gravity model to study, default f(R) Hu-Sawicki", ":mgm",
+    "mgModel=LCDM",                 ";Modified gravity model to study (HS or DGP), default is LCDM", ":mgm",
     "suffixModel=",            ";Suffix model to add to output filenames", ":suffix",
 //    "nHS=1",                        ";Hu-Sawicky index",
     "fR0=1.0e-5",                   ";Hu-Sawicky f_R0",
-    "screening=1.0",                ";Hu-Sawicky screening", ":sc",
+    "screening=1.0",                ";set to =0 if you want no screenings", ":sc",
 // DGP:
-    "epsDGP=-1.0",                  ";DGP parameter, use with mgModel=DGP",":epsdgp",
-    "rcDGP=1.0",                    ";DGP parameter, use with mgModel=DGP",":rcdgp",
+    "epsDGP=-1.0",                  ";epsilon DGP parameter, =-1 normal branch, =1 self-accelerating branch",":epsdgp",
+    "rcDGP=1.0",                    ";crossover scale parameter in DGP, (in units of 1/H0)",":rcdgp",
 //
-    "modelParamfile=",              ";If mgmodel=USER, you may give its parameter file name", ":mpf",
+    "modelParamfile=",              ";If mgmodel=USER, to use the model in models_user.h", ":mpf",
 //
 // Background cosmology:
     "Om=0.281",                     ";Omega matter value (z=0)",":om",
-    "OL= 1 - Om",                   ";Omega Lambda value (z=0)",":ol",
-    "h=0.697",                      ";Hubble parameter value (z=0)",
+    "OL= 1 - Om",                   ";Omega Lambda value (z=0). Only works for DGP!",":ol",
+    "h=0.697",                      ";Hubble parameter",
 //
 // Differential equations evolution parameters:
     "etaini=-4.0",                  ";Initial eta value :: Log[1/(1 + zini)]",
