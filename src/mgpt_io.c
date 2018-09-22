@@ -71,7 +71,7 @@ void EndRun(void)
 
 	fclose(gd.outlog);
     
-    printf("\nFinal CPU time : %g min.\n\n", second() - gd.cpuinit);
+    printf("\nFinal CPU time : %g sec.\n\n", second() - gd.cpuinit);
 }
 
 

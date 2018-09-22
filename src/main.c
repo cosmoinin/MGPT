@@ -18,7 +18,7 @@
 
 int main(int argc, string argv[])
 {
-    gd.cpuinit = cputime();
+    gd.cpuinit = second();
     InitParam(argv, defv);
     StartRun(argv[0], HEAD1, HEAD2, HEAD3);
     MainLoop();

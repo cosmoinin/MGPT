@@ -73,7 +73,7 @@ local void computingQRs(void)
 
     fclose(outstrQsRs);
 
-    fprintf(stdout,"\nTotal time to compute all k functions: %g min.",second()-bTime);
+    fprintf(stdout,"\nTotal time to compute all k functions: %g sec.",second()-bTime);
 }
 
 local void loopQsRs(stream outstr, int imin, int imax, real dk)
