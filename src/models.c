@@ -5,7 +5,6 @@
 #define global
 #include "globaldefs.h"
 #include "protodefs.h"
-//#include "models.h"
 
 // TEMPLATE FOR THE USER
 #include "models_user.h"

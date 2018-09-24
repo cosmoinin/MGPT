@@ -68,7 +68,6 @@ local void computingQRs(void)
     } else
         dk = (rlog10(cmd.kmax) - rlog10(cmd.kmin))/((real)(cmd.Nk - 1));
 //
-//    fprintf(stdout,"\nUsing %g tolerance quad...\n",cmd.epsquad);
     loopQsRs(outstrQsRs, 1, cmd.Nk, dk);
 
     fclose(outstrQsRs);
@@ -94,7 +93,6 @@ local void loopQsRs(stream outstr, int imin, int imax, real dk)
         aTime = second();
         kval = rlog10(cmd.kmin) + dk*((real)(i - 1));
         ki = rpow(10.0,kval);
-//        fprintf(stdout,"i: %d :: ki: %g :: ",i,ki);
         fprintf(stdout,"i: %d :: ki: %e :: ",i,ki);
         fflush(stdout);
         qrs = QsRs_functions_driver_LCDM(gd.xstop, ki);
@@ -117,14 +115,6 @@ local void loopQsRs(stream outstr, int imin, int imax, real dk)
         
         Dpk = DpFunction(ki);
         PSLMG = psInterpolation_nr(ki, kPS, pPS, nPSLT);
-/*
-        fprintf(stdout,FMTQR,
-                Q1, Q2, Q3,
-                Q5, Q7, Q8, Q9,
-                Q11, Q12, Q13, QI,
-                R1, R2, R1p2, RI,
-                second()-aTime);
-*/
         fprintf(stdout,"time = %f\n",
                 (second()-aTime));
         
@@ -144,7 +134,6 @@ local void loopQsRs(stream outstr, int imin, int imax, real dk)
             aTime = second();
             kval = rlog10(cmd.kmin) + dk*((real)(i - 1));
             ki = rpow(10.0,kval);
-//            fprintf(stdout,"i: %d :: ki: %g :: ",i,ki);
             fprintf(stdout,"i: %d :: ki: %e :: ",i,ki);
             fflush(stdout);
             qrs = QsRs_functions_driver(gd.xstop, ki);
@@ -167,14 +156,6 @@ local void loopQsRs(stream outstr, int imin, int imax, real dk)
             
             Dpk = DpFunction(ki);
             PSLMG = psInterpolation_nr(ki, kPS, pPS, nPSLT);
-/*
-            fprintf(stdout,FMTQR,
-                    Q1, Q2, Q3,
-                    Q5, Q7, Q8, Q9,
-                    Q11, Q12, Q13, QI,
-                    R1, R2, R1p2, RI,
-                    second()-aTime);
-*/
             fprintf(stdout,"time = %f\n",
                     (second()-aTime));
             

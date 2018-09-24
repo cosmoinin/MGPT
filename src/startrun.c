@@ -16,9 +16,6 @@ local void startrun_Common(void);
 local void startrun_ParamStat(void);
 local void CheckParameters(void);
 
-//local void setFilesDirs_log(void);
-//local void setFilesDirs(void);
-
 local void InputPSTable(void);
 local void PSLTable(void);
 local void GaussLegendrePoints(void);
@@ -32,8 +29,6 @@ void StartRun(string head0, string head1, string head2, string head3)
     gd.headline2 = head2; gd.headline3 = head3;
     printf("\n%s\n%s: %s\n\t %s\n",
 		gd.headline0, gd.headline1, gd.headline2, gd.headline3);
-
-//	gd.stopflag = 0;
 
     cmd.paramfile = GetParam("paramfile");
     if (!strnull(cmd.paramfile))
@@ -70,7 +65,6 @@ local void ReadParametersCmdline(void)
     cmd.mgmodel = GetParam("mgModel");
     cmd.suffixModel = GetParam("suffixModel");
     cmd.model_paramfile = GetParam("modelParamfile");
-//    cmd.nHS = GetiParam("nHS");
     cmd.fR0 = GetdParam("fR0");
     cmd.screening = GetdParam("screening");
 //
@@ -332,36 +326,6 @@ local void CheckParameters(void)
         error("CheckParameters: absurd value for epsquad\n");
 }
 
-/*
-// I/O directories:
-local void setFilesDirs_log(void)
-{
-    char buf[200];
-    
-    sprintf(gd.tmpDir,"tmp");
-
-    sprintf(buf,"if [ ! -d %s ]; then mkdir %s; fi",gd.tmpDir,gd.tmpDir);
-    system(buf);
-
-    sprintf(gd.logfilePath,"%s/mgpt%s.log",gd.tmpDir,cmd.suffixModel);
-}
-
-local void setFilesDirs(void)
-{
-    char buf[200];
-
-    sprintf(gd.clptDir,"CLPT");
-    sprintf(buf,"if [ ! -d %s ]; then mkdir %s; fi",gd.clptDir,gd.clptDir);
-    fprintf(gd.outlog,"system: %s\n",buf);
-    system(buf);
-
-    sprintf(gd.fpfnamekfun,"CLPT/kfunctions%s.dat",cmd.suffixModel);
-    sprintf(gd.fpfnameSPTPowerSpectrum,"SPTPowerSpectrum%s.dat",cmd.suffixModel);
-    sprintf(gd.fpfnameqfunctions,"CLPT/qfunctions%s.dat",cmd.suffixModel);
-    sprintf(gd.fpfnameclptfunctions,"CorrelationFunction%s.dat",cmd.suffixModel);
-}
-*/
-
 local void ReadParameterFile(char *fname)
 {
 #define DOUBLE 1
@@ -569,7 +533,7 @@ local void PrintParameterFile(char *fname)
 #undef FMTR
 
 
-#define NPT 20
+#define NPT 10
 #define SPREAD 1.0
 local void InputPSTable(void)
 {

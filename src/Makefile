@@ -57,15 +57,6 @@ $(OBJS): $(INCL)
 clean:
 	(rm -f $(OBJS) $(EXEC); rm -fR mgpt.dSYM; rm ../$(EXEC))
 
-check: all
-
-install:
-	install -d $(DESTDIR)$(bindir)
-	install -m 0755 $(EXEC) $(DESTDIR)$(bindir)
-
-uninstall:
-	-rm $(DESTDIR)$(bindir)/$(EXEC)
-
 
 .PHONY : all clean check install uninstall
 

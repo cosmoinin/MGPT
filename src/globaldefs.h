@@ -134,8 +134,6 @@ typedef struct {
     char model_comment[100];
 
 	FILE *outlog;
-
-//	int stopflag;
     
     real ol;
 

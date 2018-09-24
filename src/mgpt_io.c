@@ -22,17 +22,6 @@ void StartOutput(void)
     
 }
 
-/*
-void output(void)
-{
-    real xeff;
-    int j;
-
-	xeff = gd.xnow + gd.dx/8.0;
-
-}
-*/
-
 // I/O directories:
 global void setFilesDirs_log(void)
 {
@@ -50,16 +39,13 @@ global void setFilesDirs(void)
 {
     char buf[200];
     
-//    sprintf(gd.clptDir,"CLPT");
     sprintf(gd.clptDir,"Output");
     sprintf(buf,"if [ ! -d %s ]; then mkdir %s; fi",gd.clptDir,gd.clptDir);
     fprintf(gd.outlog,"system: %s\n",buf);
     system(buf);
     
-//    sprintf(gd.fpfnamekfun,"CLPT/kfunctions%s.dat",cmd.suffixModel);
     sprintf(gd.fpfnamekfun,"Output/kfunctions%s.dat",cmd.suffixModel);
     sprintf(gd.fpfnameSPTPowerSpectrum,"SPTPowerSpectrum%s.dat",cmd.suffixModel);
-//    sprintf(gd.fpfnameqfunctions,"CLPT/qfunctions%s.dat",cmd.suffixModel);
     sprintf(gd.fpfnameqfunctions,"Output/qfunctions%s.dat",cmd.suffixModel);
     sprintf(gd.fpfnameclptfunctions,"CorrelationFunction%s.dat",cmd.suffixModel);
 }

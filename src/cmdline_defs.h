@@ -25,7 +25,6 @@ string defv[] = {  ";"HEAD1": " HEAD2 "\n\t " HEAD3,
 // Modified gravity model parameters:
     "mgModel=LCDM",                 ";Modified gravity model to study (HS or DGP), default is LCDM", ":mgm",
     "suffixModel=",            ";Suffix model to add to output filenames", ":suffix",
-//    "nHS=1",                        ";Hu-Sawicky index",
     "fR0=1.0e-5",                   ";Hu-Sawicky f_R0",
     "screening=1.0",                ";set to =0 if you want no screenings", ":sc",
 // DGP:

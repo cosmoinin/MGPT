@@ -28,7 +28,6 @@ local void derivsFirstOrder_LCDM(double x,double y[],double dydx[])
     
     dydx[1] = y[2];
     dydx[2]=f1(x)*y[1]-f2(x)*y[2];
-    //    dydx[2]=f1(x)*mu(x,gd.kf)*y[1]-f2(x)*y[2];
 }
 
 local void derivsSecondOrder(double x,double y[],double dydx[])

@@ -283,10 +283,8 @@ global void CLPT_correlation_processing(void)
     stream outstr;
     pointqfunctionsTableptr p;
     real aTime;
-//    real rmin, rmax,
     real dr, ri;
     int i;
-//    Nr;
     
     global_zacorrfunctions zacorrfun;
     global_clptcorrfunctions clptcorrfun;
@@ -367,9 +365,6 @@ global void CLPT_correlation_processing(void)
     spline(qTab,LapxiT,nqfunctionsTable,1.0e30,1.0e30,LapxiT2);
     spline(qTab,nabla4xiT,nqfunctionsTable,1.0e30,1.0e30,nabla4xiT2);
     
-//    cmd.rmin = 50.0;
-//    cmd.rmax = 130.0;
-//    cmd.Nr = 100;
     fprintf(stdout,"\nTesting Nr values from rmin to rmax to compute CLPT: %d %g %g\n",
             cmd.Nr, cmd.rmin, cmd.rmax);
     if (cmd.Nr==1) {
@@ -533,7 +528,7 @@ global void qfunctions_processing(void)
     spline(kTab,R1plus2T,nQsRsTable,1.0e30,1.0e30,R1plus2T2);
     spline(kTab,RIT,nQsRsTable,1.0e30,1.0e30,RIT2);
     spline(kTab,PSLMGT,nQsRsTable,1.0e30,1.0e30,PSLMGT2);
-    //
+//
     qmin = 0.0001;
     qmax = 300.0;
     Nq = 1200;
@@ -543,7 +538,7 @@ global void qfunctions_processing(void)
         dq = 0.;
     } else
         dq = (rlog10(qmax) - rlog10(qmin))/((real)(Nq - 1));
-    //
+//
     fprintf(stdout,"\n\nWriting q functions to file %s...",gd.fpfnameqfunctions);
     outstr = stropen(gd.fpfnameqfunctions,"w!");
 
@@ -676,7 +671,6 @@ global void biasterms_processing(void)
         PSLT = PSMGLQsRs(p);
         P22 = (9./98.)*Q1QsRs(p) + (3./7.)*Q2QsRs(p) + (1./2.)*Q3QsRs(p);
         
-//        P13 = (10./21.)*R1QsRs(p) + (6./7.)*Q2QsRs(p) - sigma2L*k*k*PSLT;
         P13 = (10./21.)*R1QsRs(p) + (6./7.)*R2QsRs(p) - sigma2L*k*k*PSLT;
         
         a10 = (10./21.)*R1QsRs(p) + (6./7.)*R1plus2QsRs(p) + (6./7.)*R2QsRs(p)
@@ -720,7 +714,7 @@ local void InputqfunctionsTable(void)
         XLqfuncs(p) = inout_yval[i];
         ++i;
     }
-    //
+//
     fprintf(gd.outlog,"\nReading YL from file %s...",gd.fpfnameqfunctions);
     inout_InputData(gd.fpfnameqfunctions, 1, 3, &nqfunctionsTable);
     
@@ -732,7 +726,7 @@ local void InputqfunctionsTable(void)
         YLqfuncs(p) = inout_yval[i];
         ++i;
     }
-    //
+//
     fprintf(gd.outlog,"\nReading Xloop from file %s...",gd.fpfnameqfunctions);
     inout_InputData(gd.fpfnameqfunctions, 1, 4, &nqfunctionsTable);
     
@@ -744,7 +738,7 @@ local void InputqfunctionsTable(void)
         Xloopqfuncs(p) = inout_yval[i];
         ++i;
     }
-    //
+//
     fprintf(gd.outlog,"\nReading Yloop from file %s...",gd.fpfnameqfunctions);
     inout_InputData(gd.fpfnameqfunctions, 1, 5, &nqfunctionsTable);
     
@@ -756,7 +750,7 @@ local void InputqfunctionsTable(void)
         Yloopqfuncs(p) = inout_yval[i];
         ++i;
     }
-    //
+//
     fprintf(gd.outlog,"\nReading V from file %s...",gd.fpfnameqfunctions);
     inout_InputData(gd.fpfnameqfunctions, 1, 6, &nqfunctionsTable);
     
@@ -768,7 +762,7 @@ local void InputqfunctionsTable(void)
         Vqfuncs(p) = inout_yval[i];
         ++i;
     }
-    //
+//
     fprintf(gd.outlog,"\nReading T from file %s...",gd.fpfnameqfunctions);
     inout_InputData(gd.fpfnameqfunctions, 1, 7, &nqfunctionsTable);
     
@@ -780,7 +774,7 @@ local void InputqfunctionsTable(void)
         Tqfuncs(p) = inout_yval[i];
         ++i;
     }
-    //
+//
     fprintf(gd.outlog,"\nReading X10 from file %s...",gd.fpfnameqfunctions);
     inout_InputData(gd.fpfnameqfunctions, 1, 8, &nqfunctionsTable);
     
@@ -792,7 +786,7 @@ local void InputqfunctionsTable(void)
         X10qfuncs(p) = inout_yval[i];
         ++i;
     }
-    //
+//
     fprintf(gd.outlog,"\nReading Y10 from file %s...",gd.fpfnameqfunctions);
     inout_InputData(gd.fpfnameqfunctions, 1, 9, &nqfunctionsTable);
     
@@ -804,7 +798,7 @@ local void InputqfunctionsTable(void)
         Y10qfuncs(p) = inout_yval[i];
         ++i;
     }
-    //
+//
     fprintf(gd.outlog,"\nReading UL from file %s...",gd.fpfnameqfunctions);
     inout_InputData(gd.fpfnameqfunctions, 1, 10, &nqfunctionsTable);
     
@@ -816,7 +810,7 @@ local void InputqfunctionsTable(void)
         ULqfuncs(p) = inout_yval[i];
         ++i;
     }
-    //
+//
     fprintf(gd.outlog,"\nReading Uloop from file %s...",gd.fpfnameqfunctions);
     inout_InputData(gd.fpfnameqfunctions, 1, 11, &nqfunctionsTable);
     
@@ -828,7 +822,7 @@ local void InputqfunctionsTable(void)
         Uloopqfuncs(p) = inout_yval[i];
         ++i;
     }
-    //
+//
     fprintf(gd.outlog,"\nReading U11 from file %s...",gd.fpfnameqfunctions);
     inout_InputData(gd.fpfnameqfunctions, 1, 12, &nqfunctionsTable);
     
@@ -840,7 +834,7 @@ local void InputqfunctionsTable(void)
         U11qfuncs(p) = inout_yval[i];
         ++i;
     }
-    //
+//
     fprintf(gd.outlog,"\nReading U20 from file %s...",gd.fpfnameqfunctions);
     inout_InputData(gd.fpfnameqfunctions, 1, 13, &nqfunctionsTable);
     
@@ -852,7 +846,7 @@ local void InputqfunctionsTable(void)
         U20qfuncs(p) = inout_yval[i];
         ++i;
     }
-    //
+//
     fprintf(gd.outlog,"\nReading xiL from file %s...",gd.fpfnameqfunctions);
     inout_InputData(gd.fpfnameqfunctions, 1, 14, &nqfunctionsTable);
     
@@ -864,7 +858,7 @@ local void InputqfunctionsTable(void)
         xiLqfuncs(p) = inout_yval[i];
         ++i;
     }
-    //
+//
     fprintf(gd.outlog,"\nReading Lapxi from file %s...",gd.fpfnameqfunctions);
     inout_InputData(gd.fpfnameqfunctions, 1, 15, &nqfunctionsTable);
     
@@ -876,7 +870,7 @@ local void InputqfunctionsTable(void)
         Lapxiqfuncs(p) = inout_yval[i];
         ++i;
     }
-    //
+//
     fprintf(gd.outlog,"\nReading nabla4xi from file %s...",gd.fpfnameqfunctions);
     inout_InputData(gd.fpfnameqfunctions, 1, 16, &nqfunctionsTable);
     
@@ -894,7 +888,6 @@ local void InputqfunctionsTable(void)
 
 local void InputQsRsTable(void)
 {
-//    stream outstr;
     pointQsRsTableptr p;
     int i;
 //
@@ -1127,7 +1120,6 @@ local real YLF(real q)
 local real XloopF(real q)
 {
     real func;
-//    func = Interpolation_nr(q, qTab, YloopT, nqfunctionsTable, YloopT2);
     func = Interpolation_nr(q, qTab, XloopT, nqfunctionsTable, XloopT2);
     return (func);
 }
@@ -1135,7 +1127,6 @@ local real XloopF(real q)
 local real YloopF(real q)
 {
     real func;
-//    func = Interpolation_nr(q, qTab, XloopT, nqfunctionsTable, XloopT2);
     func = Interpolation_nr(q, qTab, YloopT, nqfunctionsTable, YloopT2);
     return (func);
 }
@@ -1454,7 +1445,7 @@ local real M11F(real q, real r, real mu)
 global_zacorrfunctions zacorrelation_functions(real ri)
 {
     int i, j;
-    //
+//
     real *muGL, *wGL;
     int Nx;
     real qmin, qmax, dq, q;
@@ -1462,7 +1453,7 @@ global_zacorrfunctions zacorrelation_functions(real ri)
     real xip, xiaA, xiaB;
     real mu, w;
     real mza;
-    //
+//
     global_zacorrfunctions_ptr zacorrfuncp;
     
     zacorrfuncp = (global_zacorrfunctions_ptr) allocate(1 * sizeof(global_zacorrfunctions));
@@ -1492,14 +1483,14 @@ global_zacorrfunctions zacorrelation_functions(real ri)
             mza = MZAF(q,ri,mu);
             xiaB += wGL[j]*mza;
         }
-        //
+//
         xip += dq*(xiaA + xiaB)/2.0;
         xiaA = xiaB;
         xiaB = 0.0;
-        //
+//
     }
     xip -= 1.0;
-    //
+//
     rzacorrfun(zacorrfuncp)    = ri;
     xizacorrfun(zacorrfuncp)      = xip;
     
@@ -1513,7 +1504,7 @@ global_zacorrfunctions zacorrelation_functions(real ri)
 global_clptcorrfunctions clptcorrelation_functions(real ri)
 {
     int i, j;
-    //
+//
     real *muGL, *wGL;
     int Nx;
     real qmin, qmax, dq, q;
@@ -1560,7 +1551,7 @@ global_clptcorrfunctions clptcorrelation_functions(real ri)
     xi11p = 0.0; xi11A = 0.0; xi11B = 0.0;
     Lapxip = 0.0; LapxiA = 0.0; LapxiB = 0.0;
     nabla4xip = 0.0; nabla4xiA = 0.0; nabla4xiB = 0.0;
-    //
+//
     for (i=1; i<Nq; i++) {
         q = qmin + dq*((real)(i - 1));
         for (j=1; j<=Nx; j++) {
@@ -1589,7 +1580,7 @@ global_clptcorrfunctions clptcorrelation_functions(real ri)
             LapxiB += wGL[j]*mLapxi;
             nabla4xiB += wGL[j]*mnabla4xi;
         }
-        //
+//
         xiAp += dq*(xiAA + xiAB)/2.0; xiAA = xiAB; xiAB = 0.0;
         xiWp += dq*(xiWA + xiWB)/2.0; xiWA = xiWB; xiWB = 0.0;
         xi10Lp += dq*(xi10LA + xi10LB)/2.0; xi10LA = xi10LB; xi10LB = 0.0;
@@ -1601,7 +1592,7 @@ global_clptcorrfunctions clptcorrelation_functions(real ri)
         xi11p += dq*(xi11A + xi11B)/2.0; xi11A = xi11B; xi11B = 0.0;
         Lapxip += dq*(LapxiA + LapxiB)/2.0; LapxiA = LapxiB; LapxiB = 0.0;
         nabla4xip += dq*(nabla4xiA + nabla4xiB)/2.0; nabla4xiA = nabla4xiB; nabla4xiB = 0.0;
-        //
+//
     }
     
     rclptcorrfun(clptcorrfunp) = ri;
@@ -1804,7 +1795,6 @@ global_qfunctions qfunctions(real qi)
 {
     global_qfunctions_ptr qfunp;
     int i, Nk;
-//    real kmin, kmax,
     real dk, kvali, kvalim1, ki, kim1;
     real kk;
     real deltak;
@@ -1826,8 +1816,6 @@ global_qfunctions qfunctions(real qi)
     
     qfunp = (global_qfunctions_ptr) allocate(1 * sizeof(global_qfunctions));
     
-//    kmin = 0.0001;
-//    kmax = 100.0;
     Nk = 1200;
     if (Nk==1)
         dk = 0.;
@@ -1842,7 +1830,7 @@ global_qfunctions qfunctions(real qi)
     U11A = -cmd.kmin*( (6./7.)*R1plus2F(cmd.kmin) )*rj1Bessel(cmd.kmin*qi);
     U20p = 0.;
     U20A = -cmd.kmin*( (3./7.)*Q8F(cmd.kmin) )*rj1Bessel(cmd.kmin*qi);
-    //
+//
     XLp = 0.;
     XLA = xL(cmd.kmin, qi);
     Xloopp = 0.;
