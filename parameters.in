@@ -24,7 +24,6 @@ Nr                                 100
 mgModel                            LCDM
 suffixModel                        
 modelParamfile                     
-nHS                                1
 fR0                                1e-05
 screening                          1
 %
