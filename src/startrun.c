@@ -23,7 +23,7 @@ local void GaussLegendrePoints(void);
 void StartRun(string head0, string head1, string head2, string head3)
 {
     real aTime;
-    aTime = cputime();
+    aTime = second();
     
     gd.headline0 = head0; gd.headline1 = head1;
     gd.headline2 = head2; gd.headline3 = head3;
@@ -38,8 +38,8 @@ void StartRun(string head0, string head1, string head2, string head3)
 
     StartOutput();
 
-    fprintf(stdout,"\nTime to StartRun %g\n\n",cputime()-aTime);
-    fflush(stdout);
+    fprintf(gd.outlog,"\nStartRun elapsed time: %g sec.\n\n",second()-aTime);
+    fflush(gd.outlog);
 }
 
 local void startrun_parameterfile(void)
@@ -91,7 +91,7 @@ local void ReadParametersCmdline(void)
     cmd.x = GetdParam("etaini");
     cmd.dxstr = GetParam("deta");
     cmd.dxmin = GetdParam("detamin");
-    cmd.eps = GetdParam("eps");
+    cmd.eps = GetdParam("epsSolver");
     cmd.xstop = GetdParam("zout");
     cmd.maxnsteps = GetiParam("maxnsteps");
 	cmd.integration_method = GetParam("solverMethod");
@@ -234,6 +234,7 @@ local void startrun_ParamStat(void)
     if (GetParamStat("h") & ARGPARAM)
         cmd.h = GetdParam("h");
 
+// Differential equations evolution parameters:
 	if (GetParamStat("etaini") & ARGPARAM)
 		cmd.x = GetdParam("etaini");
 	if (GetParamStat("deta") & ARGPARAM) {
@@ -245,6 +246,8 @@ local void startrun_ParamStat(void)
 	}
 	if (GetParamStat("zout") & ARGPARAM)
 		cmd.xstop = GetdParam("zout");
+    if (GetParamStat("epsSolver") & ARGPARAM)
+        cmd.eps = GetdParam("epsSolver");
 
 	if (GetParamStat("maxnsteps") & ARGPARAM) 
 		cmd.maxnsteps = GetiParam("maxnsteps");
@@ -314,6 +317,8 @@ local void CheckParameters(void)
     if(cmd.x == rlog(1.0/(1.0+cmd.xstop)) )
         error("\n\nstartrun_Common: etaini and etaout=exp(-zout)-1 must be different\n");
 
+    if (cmd.eps > 1.0e-4 || cmd.eps <= 0)
+        error("CheckParameters: inapropriate or absurd value for epsSolver\n");
     if (cmd.maxnsteps < 1)
         error("CheckParameters: absurd value for maxnsteps\n");
 
@@ -375,7 +380,7 @@ local void ReadParameterFile(char *fname)
     RPName(cmd.x,"etaini");
 	SPName(cmd.dxstr,"deta",100);
     RPName(cmd.dxmin,"detamin");
-    RPName(cmd.eps,"eps");
+    RPName(cmd.eps,"epsSolver");
 	RPName(cmd.xstop,"zout");
     IPName(cmd.maxnsteps,"maxnsteps");
 	SPName(cmd.integration_method,"solverMethod",100);
@@ -508,7 +513,7 @@ local void PrintParameterFile(char *fname)
 // Differential equations evolution parameters:
         fprintf(fdout,FMTR,"etaini",cmd.x);
         fprintf(fdout,FMTR,"detamin",cmd.dxmin);
-        fprintf(fdout,FMTR,"eps",cmd.eps);
+        fprintf(fdout,FMTR,"epsSolver",cmd.eps);
         fprintf(fdout,FMTT,"deta",cmd.dxstr);
         fprintf(fdout,FMTR,"zout",cmd.xstop);
         fprintf(fdout,FMTI,"maxnsteps",cmd.maxnsteps);
@@ -551,8 +556,8 @@ local void InputPSTable(void)
     real *pPS2tmp;
     char namebuf[256];
     real kminext, kmaxext, dktmp, kmn, kmx;
-    int Nkext=600, NkL=50, NkU=50;
-    real kminT=1.0e-6, kmaxT=350.0;
+    int Nkext=800, NkL=50, NkU=50;
+    real kminT=1.0e-5, kmaxT=400.0;
 
     fprintf(gd.outlog,"\n\nReading power spectrum from file %s...\n",gd.fnamePSPath);
     inout_InputData(gd.fnamePSPath, 1, 2, &nPSTabletmp);
@@ -737,10 +742,10 @@ local void PSLTable(void)
     gd.xstop = 0.;
 //    Dp0 = DpFunction(0.); // LCDM
     Dp0 = DpFunction_LCDM(0.); // LCDM
-    fprintf(gd.outlog,"\n\n Dp(0) = %g\n",Dp0);
+    fprintf(gd.outlog,"\n\n Dp(0) = %g",Dp0);
     gd.xstop = xstoptmp;
     Dpzout = DpFunction(0.);
-    fprintf(gd.outlog,"\n\n Dp(zout) = %g\n",Dpzout);
+    fprintf(gd.outlog,"\n Dp(%g) = %g\n",cmd.xstop,Dpzout);
     
     fac = rsqr(Dpzout/Dp0);
     for (p = PSLCDMtab; p<PSLCDMtab+nPSTable; p++) {
@@ -784,6 +789,13 @@ local void PSLTable(void)
 //
     spline(kPS,pPS,nPSLT,1.0e30,1.0e30,pPS2);
 
+    sprintf(namebuf,"%s/%s%s%s",gd.clptDir,"PSL",cmd.suffixModel,".dat");
+    outstr = stropen(namebuf,"w!");
+    for (i=1; i<=nPSLT; i++) {
+        fprintf(outstr,"%e %e\n",
+                kPS[i],pPS[i]);
+    }
+    fclose(outstr);
 }
 
 local void GaussLegendrePoints(void)
@@ -811,12 +823,12 @@ local void GaussLegendrePoints(void)
 
 global  real psInterpolation_nr(real k, double kPS[], double pPS[], int nPS)
 {
-    pointPSTableptr pf, pi;
+//    pointPSTableptr pf, pi;
     real psftmp;
-    real dps;
+//    real dps;
     
-    pi = PSLCDMtab;
-    pf = PSLCDMtab+nPSTable-1;
+//    pi = PSLCDMtab;
+//    pf = PSLCDMtab+nPSTable-1;
     
     splint(kPS,pPS,pPS2,nPS,k,&psftmp);
     

@@ -195,6 +195,7 @@ global real *pPS2;
 #define kPos(x)    (((pointPSTableptr) (x))->k)
 #define PS(x)    (((pointPSTableptr) (x))->ps)
 
+/*
 //
 typedef struct {
     real eta;
@@ -206,7 +207,9 @@ typedef struct {
 #define DpD1(x)    (((global_D1_ptr) (x))->y1)
 #define DppD1(x)    (((global_D1_ptr) (x))->y2)
 //
+*/
 
+/*
 //
 typedef struct {
     real eta;
@@ -232,6 +235,7 @@ typedef struct {
 #define DFLk1k2D2(x)    (((global_D2_ptr) (x))->y9)
 #define DdIk1k2D2(x)    (((global_D2_ptr) (x))->y11)
 //
+*/
 
 //
 typedef struct {
@@ -246,13 +250,17 @@ typedef struct {
     real y8;
 } global_D2v2, *global_D2v2_ptr;
 
-#define etaD2v2(x)    (((global_D2v2_ptr) (x))->eta)
-#define Dpk1D2v2(x)    (((global_D2v2_ptr) (x))->y1)
-#define Dpk2D2v2(x)    (((global_D2v2_ptr) (x))->y3)
+//#define etaD2v2(x)    (((global_D2v2_ptr) (x))->eta)
+//#define Dpk1D2v2(x)    (((global_D2v2_ptr) (x))->y1)
+//#define Dpk2D2v2(x)    (((global_D2v2_ptr) (x))->y3)
+#define etaD2(x)    (((global_D2v2_ptr) (x))->eta)
+#define Dpk1D2(x)    (((global_D2v2_ptr) (x))->y1)
+#define Dpk2D2(x)    (((global_D2v2_ptr) (x))->y3)
 #define DA2D2(x)    (((global_D2v2_ptr) (x))->y5)
 #define DB2D2(x)    (((global_D2v2_ptr) (x))->y7)
 //
 
+/*
 //
 typedef struct {
     real eta;
@@ -290,6 +298,7 @@ typedef struct {
 #define DIFL3D3(x)    (((global_D3_ptr) (x))->y17)
 #define DIdI3D3(x)    (((global_D3_ptr) (x))->y19)
 //
+*/
 
 //
 typedef struct {
@@ -306,12 +315,19 @@ typedef struct {
     real y10;
 } global_D3v2, *global_D3v2_ptr;
 
-#define etaD3v2(x)    (((global_D3v2_ptr) (x))->eta)
-#define DpkD3v2(x)    (((global_D3v2_ptr) (x))->y1)
-#define DppD3v2(x)    (((global_D3v2_ptr) (x))->y3)
-#define D2fD3v2(x)    (((global_D3v2_ptr) (x))->y5)
-#define D2mfD3v2(x)    (((global_D3v2_ptr) (x))->y7)
-#define D3symmD3v2(x)    (((global_D3v2_ptr) (x))->y9)
+//#define etaD3v2(x)    (((global_D3v2_ptr) (x))->eta)
+//#define DpkD3v2(x)    (((global_D3v2_ptr) (x))->y1)
+//#define DppD3v2(x)    (((global_D3v2_ptr) (x))->y3)
+//#define D2fD3v2(x)    (((global_D3v2_ptr) (x))->y5)
+//#define D2mfD3v2(x)    (((global_D3v2_ptr) (x))->y7)
+//#define D3symmD3v2(x)    (((global_D3v2_ptr) (x))->y9)
+//
+#define etaD3(x)    (((global_D3v2_ptr) (x))->eta)
+#define DpkD3(x)    (((global_D3v2_ptr) (x))->y1)
+#define DppD3(x)    (((global_D3v2_ptr) (x))->y3)
+#define D2fD3(x)    (((global_D3v2_ptr) (x))->y5)
+#define D2mfD3(x)    (((global_D3v2_ptr) (x))->y7)
+#define D3symmD3(x)    (((global_D3v2_ptr) (x))->y9)
 //
 
 // GL structure

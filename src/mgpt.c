@@ -1,5 +1,5 @@
 /*==============================================================================
- MODULE: mglpt.c				[mgpt]
+ MODULE: mgpt.c				[mgpt]
 ==============================================================================*/
 
 #include "globaldefs.h"
@@ -17,12 +17,11 @@ void MainLoop(void)
     CLPT_correlation_processing();
 }
 
+#define FMTQRDAT    \
+"%e %e %e %e %e %e %e %e \
+%e %e %e %e %e %e %e %e %e %e\n"
 
-#define FMTQRDAT	\
-"%10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e \
-%10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e\n"
-
-#define FMTQR       "%g %g %g %g %g %g %g %g %g %g %g %g %g %g %g %g\n"
+//#define FMTQR       "%g %g %g %g %g %g %g %g %g %g %g %g %g %g %g %g\n"
 
 local void computingQRs(void)
 {
@@ -43,7 +42,8 @@ local void computingQRs(void)
         xv = xGL(pGL)[1];
         k2 = ki * rsqrt(1.0 + rsqr(rr) - 2.0*rr*xv);
         ptmp = DsSecondOrder_func(ki, ki*rr, k2);
-        KA_LCDM = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+//        KA_LCDM = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+        KA_LCDM = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2(ptmp)*Dpk2D2(ptmp) );
         KB_LCDM = KA_LCDM;
         fprintf(stdout,"\n\nKA_LCDM, KB_LCDM: %g %g\n",KA_LCDM, KB_LCDM);
     }
@@ -174,6 +174,6 @@ local void loopQsRs(stream outstr, int imin, int imax, real dk)
 }
 
 #undef FMTQRDAT
-#undef FMTQR
+//#undef FMTQR
 
 

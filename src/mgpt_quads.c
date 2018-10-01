@@ -109,8 +109,10 @@ local real GaussLegendreQ1_func(real y)
                        );
         } else {
             ptmp = DsSecondOrder_func(ki, ki*rr, k2);
-            KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-            KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+//            KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+//            KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+            KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2(ptmp)*Dpk2D2(ptmp) );
+            KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2(ptmp)*Dpk2D2(ptmp) );
             KQ1 = rsqr(
                    KA + KB*(-1.0+(1.0-rsqr(xv))/abskmq)
                    );
@@ -144,7 +146,7 @@ local real Q1_function(real eta, real ki)
     return result;
 }
 
-// END DE Q1
+// END Q1
 
 
 // BEGIN Q2
@@ -195,8 +197,10 @@ local real GaussLegendreQ2_func(real y)
               );
         } else {
             ptmp = DsSecondOrder_func(ki, ki*rr, k2);
-            KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-            KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+//            KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+//            KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+            KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2(ptmp)*Dpk2D2(ptmp) );
+            KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2(ptmp)*Dpk2D2(ptmp) );
             KQ2 = (rr*xv*(1.0-rr*xv)/abskmq)
                 *(
                   KA - KB*((rsqr(xv)+rsqr(rr)-2.0*rr*xv)/abskmq)
@@ -231,7 +235,7 @@ local real Q2_function(real eta, real ki)
     return result;
 }
 
-// END DE Q2
+// END Q2
 
 
 // BEGIN Q3
@@ -320,8 +324,10 @@ local real KQ8_function(real ki, real rr, real xv)
                         );
     } else {
         ptmp = DsSecondOrder_func(ki, ki*rr, k2);
-        KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-        KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+//        KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+//        KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+        KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2(ptmp)*Dpk2D2(ptmp) );
+        KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2(ptmp)*Dpk2D2(ptmp) );
         KQ8 = rsqr(rr)*(
                     KA - KB*rsqr(-rr+xv)/abskmq
                     );
@@ -395,7 +401,7 @@ local real Q8_function(real eta, real ki)
     return result;
 }
 
-// END DE Q8
+// END Q8
 
 
 // BEGIN Q9
@@ -474,7 +480,7 @@ local real Q9_function(real eta, real ki)
     return result;
 }
 
-// END DE Q9
+// END Q9
 
 // BEGIN Q13
 
@@ -552,7 +558,7 @@ local real Q13_function(real eta, real ki)
     return result;
 }
 
-// END DE Q13
+// END Q13
 
 // BEGIN QI
 
@@ -570,8 +576,10 @@ local real KQI_function(real ki, real rr, real xv)
                );
     } else {
         ptmp = DsSecondOrder_func(ki, ki*rr, k2);
-        KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-        KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+//        KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+//        KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+        KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2(ptmp)*Dpk2D2(ptmp) );
+        KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2(ptmp)*Dpk2D2(ptmp) );
         KQI = rsqr(rr) * (1.0 - rsqr(xv))/(1.0 + rsqr(rr) - 2.0*rr*xv)
             * (
                 KA - KB*(rsqr(xv) + rsqr(rr) - 2.0*rr*xv)/
@@ -647,7 +655,7 @@ local real QI_function(real eta, real ki)
     return result;
 }
 
-// END DE QI
+// END QI
 
 
 // BEGIN Q5
@@ -664,8 +672,10 @@ local real KQ5_function(real ki, real rr, real xv)
                      );
     } else {
         ptmp = DsSecondOrder_func(ki, ki*rr, k2);
-        KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-        KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+//        KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+//        KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+        KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2(ptmp)*Dpk2D2(ptmp) );
+        KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2(ptmp)*Dpk2D2(ptmp) );
         KQ5 = rr*xv*(
                     KA - KB*rsqr(-rr+xv)/abskmq
                     );
@@ -720,7 +730,7 @@ local real Q5_function(real eta, real ki)
     return result;
 }
 
-// END DE Q5
+// END Q5
 
 // BEGIN Q7
 
@@ -779,7 +789,7 @@ local real Q7_function(real eta, real ki)
     return result;
 }
 
-// END DE Q7
+// END Q7
 
 // BEGIN Q11
 
@@ -838,7 +848,7 @@ local real Q11_function(real eta, real ki)
     return result;
 }
 
-// END DE Q11
+// END Q11
 
 // BEGIN Q12
 
@@ -897,7 +907,7 @@ local real Q12_function(real eta, real ki)
     return result;
 }
 
-// END DE Q12
+// END Q12
 
 
 // BEGIN R1
@@ -911,7 +921,8 @@ global real funcR1int(real y)
     fac = rpow(gd.p,3.0)*psInterpolation_nr(gd.p, kPS, pPS, nPSLT);
 
     ptmp = DsThirdOrder_func(gd.x, gd.k, gd.p);
-    ftmp = (21.0/10.0)*D3symmD3v2(ptmp)/( DpkD3v2(ptmp)*DppD3v2(ptmp)*DppD3v2(ptmp) );
+//    ftmp = (21.0/10.0)*D3symmD3v2(ptmp)/( DpkD3v2(ptmp)*DppD3v2(ptmp)*DppD3v2(ptmp) );
+    ftmp = (21.0/10.0)*D3symmD3(ptmp)/( DpkD3(ptmp)*DppD3(ptmp)*DppD3(ptmp) );
 
     return fac*ftmp;
 }
@@ -942,7 +953,7 @@ local real R1_function(real eta, real ki)
     return fac*s;
 }
 
-// END DE R1
+// END R1
 
 
 // BEGIN R2
@@ -970,8 +981,10 @@ local real GaussLegendreR2_func(real y)
                   );
         } else {
             ptmp = DsSecondOrder_func(k2, gd.k, gd.p);
-            KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-            KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+//            KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+//            KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+            KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2(ptmp)*Dpk2D2(ptmp) );
+            KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2(ptmp)*Dpk2D2(ptmp) );
             KR2 = (rr*xv*(1.0-rr*xv)/abskmq)
                 *(
                   KA - KB*rsqr(xv)
@@ -1002,7 +1015,7 @@ local real R2_function(real eta, real ki)
     return result;
 }
 
-// END DE R2
+// END R2
 
 // BEGIN RI
 
@@ -1019,8 +1032,10 @@ local real KRI_function(real ki, real rr, real xv)
               );
     } else {
         ptmp = DsSecondOrder_func(k2,ki,ki*rr);
-        KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-        KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+//        KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+//        KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+        KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2(ptmp)*Dpk2D2(ptmp) );
+        KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2(ptmp)*Dpk2D2(ptmp) );
         KRI = (rsqr(rr)*(1.0-rsqr(xv))/abskmq)
                 *(
                     KA - KB*rsqr(xv)
@@ -1077,7 +1092,7 @@ local real RI_function(real eta, real ki)
     return result;
 }
 
-// END DE RI
+// END RI
 
 
 // BEGIN R1p2
@@ -1095,8 +1110,10 @@ local real KR1p2_function(real ki, real rr, real xv)
                   );
     } else {
         ptmp = DsSecondOrder_func(k2,ki,ki*rr);
-        KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-        KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+//        KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+//        KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+        KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2(ptmp)*Dpk2D2(ptmp) );
+        KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2(ptmp)*Dpk2D2(ptmp) );
         KR1p2 = (rsqr(rr)*(1.0-rr*xv)/abskmq)
                 *(
                   KA - KB*rsqr(xv)
@@ -1153,7 +1170,7 @@ local real R1p2_function(real eta, real ki)
     return result;
 }
 
-// END DE R1p2
+// END R1p2
 
 
 
@@ -1323,9 +1340,9 @@ local void quadrature_LCDM(real ki)
 void quadraturemethod_string_to_int(string method_str,int *method_int)
 {
     *method_int=-1;
-    if (strcmp(method_str,"romo") == 0) {
+    if (strcmp(method_str,"romberg") == 0) {
         *method_int = ROMO;
-        strcpy(gd.quadraturemethod_comment, "romo quadrature method");
+        strcpy(gd.quadraturemethod_comment, "romberg open quadrature method");
     }
 //
     if (strcmp(method_str,"trapezoid") == 0) {
@@ -1357,36 +1374,6 @@ void quadraturemethod_string_to_int(string method_str,int *method_int)
 // ==============================================================================
 // AA TRAPEZOID METHOD:
 
-local real KQ8_function_AA(real k, real r, real x);
-local real KQ9_function_AA(real k, real r, real x);
-local real KQ13_function_AA(real k, real r, real x);
-local real KQI_function_AA(real k, real r, real x);
-
-local real KQ5_function_AA(real k, real r, real x);
-local real KQ7_function_AA(real k, real r, real x);
-local real KQ11_function_AA(real k, real r, real x);
-local real KQ12_function_AA(real k, real r, real x);
-
-local real KRI_function_AA(real k, real r, real x);
-local real KR1p2_function_AA(real k, real r, real x);
-
-local real GaussLegendreQ1_func_AA(real y);
-local real GaussLegendreQ2_func_AA(real y);
-local real GaussLegendreQ3_func_AA(real y);
-local real GaussLegendreQ8_func_AA(real y);
-local real GaussLegendreQ9_func_AA(real y);
-local real GaussLegendreQ13_func_AA(real y);
-local real GaussLegendreQI_func_AA(real y);
-local real GaussLegendreQ5_func_AA(real y);
-local real GaussLegendreQ7_func_AA(real y);
-local real GaussLegendreQ11_func_AA(real y);
-local real GaussLegendreQ12_func_AA(real y);
-local real GaussLegendreRI_func_AA(real y);
-local real GaussLegendreR1p2_func_AA(real y);
-local real GaussLegendreR1_func_AA(real y);
-local real GaussLegendreR2_func_AA(real y);
-local real funcR1int_AA(real y);
-
 local real Q1_function_AA(real eta, real ki);
 local real Q2_function_AA(real eta, real ki);
 local real Q3_function_AA(real eta, real ki);
@@ -1405,67 +1392,6 @@ local real R2_function_AA(real eta, real ki);
 
 
 // BEGIN Q1
-
-local real GaussLegendreQ1_func_AA(real y)
-{
-    global_D2v2_ptr ptmp;
-    int j;
-    real *xGL, *wGL;
-    real kmin, kmax, ki;
-    real Q1p, Q1aA, Q1aB, KQ1;
-    real PSLA, PSLB;
-    real rmin, rmax;
-    real kk, rr, deltar;
-    real mumin, mumax;
-    real xv, w, k2, psl;
-    real KA, KB;
-    int Nx;
-    
-    gd.p = rpow(10.0,y);
-    
-    kk = gd.p;
-    ki = gd.k;
-    rr = kk/ki;
-    PSLB = psInterpolation_nr(ki*rr, kPS, pPS, nPSLT);
-    Q1aB = 0.0;
-    kmin = kPos(PSLT+1);
-    kmax = kPos(PSLT+nPSLT-1);
-    rmax = kmax/ki;
-    rmin = kmin/ki;
-    
-    mumin = MAX(-1.0, (1.0 + rsqr(rr) - rsqr(rmax))/(2.0*rr));
-    mumax = MIN( 1.0, (1.0 + rsqr(rr) - rsqr(rmin))/(2.0*rr));
-    if (rr>=0.5)
-        mumax = 0.5/rr;
-    Nx=10;
-    xGL=dvector(1,Nx);
-    wGL=dvector(1,Nx);
-    gauleg(mumin,mumax,xGL,wGL,Nx);
-    for (j=1; j<=Nx; j++) {
-        xv = xGL[j];
-        w = wGL[j];
-        k2 = ki * rsqrt(1.0 + rsqr(rr) - 2.0*rr*xv);
-        ptmp = DsSecondOrder_func(ki, ki*rr, k2);
-        if (model_int_flag==LCDM) {
-            KQ1 = rsqr(
-                       KA_LCDM + KB_LCDM*(-1.0+(1.0-rsqr(xv))/abskmq)
-                       );
-        } else {
-            KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-            KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-            KQ1 = rsqr(
-                       KA + KB*(-1.0+(1.0-rsqr(xv))/abskmq)
-                       );
-        }
-        psl = psInterpolation_nr(ki*rsqrt(abskmq), kPS, pPS, nPSLT);
-        Q1aB += w*KQ1*psl;
-    }
-    
-    free_dvector(wGL,1,Nx);
-    free_dvector(xGL,1,Nx);
-    
-    return 2.0*rpow(gd.p,3.0)*PSLB*Q1aB;
-}
 
 local real Q1_function_AA(real eta, real ki)
 {
@@ -1503,73 +1429,10 @@ local real Q1_function_AA(real eta, real ki)
     return result;
 }
 
-// END DE Q1
+// END Q1
 
 
 // BEGIN Q2
-
-local real GaussLegendreQ2_func_AA(real y)
-{
-    global_D2v2_ptr ptmp;
-    int j;
-    real *xGL, *wGL;
-    real kmin, kmax, ki;
-    real Q2p, Q2aA, Q2aB, KQ2;
-    real PSLA, PSLB;
-    real rmin, rmax;
-    real kk, rr, deltar;
-    real mumin, mumax;
-    real xv, w, k2, psl;
-    real KA, KB;
-    int Nx;
-    
-    gd.p = rpow(10.0,y);
-    
-    kk = gd.p;
-    ki = gd.k;
-    rr = kk/ki;
-    PSLB = psInterpolation_nr(ki*rr, kPS, pPS, nPSLT);
-    Q2aB = 0.0;
-    kmin = kPos(PSLT+1);
-    kmax = kPos(PSLT+nPSLT-1);
-    rmax = kmax/ki;
-    rmin = kmin/ki;
-    
-    mumin = MAX(-1.0, (1.0 + rsqr(rr) - rsqr(rmax))/(2.0*rr));
-    mumax = MIN( 1.0, (1.0 + rsqr(rr) - rsqr(rmin))/(2.0*rr));
-    if (rr>=0.5)
-        mumax = 0.5/rr;
-    Nx=10;
-    xGL=dvector(1,Nx);
-    wGL=dvector(1,Nx);
-    gauleg(mumin,mumax,xGL,wGL,Nx);
-    for (j=1; j<=Nx; j++) {
-        xv = xGL[j];
-        w = wGL[j];
-        k2 = ki * rsqrt(1.0 + rsqr(rr) - 2.0*rr*xv);
-        ptmp = DsSecondOrder_func(ki, ki*rr, k2);
-        if (model_int_flag==LCDM) {
-            KQ2 = (rr*xv*(1.0-rr*xv)/abskmq)
-            *(
-              KA_LCDM - KB_LCDM*((rsqr(xv)+rsqr(rr)-2.0*rr*xv)/abskmq)
-              );
-        } else {
-            KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-            KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-            KQ2 = (rr*xv*(1.0-rr*xv)/abskmq)
-            *(
-              KA - KB*((rsqr(xv)+rsqr(rr)-2.0*rr*xv)/abskmq)
-              );
-        }
-        psl = psInterpolation_nr(ki*rsqrt(abskmq), kPS, pPS, nPSLT);
-        Q2aB += w*KQ2*psl;
-    }
-    
-    free_dvector(wGL,1,Nx);
-    free_dvector(xGL,1,Nx);
-    
-    return 2.0*rpow(ki,2.0)*gd.p*PSLB*Q2aB;
-}
 
 local real Q2_function_AA(real eta, real ki)
 {
@@ -1608,58 +1471,10 @@ local real Q2_function_AA(real eta, real ki)
     return result;
 }
 
-// END DE Q2
+// END Q2
 
 
 // BEGIN Q3
-
-local real GaussLegendreQ3_func_AA(real y)
-{
-    int j;
-    real *xGL, *wGL;
-    real kmin, kmax, ki;
-    real Q3p, Q3aA, Q3aB, KQ3;
-    real PSLA, PSLB;
-    real rmin, rmax;
-    real kk, rr, deltar;
-    real mumin, mumax;
-    real xv, w, k2, psl;
-    int Nx;
-    
-    gd.p = rpow(10.0,y);
-    
-    kk = gd.p;
-    ki = gd.k;
-    rr = kk/ki;
-    PSLB = psInterpolation_nr(ki*rr, kPS, pPS, nPSLT);
-    Q3aB = 0.0;
-    kmin = kPos(PSLT+1);
-    kmax = kPos(PSLT+nPSLT-1);
-    rmax = kmax/ki;
-    rmin = kmin/ki;
-    
-    mumin = MAX(-1.0, (1.0 + rsqr(rr) - rsqr(rmax))/(2.0*rr));
-    mumax = MIN( 1.0, (1.0 + rsqr(rr) - rsqr(rmin))/(2.0*rr));
-    if (rr>=0.5)
-        mumax = 0.5/rr;
-    Nx=10;
-    xGL=dvector(1,Nx);
-    wGL=dvector(1,Nx);
-    gauleg(mumin,mumax,xGL,wGL,Nx);
-    for (j=1; j<=Nx; j++) {
-        xv = xGL[j];
-        w = wGL[j];
-        k2 = ki * rsqrt(1.0 + rsqr(rr) - 2.0*rr*xv);
-        KQ3 = rsqr(xv)*rsqr(1.0-rr*xv)/rsqr(abskmq);
-        psl = psInterpolation_nr(ki*rsqrt(abskmq), kPS, pPS, nPSLT);
-        Q3aB += w*KQ3*psl;
-    }
-    
-    free_dvector(wGL,1,Nx);
-    free_dvector(xGL,1,Nx);
-    
-    return 2.0*rpow(ki,2.0)*gd.p*PSLB*Q3aB;
-}
 
 local real Q3_function_AA(real eta, real ki)
 {
@@ -1702,74 +1517,6 @@ local real Q3_function_AA(real eta, real ki)
 
 // BEGIN Q8
 
-local real KQ8_function_AA(real ki, real rr, real xv)
-{
-    real k2, KA, KB, KQ8;
-    global_D2v2_ptr ptmp;
-    
-    k2 = ki * rsqrt(abskmq);
-    ptmp = DsSecondOrder_func(ki, ki*rr, k2);
-    if (model_int_flag==LCDM) {
-        KQ8 = rsqr(rr)*(
-                        KA_LCDM - KB_LCDM*rsqr(-rr+xv)/abskmq
-                        );
-    } else {
-        KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-        KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-        KQ8 = rsqr(rr)*(
-                        KA - KB*rsqr(-rr+xv)/abskmq
-                        );
-    }
-    return KQ8;
-}
-
-local real GaussLegendreQ8_func_AA(real y)
-{
-    int j;
-    real *xGL, *wGL;
-    real kmin, kmax, ki;
-    real Q8, KQ8;
-    real PSLA, PSLB;
-    real rmin, rmax;
-    real kk, rr;
-    real xmin, xmax;
-    real xv, w, psl;
-    int Nx;
-    
-    gd.p = rpow(10.0,y);
-    
-    kk = gd.p;
-    ki = gd.k;
-    rr = kk/ki;
-    PSLB = psInterpolation_nr(ki*rr, kPS, pPS, nPSLT);
-    Q8 = 0.0;
-    kmin = kPos(PSLT+1);
-    kmax = kPos(PSLT+nPSLT-1);
-    rmax = kmax/ki;
-    rmin = kmin/ki;
-    
-    xmin = MAX(-1.0, (1.0 + rsqr(rr) - rsqr(rmax))/(2.0*rr));
-    xmax = MIN( 1.0, (1.0 + rsqr(rr) - rsqr(rmin))/(2.0*rr));
-    if (rr>=0.5)
-        xmax = 0.5/rr;
-    Nx=10;
-    xGL=dvector(1,Nx);
-    wGL=dvector(1,Nx);
-    gauleg(xmin,xmax,xGL,wGL,Nx);
-    for (j=1; j<=Nx; j++) {
-        xv = xGL[j];
-        w = wGL[j];
-        KQ8 = KQ8_function(ki, rr, xv);
-        psl = psInterpolation_nr(ki*rsqrt(abskmq), kPS, pPS, nPSLT);
-        Q8 += w*KQ8*psl;
-    }
-    
-    free_dvector(wGL,1,Nx);
-    free_dvector(xGL,1,Nx);
-    
-    return gd.p*PSLB*Q8;
-}
-
 local real Q8_function_AA(real eta, real ki)
 {
     real result;
@@ -1807,65 +1554,10 @@ local real Q8_function_AA(real eta, real ki)
     return result;
 }
 
-// END DE Q8
+// END Q8
 
 
 // BEGIN Q9
-
-local real KQ9_function_AA(real ki, real rr, real xv)
-{
-    real KQ9;
-    
-    KQ9 = rr*xv*(1-rr*xv)/abskmq;
-    return KQ9;
-}
-
-local real GaussLegendreQ9_func_AA(real y)
-{
-    int j;
-    real *xGL, *wGL;
-    real kmin, kmax, ki;
-    real Q9, KQ9;
-    real PSLA, PSLB;
-    real rmin, rmax;
-    real kk, rr;
-    real xmin, xmax;
-    real xv, w, psl;
-    int Nx;
-    
-    gd.p = rpow(10.0,y);
-    
-    kk = gd.p;
-    ki = gd.k;
-    rr = kk/ki;
-    PSLB = psInterpolation_nr(ki*rr, kPS, pPS, nPSLT);
-    Q9 = 0.0;
-    kmin = kPos(PSLT+1);
-    kmax = kPos(PSLT+nPSLT-1);
-    rmax = kmax/ki;
-    rmin = kmin/ki;
-    
-    xmin = MAX(-1.0, (1.0 + rsqr(rr) - rsqr(rmax))/(2.0*rr));
-    xmax = MIN( 1.0, (1.0 + rsqr(rr) - rsqr(rmin))/(2.0*rr));
-    if (rr>=0.5)
-        xmax = 0.5/rr;
-    Nx=10;
-    xGL=dvector(1,Nx);
-    wGL=dvector(1,Nx);
-    gauleg(xmin,xmax,xGL,wGL,Nx);
-    for (j=1; j<=Nx; j++) {
-        xv = xGL[j];
-        w = wGL[j];
-        KQ9 = KQ9_function(ki, rr, xv);
-        psl = psInterpolation_nr(ki*rsqrt(abskmq), kPS, pPS, nPSLT);
-        Q9 += w*KQ9*psl;
-    }
-    
-    free_dvector(wGL,1,Nx);
-    free_dvector(xGL,1,Nx);
-    
-    return gd.p*PSLB*Q9;
-}
 
 local real Q9_function_AA(real eta, real ki)
 {
@@ -1904,64 +1596,9 @@ local real Q9_function_AA(real eta, real ki)
     return result;
 }
 
-// END DE Q9
+// END Q9
 
 // BEGIN Q13
-
-local real KQ13_function_AA(real ki, real rr, real xv)
-{
-    real KQ13;
-    
-    KQ13 = rsqr(rr);
-    return KQ13;
-}
-
-local real GaussLegendreQ13_func_AA(real y)
-{
-    int j;
-    real *xGL, *wGL;
-    real kmin, kmax, ki;
-    real Q13, KQ13;
-    real PSLA, PSLB;
-    real rmin, rmax;
-    real kk, rr;
-    real xmin, xmax;
-    real xv, w, psl;
-    int Nx;
-    
-    gd.p = rpow(10.0,y);
-    
-    kk = gd.p;
-    ki = gd.k;
-    rr = kk/ki;
-    PSLB = psInterpolation_nr(ki*rr, kPS, pPS, nPSLT);
-    Q13 = 0.0;
-    kmin = kPos(PSLT+1);
-    kmax = kPos(PSLT+nPSLT-1);
-    rmax = kmax/ki;
-    rmin = kmin/ki;
-    
-    xmin = MAX(-1.0, (1.0 + rsqr(rr) - rsqr(rmax))/(2.0*rr));
-    xmax = MIN( 1.0, (1.0 + rsqr(rr) - rsqr(rmin))/(2.0*rr));
-    if (rr>=0.5)
-        xmax = 0.5/rr;
-    Nx=10;
-    xGL=dvector(1,Nx);
-    wGL=dvector(1,Nx);
-    gauleg(xmin,xmax,xGL,wGL,Nx);
-    for (j=1; j<=Nx; j++) {
-        xv = xGL[j];
-        w = wGL[j];
-        KQ13 = KQ13_function(ki, rr, xv);
-        psl = psInterpolation_nr(ki*rsqrt(abskmq), kPS, pPS, nPSLT);
-        Q13 += w*KQ13*psl;
-    }
-    
-    free_dvector(wGL,1,Nx);
-    free_dvector(xGL,1,Nx);
-    
-    return gd.p*PSLB*Q13;
-}
 
 local real Q13_function_AA(real eta, real ki)
 {
@@ -1999,81 +1636,9 @@ local real Q13_function_AA(real eta, real ki)
     return result;
 }
 
-// END DE Q13
+// END Q13
 
 // BEGIN QI
-
-local real KQI_function_AA(real ki, real rr, real xv)
-{
-    real k2, KA, KB, KQI;
-    global_D2v2_ptr ptmp;
-    
-    k2 = ki * rsqrt(abskmq);
-    ptmp = DsSecondOrder_func(ki, ki*rr, k2);
-    if (model_int_flag==LCDM) {
-        KQI = rsqr(rr) * (1.0 - rsqr(xv))/(1.0 + rsqr(rr - 2.0*rr*xv))
-        * (
-           KA_LCDM - KB_LCDM*(rsqr(xv) + rsqr(rr) - 2.0*rr*xv)/
-           (1.0 + rsqr(rr) - 2.0*rr*xv)
-           );
-    } else {
-        KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-        KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-        KQI = rsqr(rr) * (1.0 - rsqr(xv))/(1.0 + rsqr(rr - 2.0*rr*xv))
-        * (
-           KA - KB*(rsqr(xv) + rsqr(rr) - 2.0*rr*xv)/
-           (1.0 + rsqr(rr) - 2.0*rr*xv)
-           );
-    }
-    return KQI;
-}
-
-local real GaussLegendreQI_func_AA(real y)
-{
-    int j;
-    real *xGL, *wGL;
-    real kmin, kmax, ki;
-    real QI, KQI;
-    real PSLA, PSLB;
-    real rmin, rmax;
-    real kk, rr;
-    real xmin, xmax;
-    real xv, w, psl;
-    int Nx;
-    
-    gd.p = rpow(10.0,y);
-    
-    kk = gd.p;
-    ki = gd.k;
-    rr = kk/ki;
-    PSLB = psInterpolation_nr(ki*rr, kPS, pPS, nPSLT);
-    QI = 0.0;
-    kmin = kPos(PSLT+1);
-    kmax = kPos(PSLT+nPSLT-1);
-    rmax = kmax/ki;
-    rmin = kmin/ki;
-    
-    xmin = MAX(-1.0, (1.0 + rsqr(rr) - rsqr(rmax))/(2.0*rr));
-    xmax = MIN( 1.0, (1.0 + rsqr(rr) - rsqr(rmin))/(2.0*rr));
-    if (rr>=0.5)
-        xmax = 0.5/rr;
-    Nx=10;
-    xGL=dvector(1,Nx);
-    wGL=dvector(1,Nx);
-    gauleg(xmin,xmax,xGL,wGL,Nx);
-    for (j=1; j<=Nx; j++) {
-        xv = xGL[j];
-        w = wGL[j];
-        KQI = KQI_function(ki, rr, xv);
-        psl = psInterpolation_nr(ki*rsqrt(abskmq), kPS, pPS, nPSLT);
-        QI += w*KQI*psl;
-    }
-    
-    free_dvector(wGL,1,Nx);
-    free_dvector(xGL,1,Nx);
-    
-    return gd.p*PSLB*QI;
-}
 
 local real QI_function_AA(real eta, real ki)
 {
@@ -2111,59 +1676,10 @@ local real QI_function_AA(real eta, real ki)
     return result;
 }
 
-// END DE QI
+// END QI
 
 
 // BEGIN Q5
-
-local real KQ5_function_AA(real ki, real rr, real xv)
-{
-    real k2, KA, KB, KQ5;
-    global_D2v2_ptr ptmp;
-    
-    k2 = ki * rsqrt(abskmq);
-    ptmp = DsSecondOrder_func(ki, ki*rr, k2);
-    if (model_int_flag==LCDM) {
-        KQ5 = rr*xv*(
-                     KA_LCDM - KB_LCDM*rsqr(-rr+xv)/abskmq
-                     );
-    } else {
-        KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-        KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-        KQ5 = rr*xv*(
-                     KA - KB*rsqr(-rr+xv)/abskmq
-                     );
-    }
-    return KQ5;
-}
-
-local real GaussLegendreQ5_func_AA(real y)
-{
-    int j;
-    real ki;
-    real Q5, KQ5;
-    real PSLB;
-    real kk, rr;
-    real xv, w, psl;
-    
-    gd.p = rpow(10.0,y);
-    
-    kk = gd.p;
-    ki = gd.k;
-    rr = kk/ki;
-    PSLB = psInterpolation_nr(ki*rr, kPS, pPS, nPSLT);
-    Q5 = 0.0;
-    
-    for (j=1; j<=nGL(pGL); j++) {
-        xv = xGL(pGL)[j];
-        w = wGL(pGL)[j];
-        KQ5 = KQ5_function(ki, rr, xv);
-        psl = psInterpolation_nr(ki*rsqrt(abskmq), kPS, pPS, nPSLT);
-        Q5 += w*KQ5*psl;
-    }
-    
-    return gd.p*PSLB*Q5;
-}
 
 local real Q5_function_AA(real eta, real ki)
 {
@@ -2201,45 +1717,9 @@ local real Q5_function_AA(real eta, real ki)
     return result;
 }
 
-// END DE Q5
+// END Q5
 
 // BEGIN Q7
-
-local real KQ7_function_AA(real ki, real rr, real xv)
-{
-    real KQ7;
-    
-    KQ7 = rsqr(xv)*(1-rr*xv)/abskmq;
-    return KQ7;
-}
-
-local real GaussLegendreQ7_func_AA(real y)
-{
-    int j;
-    real ki;
-    real Q7, KQ7;
-    real PSLB;
-    real kk, rr;
-    real xv, w, psl;
-    
-    gd.p = rpow(10.0,y);
-    
-    kk = gd.p;
-    ki = gd.k;
-    rr = kk/ki;
-    PSLB = psInterpolation_nr(ki*rr, kPS, pPS, nPSLT);
-    Q7 = 0.0;
-    
-    for (j=1; j<=nGL(pGL); j++) {
-        xv = xGL(pGL)[j];
-        w = wGL(pGL)[j];
-        KQ7 = KQ7_function(ki, rr, xv);
-        psl = psInterpolation_nr(ki*rsqrt(abskmq), kPS, pPS, nPSLT);
-        Q7 += w*KQ7*psl;
-    }
-    
-    return gd.p*PSLB*Q7;
-}
 
 local real Q7_function_AA(real eta, real ki)
 {
@@ -2277,45 +1757,9 @@ local real Q7_function_AA(real eta, real ki)
     return result;
 }
 
-// END DE Q7
+// END Q7
 
 // BEGIN Q11
-
-local real KQ11_function_AA(real ki, real rr, real xv)
-{
-    real KQ11;
-    
-    KQ11 = rsqr(xv);
-    return KQ11;
-}
-
-local real GaussLegendreQ11_func_AA(real y)
-{
-    int j;
-    real ki;
-    real Q11, KQ11;
-    real PSLB;
-    real kk, rr;
-    real xv, w, psl;
-    
-    gd.p = rpow(10.0,y);
-    
-    kk = gd.p;
-    ki = gd.k;
-    rr = kk/ki;
-    PSLB = psInterpolation_nr(ki*rr, kPS, pPS, nPSLT);
-    Q11 = 0.0;
-    
-    for (j=1; j<=nGL(pGL); j++) {
-        xv = xGL(pGL)[j];
-        w = wGL(pGL)[j];
-        KQ11 = KQ11_function(ki, rr, xv);
-        psl = psInterpolation_nr(ki*rsqrt(abskmq), kPS, pPS, nPSLT);
-        Q11 += w*KQ11*psl;
-    }
-    
-    return gd.p*PSLB*Q11;
-}
 
 local real Q11_function_AA(real eta, real ki)
 {
@@ -2353,45 +1797,9 @@ local real Q11_function_AA(real eta, real ki)
     return result;
 }
 
-// END DE Q11
+// END Q11
 
 // BEGIN Q12
-
-local real KQ12_function_AA(real ki, real rr, real xv)
-{
-    real KQ12;
-    
-    KQ12 = rr*xv;
-    return KQ12;
-}
-
-local real GaussLegendreQ12_func_AA(real y)
-{
-    int j;
-    real ki;
-    real Q12, KQ12;
-    real PSLB;
-    real kk, rr;
-    real xv, w, psl;
-    
-    gd.p = rpow(10.0,y);
-    
-    kk = gd.p;
-    ki = gd.k;
-    rr = kk/ki;
-    PSLB = psInterpolation_nr(ki*rr, kPS, pPS, nPSLT);
-    Q12 = 0.0;
-    
-    for (j=1; j<=nGL(pGL); j++) {
-        xv = xGL(pGL)[j];
-        w = wGL(pGL)[j];
-        KQ12 = KQ12_function(ki, rr, xv);
-        psl = psInterpolation_nr(ki*rsqrt(abskmq), kPS, pPS, nPSLT);
-        Q12 += w*KQ12*psl;
-    }
-    
-    return gd.p*PSLB*Q12;
-}
 
 local real Q12_function_AA(real eta, real ki)
 {
@@ -2429,24 +1837,10 @@ local real Q12_function_AA(real eta, real ki)
     return result;
 }
 
-// END DE Q12
+// END Q12
 
 
 // BEGIN R1
-
-global real funcR1int_AA(real y)
-{
-    real ftmp,fac;
-    global_D3v2_ptr ptmp;
-    
-    gd.p = rpow(10.0,y);
-    fac = rpow(gd.p,3.0)*psInterpolation_nr(gd.p, kPS, pPS, nPSLT);
-    
-    ptmp = DsThirdOrder_func(gd.x, gd.k, gd.p);
-    ftmp = (21.0/10.0)*D3symmD3v2(ptmp)/( DpkD3v2(ptmp)*DppD3v2(ptmp)*DppD3v2(ptmp) );
-    
-    return fac*ftmp;
-}
 
 local real R1_function_AA(real eta, real ki)
 {
@@ -2474,46 +1868,10 @@ local real R1_function_AA(real eta, real ki)
     return fac*s;
 }
 
-// END DE R1
+// END R1
 
 
 // BEGIN R2
-
-local real GaussLegendreR2_func_AA(real y)
-{
-    real ss, fac;
-    real R2aB, rr, xv, w, k2, KA, KB, KR2;
-    global_D2v2_ptr ptmp;
-    int j;
-    
-    gd.p = rpow(10.0,y);
-    rr = gd.p/gd.k;
-    fac = gd.p*psInterpolation_nr(gd.p, kPS, pPS, nPSLT);
-    
-    R2aB = 0.0;
-    for (j=1; j<=nGL(pGL); j++) {
-        xv = xGL(pGL)[j];
-        w = wGL(pGL)[j];
-        k2 = gd.k * rsqrt(1.0 + rsqr(rr) - 2.0*rr*xv);
-        ptmp = DsSecondOrder_func(k2, gd.k, gd.p);
-        if (model_int_flag==LCDM) {
-            KR2 = (rr*xv*(1.0-rr*xv)/abskmq)
-            *(
-              KA_LCDM - KB_LCDM*rsqr(xv)
-              );
-        } else {
-            KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-            KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-            KR2 = (rr*xv*(1.0-rr*xv)/abskmq)
-            *(
-              KA - KB*rsqr(xv)
-              );
-        }
-        R2aB += w*KR2;
-    }
-    
-    return fac*R2aB;
-}
 
 local real R2_function_AA(real eta, real ki)
 {
@@ -2551,59 +1909,9 @@ local real R2_function_AA(real eta, real ki)
     return result;
 }
 
-// END DE R2
+// END R2
 
 // BEGIN RI
-
-local real KRI_function_AA(real ki, real rr, real xv)
-{
-    real k2, KA, KB, KRI;
-    global_D2v2_ptr ptmp;
-    
-    k2 = ki * rsqrt(abskmq);
-    ptmp = DsSecondOrder_func(k2,ki,ki*rr);
-    if (model_int_flag==LCDM) {
-        KRI = (rsqr(rr)*(1.0-rsqr(xv))/abskmq)
-        *(
-          KA_LCDM - KB_LCDM*rsqr(xv)
-          );
-    } else {
-        KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-        KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-        KRI = (rsqr(rr)*(1.0-rsqr(xv))/abskmq)
-        *(
-          KA - KB*rsqr(xv)
-          );
-    }
-    return KRI;
-}
-
-local real GaussLegendreRI_func_AA(real y)
-{
-    int j;
-    real ki;
-    real RI, KRI;
-    real PSL;
-    real kk, rr;
-    real xv, w;
-    
-    gd.p = rpow(10.0,y);
-    
-    kk = gd.p;
-    ki = gd.k;
-    rr = kk/ki;
-    PSL = psInterpolation_nr(ki*rr, kPS, pPS, nPSLT);
-    RI = 0.0;
-    
-    for (j=1; j<=nGL(pGL); j++) {
-        xv = xGL(pGL)[j];
-        w = wGL(pGL)[j];
-        KRI = KRI_function(ki, rr, xv);
-        RI += w*KRI;
-    }
-    
-    return gd.p*RI*PSL;
-}
 
 local real RI_function_AA(real eta, real ki)
 {
@@ -2648,60 +1956,10 @@ local real RI_function_AA(real eta, real ki)
     return result;
 }
 
-// END DE RI
+// END RI
 
 
 // BEGIN R1p2
-
-local real KR1p2_function_AA(real ki, real rr, real xv)
-{
-    real k2, KA, KB, KR1p2;
-    global_D2v2_ptr ptmp;
-    
-    k2 = ki * rsqrt(abskmq);
-    ptmp = DsSecondOrder_func(k2,ki,ki*rr);
-    if (model_int_flag==LCDM) {
-        KR1p2 = (rsqr(rr)*(1.0-rr*xv)/abskmq)
-        *(
-          KA_LCDM - KB_LCDM*rsqr(xv)
-          );
-    } else {
-        KA = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-        KB = DB2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
-        KR1p2 = (rsqr(rr)*(1.0-rr*xv)/abskmq)
-        *(
-          KA - KB*rsqr(xv)
-          );
-    }
-    return KR1p2;
-}
-
-local real GaussLegendreR1p2_func_AA(real y)
-{
-    int j;
-    real ki;
-    real R1p2, KR1p2;
-    real PSL;
-    real kk, rr;
-    real xv, w;
-    
-    gd.p = rpow(10.0,y);
-    
-    kk = gd.p;
-    ki = gd.k;
-    rr = kk/ki;
-    PSL = psInterpolation_nr(ki*rr, kPS, pPS, nPSLT);
-    R1p2 = 0.0;
-    
-    for (j=1; j<=nGL(pGL); j++) {
-        xv = xGL(pGL)[j];
-        w = wGL(pGL)[j];
-        KR1p2 = KR1p2_function(ki, rr, xv);
-        R1p2 += w*KR1p2;
-    }
-    
-    return gd.p*R1p2*PSL;
-}
 
 local real R1p2_function_AA(real eta, real ki)
 {
@@ -2740,7 +1998,7 @@ local real R1p2_function_AA(real eta, real ki)
     return result;
 }
 
-// END DE R1p2
+// END R1p2
 
 
 
@@ -2844,7 +2102,7 @@ global_QRs QsRs_functions_trapezoid(real eta, real ki)
  return *QRstmp;
  }
 
-// END DE Qs and Rs
+// END Qs and Rs
 
 #undef abskmq
 

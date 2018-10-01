@@ -24,7 +24,7 @@ string defv[] = {  ";"HEAD1": " HEAD2 "\n\t " HEAD3,
     "Nr=100",                       ";Total number of r´s in the CLPT correlation function",":nr",
 // Modified gravity model parameters:
     "mgModel=LCDM",                 ";Modified gravity model to study (HS or DGP), default is LCDM", ":mgm",
-    "suffixModel=",            ";Suffix model to add to output filenames", ":suffix",
+    "suffixModel=",                 ";Suffix model to add to output filenames", ":suffix",
     "fR0=1.0e-5",                   ";Hu-Sawicky f_R0",
     "screening=1.0",                ";set to =0 if you want no screenings", ":sc",
 // DGP:
@@ -39,10 +39,10 @@ string defv[] = {  ";"HEAD1": " HEAD2 "\n\t " HEAD3,
     "h=0.697",                      ";Hubble parameter",
 //
 // Differential equations evolution parameters:
-    "etaini=-4.0",                  ";Initial eta value :: Log[1/(1 + zini)]",
-    "deta=2/5",                     ";deta integration step",
-    "detamin=0.",                   ";Min eta integration step size",
-    "eps=1.0e-4",                   ";Differential equations solver tolerance error parameter",
+    "etaini=-4.0",                  ";Initial conformal time value :: Log[1/(1 + zini)]",
+    "deta=2/5",                     ";Conformal time integration step",
+    "detamin=0.",                   ";Min conformal time integration step size",
+    "epsSolver=1.0e-4",             ";Differential equations solver tolerance error parameter",":epssolver",
     "zout=0.0",                     ";Output redshift value",
     "maxnsteps=10000",              ";Maximum number of integration steps", ":maxn",
     "solverMethod=bsstep",	        ";Integration method to use", ":solver",
@@ -51,7 +51,7 @@ string defv[] = {  ";"HEAD1": " HEAD2 "\n\t " HEAD3,
     "quadratureMethod=trapezoid",   ";Quadrature method to use", ":quadm",
     "nquadSteps=200",               ";Number of k´s from the power spectrum table to integrate (trapezoid)",":nquad",
     "ngausslegpoints=10",           ";Number of Gauss-Legendre of integration points", ":nglpts",
-    "epsquad=1.0e-5",               ";Quadrature tolerance error parameter (open Romberg method: romo)",
+    "epsquad=1.0e-5",               ";Quadrature tolerance error parameter (open Romberg method: romberg)",
 //
 // Post processing parameters:
     "postprocessing=false",			";Post processing options", ":pp",

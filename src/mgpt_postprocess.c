@@ -272,11 +272,10 @@ local real *RIT2;
 local real *PSLMGT;
 local real *PSLMGT2;
 
-
 #define FMTCORRELATIONFUNCTIONSDAT    \
-"%10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e \
-%10.3e %10.3e %10.3e %10.3e %10.3e %10.3e \
-%10.3e\n"
+"%e %e %e %e %e %e %e %e \
+%e %e %e %e %e %e \
+%e\n"
 
 global void CLPT_correlation_processing(void)
 {
@@ -453,11 +452,10 @@ global void CLPT_correlation_processing(void)
 }
 #undef FMTCORRELATIONFUNCTIONSDAT
 
-
 #define FMTQFUNCTIONSDAT    \
-"%10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e \
-%10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e \
-%10.3e\n"
+"%e %e %e %e %e %e %e %e \
+%e %e %e %e %e %e %e \
+%e\n"
 
 global void qfunctions_processing(void)
 {
@@ -647,12 +645,12 @@ global void biasterms_processing(void)
     spline(kTab,PSLMGT,nQsRsTable,1.0e30,1.0e30,PSLMGT2);
 
     sigma2L = sigma2L_function();
-    fprintf(stdout,"\n\nsigma2L = %g\n",sigma2L);
+    fprintf(stdout,"\nsigma2L = %g\n",sigma2L);
     
 // a02 offset
     a02Off = (1./2.)*Q13QsRs(PQsRstab + 2);
 
-    fprintf(stdout,"\n\nWriting bias terms and the power spectrum to file %s...",gd.fpfnameSPTPowerSpectrum);
+    fprintf(stdout,"\nWriting bias terms and the power spectrum to file %s...",gd.fpfnameSPTPowerSpectrum);
     outstr = stropen(gd.fpfnameSPTPowerSpectrum,"w!");
 
     fprintf(outstr,"%1s%5s%13s%11s%11s%11s%11s%11s%11s%11s%13s",
@@ -2025,8 +2023,10 @@ local real sigma2L_function(void)
     real kmin, kmax;
     real ymin, ymax;
 
-    kmin = kPos(PSLT+1);
-    kmax = kPos(PSLT+nPSLT-1);
+//    kmin = kPos(PSLT+1);
+//    kmax = kPos(PSLT+nPSLT-1);
+    kmin = kPS[1];
+    kmax = kPS[nPSLT];
     ymin = rlog10(kmin);
     ymax = rlog10(kmax);
 

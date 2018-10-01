@@ -234,12 +234,19 @@ global global_D3v2_ptr DsThirdOrder_func(real x, real k, real p)
 
     ptmp = (global_D3v2_ptr) allocate(1 * sizeof(global_D3v2));
 
-    etaD3v2(ptmp) = xp[kount];
-    DpkD3v2(ptmp) = yp[1][kount];
-    DppD3v2(ptmp) = yp[3][kount];
-    D2fD3v2(ptmp) = yp[5][kount];
-    D2mfD3v2(ptmp) = yp[7][kount];
-    D3symmD3v2(ptmp) = yp[9][kount];
+//    etaD3v2(ptmp) = xp[kount];
+//    DpkD3v2(ptmp) = yp[1][kount];
+//    DppD3v2(ptmp) = yp[3][kount];
+//    D2fD3v2(ptmp) = yp[5][kount];
+//    D2mfD3v2(ptmp) = yp[7][kount];
+//    D3symmD3v2(ptmp) = yp[9][kount];
+//
+    etaD3(ptmp) = xp[kount];
+    DpkD3(ptmp) = yp[1][kount];
+    DppD3(ptmp) = yp[3][kount];
+    D2fD3(ptmp) = yp[5][kount];
+    D2mfD3(ptmp) = yp[7][kount];
+    D3symmD3(ptmp) = yp[9][kount];
 //
     free_dmatrix(yp,1,NEQS3Order,1,200);
     free_dvector(xp,1,200);
