@@ -691,7 +691,7 @@ local void InputPSTable(void)
     
     for (i=1; i<=nPSTable; i++) {
         kval = rlog10(kmn) + dk*((real)(i - 1));
-        if (rpow(10.0,kval) > kmin && rpow(10.0,kval) < kmax)
+        if (rpow(10.0,kval) >= kmin && rpow(10.0,kval) <= kmax)
             PSval = psInterpolation_nr(kval, kPStmp, pPStmp, nPSLogT);
         else
             if (rpow(10.0,kval) < kmin)

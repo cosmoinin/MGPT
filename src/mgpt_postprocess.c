@@ -611,8 +611,11 @@ global void qfunctions_processing(void)
 #undef FMTQFUNCTIONSDAT
 
 
+//#define FMTBIASTERMDAT    \
+//"%10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e\n"
+
 #define FMTBIASTERMDAT    \
-"%10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e\n"
+"%e %e %e %e %e %e %e %e %e %e\n"
 
 global void biasterms_processing(void)
 {
