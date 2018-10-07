@@ -49,7 +49,7 @@ solverMethod                       bsstep
 quadratureMethod                   trapezoid
 nquadSteps                         200
 ngausslegpoints                    16
-epsquad                            1e-05
+epsquad                            1e-06
 %
 % Post processing:
 postprocessing                     false
