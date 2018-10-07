@@ -948,7 +948,9 @@ local real R1_function(real eta, real ki)
     real result, fac, s;
     real pmin, pmax, ymin, ymax;
     int j;
-    
+    real *xGL, *wGL;
+    int Nx;
+
     gd.xstop = eta;
     gd.k = ki;
     
@@ -960,12 +962,25 @@ local real R1_function(real eta, real ki)
     fac=(rlog(10.0)/FOURPI2)*psInterpolation_nr(gd.k, kPS, pPS, nPSLT);
     
     s=0;
-    for (j=1;j<=nGL(pGL)/2;j++) {
-        gd.x = xGL(pGL)[j];
+    Nx=10;
+    xGL=dvector(1,Nx);
+    wGL=dvector(1,Nx);
+    gauleg(-1.0,1.0,xGL,wGL,Nx);
+//    for (j=1;j<=nGL(pGL)/2;j++) {
+//        gd.x = xGL(pGL)[j];
+//        result = QROMBERG(funcR1int,ymin,ymax,midpnt,cmd.epsquad,KK);
+//        s += 2.0*wGL(pGL)[j]*result;
+//    }
+// Instead these:
+    for (j=1; j<=Nx/2; j++) {
+        gd.x = xGL[j];
         result = QROMBERG(funcR1int,ymin,ymax,midpnt,cmd.epsquad,KK);
-        s += 2.0*wGL(pGL)[j]*result;
+        s += 2.0*wGL[j]*result;
     }
-    
+    free_dvector(wGL,1,Nx);
+    free_dvector(xGL,1,Nx);
+//
+
     return fac*s;
 }
 
@@ -1403,14 +1418,25 @@ global_QRs QsRs_functions_trapezoid3(real eta, real ki)
     R2p *= (rpow(ki,3.0)/FOURPI2)*fac;
     RIp *= (rpow(ki,3.0)/FOURPI2)*fac;
     R1p2p *= (rpow(ki,3.0)/FOURPI2)*fac;
-    //
-    // LOOP FOR R1
+//
+// LOOP FOR R1
     R1p = 0.0; R1aA = 0.0; R1aB = 0.0;
+// Addition to local GL quad...
+    Nx=10;
+    xxGL=dvector(1,Nx);
+    wwGL=dvector(1,Nx);
+//
     for (i=2; i<cmd.nquadSteps; i++) {
         rr = kk[i]/ki;
-        for (j=1; j<=nGL(pGL)/2; j++) {
-            xv = xGL(pGL)[j];
-            w = wGL(pGL)[j];
+//
+//        for (j=1; j<=nGL(pGL)/2; j++) {
+//            xv = xGL(pGL)[j];
+//            w = wGL(pGL)[j];
+// Instead these:
+        for (j=1; j<=Nx/2; j++) {
+            xv = xxGL[j];
+            w = wwGL[j];
+//
             ptmpR1 = DsThirdOrder_func(xv, ki, kk[i]);
             KR1 = rsqr(rr)*(21.0/10.0)*D3symmD3(ptmpR1)
             /( DpkD3(ptmpR1)*DppD3(ptmpR1)*DppD3(ptmpR1) );
@@ -1423,7 +1449,11 @@ global_QRs QsRs_functions_trapezoid3(real eta, real ki)
     }
     psl1 = psInterpolation_nr(ki, kPS, pPS, nPSLT);
     R1p *= (rpow(ki,3.0)/FOURPI2)*psl1;
-    //
+// Addition to local GL quad...
+    free_dvector(wwGL,1,Nx);
+    free_dvector(xxGL,1,Nx);
+//
+//
     etaQRs(QRstmp) = eta;
     kQRs(QRstmp)    = ki;
     
@@ -2385,7 +2415,9 @@ local real R1_function_AA(real eta, real ki)
     real result, fac, s;
     real pmin, pmax, ymin, ymax;
     int j;
-    
+    real *xGL, *wGL;
+    int Nx;
+
     gd.xstop = eta;
     gd.k = ki;
     
@@ -2397,12 +2429,25 @@ local real R1_function_AA(real eta, real ki)
     fac=(rlog(10.0)/FOURPI2)*psInterpolation_nr(gd.k, kPS, pPS, nPSLT);
     
     s=0;
-    for (j=1;j<=nGL(pGL)/2;j++) {
-        gd.x = xGL(pGL)[j];
-        result = qromo(funcR1int,ymin,ymax,midpnt,cmd.epsquad,KK);
-        s += 2.0*wGL(pGL)[j]*result;
+    Nx=10;
+    xGL=dvector(1,Nx);
+    wGL=dvector(1,Nx);
+    gauleg(-1.0,1.0,xGL,wGL,Nx);
+//    for (j=1;j<=nGL(pGL)/2;j++) {
+//        gd.x = xGL(pGL)[j];
+//        result = qromo(funcR1int,ymin,ymax,midpnt,cmd.epsquad,KK);
+//        s += 2.0*wGL(pGL)[j]*result;
+//    }
+// Instead use these:
+    for (j=1; j<=Nx/2; j++) {
+        gd.x = xGL[j];
+        result = QROMBERG(funcR1int,ymin,ymax,midpnt,cmd.epsquad,KK);
+        s += 2.0*wGL[j]*result;
     }
-    
+    free_dvector(wGL,1,Nx);
+    free_dvector(xGL,1,Nx);
+//
+
     return fac*s;
 }
 
