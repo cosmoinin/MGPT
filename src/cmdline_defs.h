@@ -50,7 +50,7 @@ string defv[] = {  ";"HEAD1": " HEAD2 "\n\t " HEAD3,
 // Quadrature parameters:
     "quadratureMethod=trapezoid",   ";Quadrature method to use", ":quadm",
     "nquadSteps=200",               ";Number of k´s from the power spectrum table to integrate (trapezoid)",":nquad",
-    "ngausslegpoints=10",           ";Number of Gauss-Legendre of integration points", ":nglpts",
+    "ngausslegpoints=16",           ";Number of Gauss-Legendre of integration points", ":nglpts",
     "epsquad=1.0e-5",               ";Quadrature tolerance error parameter (open Romberg method: romberg)",
 //
 // Post processing parameters:

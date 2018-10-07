@@ -48,7 +48,7 @@ solverMethod                       bsstep
 % Quadrature parameters:
 quadratureMethod                   trapezoid
 nquadSteps                         200
-ngausslegpoints                    10
+ngausslegpoints                    16
 epsquad                            1e-05
 %
 % Post processing:
