@@ -85,23 +85,23 @@ local void computingQRs(void)
         iBAOmax = (int) (( rlog10(kBAOmax) - rlog10(cmd.kmin) )/dk) + 1;
     }
     
-    fprintf(stdout,"\nBAO region: %g %g",kBAOmin, kBAOmax);
-    fprintf(stdout,"\nBAO region: %d %d\n\n",iBAOmin, iBAOmax);
+    fprintf(gd.outlog,"\nBAO region: %g %g",kBAOmin, kBAOmax);
+    fprintf(gd.outlog,"\nBAO region: %d %d\n\n",iBAOmin, iBAOmax);
     epsquadsave = cmd.epsquad;
-    fprintf(stdout,"\nquad tolerance: %g %g\n\n",cmd.epsquad,EPSQ);
+    fprintf(gd.outlog,"\nquad tolerance: %g %g\n\n",cmd.epsquad,EPSQ);
     
 // BEFORE BAO:
     cmd.epsquad = EPSQ;
-    fprintf(stdout,"\nUsing %g tolerance quad...\n",cmd.epsquad);
+    fprintf(gd.outlog,"\nUsing %g tolerance quad...\n",cmd.epsquad);
     loopQsRs(outstrQsRs, 1, iBAOmin, dk);
 // IN BAO:
     cmd.epsquad = epsquadsave;
-    fprintf(stdout,"\nUsing %g tolerance quad...\n",cmd.epsquad);
+    fprintf(gd.outlog,"\nUsing %g tolerance quad...\n",cmd.epsquad);
     loopQsRs(outstrQsRs, iBAOmin+1, iBAOmax, dk);
 //
 // AFTER BAO:
     cmd.epsquad = EPSQ;
-    fprintf(stdout,"\nUsing %g tolerance quad...\n",cmd.epsquad);
+    fprintf(gd.outlog,"\nUsing %g tolerance quad...\n",cmd.epsquad);
     loopQsRs(outstrQsRs, iBAOmax+1, cmd.Nk, dk);
 //
     fclose(outstrQsRs);
