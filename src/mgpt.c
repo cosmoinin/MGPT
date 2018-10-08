@@ -23,6 +23,7 @@ void MainLoop(void)
 
 //#define FMTQR       "%g %g %g %g %g %g %g %g %g %g %g %g %g %g %g %g\n"
 
+#define KMIN    0.00001
 local void computingQRs(void)
 {
     char namebuf[256];
@@ -35,7 +36,7 @@ local void computingQRs(void)
     bTime = second();
 
     if (model_int_flag==LCDM) {
-        ptmp = DsSecondOrder_func(0.0001, 0.0001, 0.0001);
+        ptmp = DsSecondOrder_func(KMIN, KMIN, KMIN);
         KA_LCDM = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2(ptmp)*Dpk2D2(ptmp) );
         KB_LCDM = KA_LCDM;
         fprintf(stdout,"\n\nKA_LCDM, KB_LCDM: %g %g\n",KA_LCDM, KB_LCDM);
@@ -67,6 +68,7 @@ local void computingQRs(void)
 
     fprintf(stdout,"\nTotal time to compute all k functions: %g sec.",second()-bTime);
 }
+#undef KMIN
 
 local void loopQsRs(stream outstr, int imin, int imax, real dk)
 {
