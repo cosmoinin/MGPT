@@ -11,12 +11,9 @@ double qgauss(double (*func)(double), double a, double b,
 
 //double qromo(double (*func)(double), double a, double b,
 //             double (*choose)(double (*)(double), double, double, int));
-//double qromo(double (*func)(double), double a, double b,
-//             double (*choose)(double (*)(double), double, double, int),
-//             double epsq);
 double qromo(double (*func)(double), double a, double b,
              double (*choose)(double (*)(double), double, double, int),
-             double epsq, int KK);
+             double epsq);
 
 void polint(double xa[], double ya[], int n, double x, double *y, double *dy);
 double midexp(double (*funk)(double), double aa, double bb, int n);

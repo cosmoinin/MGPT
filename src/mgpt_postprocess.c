@@ -5,7 +5,6 @@
 #include "globaldefs.h"
 #include "protodefs.h"
 
-#define KK  5       // K=2 is the Simpson's rule
 #define EPSQ 1.0e-6
 
 local  real Interpolation_nr(real k, double kPS[], double pPS[], int nPS, double pPS2[]);
@@ -611,6 +610,9 @@ global void qfunctions_processing(void)
 }
 #undef FMTQFUNCTIONSDAT
 
+
+//#define FMTBIASTERMDAT    \
+//"%10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e %10.3e\n"
 
 #define FMTBIASTERMDAT    \
 "%e %e %e %e %e %e %e %e %e %e\n"
@@ -2024,17 +2026,18 @@ local real sigma2L_function(void)
     real kmin, kmax;
     real ymin, ymax;
 
+//    kmin = kPos(PSLT+1);
+//    kmax = kPos(PSLT+nPSLT-1);
     kmin = kPS[1];
     kmax = kPS[nPSLT];
     ymin = rlog10(kmin);
     ymax = rlog10(kmax);
 
     result= (1.0/SIXPI2)*rlog(10.0)
-    *qromo(sigma2L_function_int,ymin,ymax,midpnt,EPSQ,KK);
+    *qromo(sigma2L_function_int,ymin,ymax,midpnt,EPSQ);
 
     return result;
 
 }
 
 #undef EPSQ
-#undef KK
