@@ -35,14 +35,7 @@ local void computingQRs(void)
     bTime = second();
 
     if (model_int_flag==LCDM) {
-        gd.p = cmd.kmin;
-        kk = gd.p;
-        ki = cmd.kmin;
-        rr = kk/ki;
-        xv = xGL(pGL)[1];
-        k2 = ki * rsqrt(1.0 + rsqr(rr) - 2.0*rr*xv);
-        ptmp = DsSecondOrder_func(ki, ki*rr, k2);
-//        KA_LCDM = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2v2(ptmp)*Dpk2D2v2(ptmp) );
+        ptmp = DsSecondOrder_func(0.0001, 0.0001, 0.0001);
         KA_LCDM = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2(ptmp)*Dpk2D2(ptmp) );
         KB_LCDM = KA_LCDM;
         fprintf(stdout,"\n\nKA_LCDM, KB_LCDM: %g %g\n",KA_LCDM, KB_LCDM);
