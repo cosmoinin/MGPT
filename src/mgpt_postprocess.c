@@ -1783,8 +1783,8 @@ local  real Interpolation_nr(real k, double kPS[], double pPS[], int nPS, double
 {
     real psftmp;
     
-    if ( k < kPS[1] || k > kPS[nPS] )
-        fprintf(gd.outlog,"\n\nInterpolation_nr: warning! :: k is out of range... %g\n",k);
+//    if ( k < kPS[1] || k > kPS[nPS] )
+//        fprintf(gd.outlog,"\n\nInterpolation_nr: warning! :: k is out of range... %g\n",k);
     
     splint(kPS,pPS,pPS2,nPS,k,&psftmp);
     
