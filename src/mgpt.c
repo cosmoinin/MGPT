@@ -74,7 +74,7 @@ local void computingQRs(void)
     fprintf(gd.outlog,"\nBAO region: %g %g",kBAOmin, kBAOmax);
     fprintf(gd.outlog,"\nBAO region: %d %d\n\n",iBAOmin, iBAOmax);
     epsquadsave = cmd.epsquad;
-    fprintf(gd.outlog,"\nquad tolerance: %g %g\n\n",cmd.epsquad,EPSQ);
+    fprintf(gd.outlog,"\nquad tolerance: %g %g\n\n",cmd.epsquad,epsquadsave*EPSQFAC);
     
     cmd.epsquad = epsquadsave*EPSQFAC;
     fprintf(gd.outlog,"\nUsing %g tolerance quad...\n",cmd.epsquad);
