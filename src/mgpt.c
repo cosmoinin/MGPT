@@ -6,6 +6,8 @@
 #include "protodefs.h"
 #include "models.h"
 
+#define EPSQFAC    1.0
+
 local void computingQRs(void);
 local void loopQsRs(stream outstr, int imin, int imax, real dk);
 
@@ -21,16 +23,14 @@ void MainLoop(void)
 "%e %e %e %e %e %e %e %e \
 %e %e %e %e %e %e %e %e %e %e\n"
 
-//#define FMTQR       "%g %g %g %g %g %g %g %g %g %g %g %g %g %g %g %g\n"
-
 #define KMIN    0.00001
 local void computingQRs(void)
 {
-    char namebuf[256];
     stream outstrQsRs;
-    real ki, kval, dk;
+    real dk;
     real bTime;
-    real kk, rr, xv, k2;
+    real kBAOmin=0.005, kBAOmax=1.0, epsquadsave;
+    int iBAOmin, iBAOmax;
     global_D2v2_ptr ptmp;
 
     bTime = second();
@@ -43,7 +43,6 @@ local void computingQRs(void)
     }
 
     outstrQsRs = stropen(gd.fpfnamekfun,"w!");
-
     fprintf(outstrQsRs,"%1s%5s%12s%11s%11s%11s%11s%11s%11s%11s%11s%11s%11s%11s%11s%11s%11s%11s%13s",
             "#","k","<Q1>","<Q2>","<Q3>",
             "<Q5>","<Q7>","<Q8>","<Q9>",
@@ -62,10 +61,35 @@ local void computingQRs(void)
     } else
         dk = (rlog10(cmd.kmax) - rlog10(cmd.kmin))/((real)(cmd.Nk - 1));
 //
-    loopQsRs(outstrQsRs, 1, cmd.Nk, dk);
-
+//    loopQsRs(outstrQsRs, 1, cmd.Nk, dk);
+//
+    if (dk==0.0) {
+        iBAOmin = 1;
+        iBAOmax = 1;
+    } else {
+        iBAOmin = (int) (( rlog10(kBAOmin) - rlog10(cmd.kmin) )/dk) + 1;
+        iBAOmax = (int) (( rlog10(kBAOmax) - rlog10(cmd.kmin) )/dk) + 1;
+    }
+    
+    fprintf(gd.outlog,"\nBAO region: %g %g",kBAOmin, kBAOmax);
+    fprintf(gd.outlog,"\nBAO region: %d %d\n\n",iBAOmin, iBAOmax);
+    epsquadsave = cmd.epsquad;
+    fprintf(gd.outlog,"\nquad tolerance: %g %g\n\n",cmd.epsquad,EPSQ);
+    
+    cmd.epsquad = epsquadsave*EPSQFAC;
+    fprintf(gd.outlog,"\nUsing %g tolerance quad...\n",cmd.epsquad);
+    loopQsRs(outstrQsRs, 1, iBAOmin, dk);
+//
+    cmd.epsquad = epsquadsave;
+    fprintf(gd.outlog,"\nUsing %g tolerance quad...\n",cmd.epsquad);
+    loopQsRs(outstrQsRs, iBAOmin+1, iBAOmax, dk);
+//
+    cmd.epsquad = epsquadsave*EPSQFAC;
+    fprintf(gd.outlog,"\nUsing %g tolerance quad...\n",cmd.epsquad);
+    loopQsRs(outstrQsRs, iBAOmax+1, cmd.Nk, dk);
+//
     fclose(outstrQsRs);
-
+//
     fprintf(stdout,"\nTotal time to compute all k functions: %g sec.",second()-bTime);
 }
 #undef KMIN
@@ -168,7 +192,7 @@ local void loopQsRs(stream outstr, int imin, int imax, real dk)
     }
 }
 
+#undef EPSQFAC
 #undef FMTQRDAT
-//#undef FMTQR
 
 

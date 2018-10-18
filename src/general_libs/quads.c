@@ -58,11 +58,14 @@ double qgauss(double (*func)(double), double a, double b,
 //#define EPS 1.0e-6 // Original
 #define JMAX 14
 #define JMAXP (JMAX+1)
-#define K 5
+//#define K 5
 
-double qromo(double (*func)(double), double a, double b,
-             double (*choose)(double(*)(double), double, double, int), double epsq)
+//double qromo(double (*func)(double), double a, double b,
+//             double (*choose)(double(*)(double), double, double, int), double epsq)
 //double (*choose)(double(*)(double), double, double, int)) // Original
+double qromo(double (*func)(double), double a, double b,
+             double (*choose)(double(*)(double), double, double, int),
+             double epsq, int KK)
 {
     void polint(double xa[], double ya[], int n, double x, double *y, double *dy);
     void nrerror(char error_text[]);
@@ -72,8 +75,8 @@ double qromo(double (*func)(double), double a, double b,
     h[1]=1.0;
     for (j=1;j<=JMAX;j++) {
         s[j]=(*choose)(func,a,b,j);
-        if (j >= K) {
-            polint(&h[j-K],&s[j-K],K,0.0,&ss,&dss);
+        if (j >= KK) {
+            polint(&h[j-KK],&s[j-KK],KK,0.0,&ss,&dss);
             //            if (fabs(dss) <= EPS*fabs(ss)) return ss; // Original
             if (fabs(dss) <= epsq*fabs(ss)) return ss;
         }
@@ -85,7 +88,7 @@ double qromo(double (*func)(double), double a, double b,
 //#undef EPS // Original
 #undef JMAX
 #undef JMAXP
-#undef K
+//#undef K
 
 // END qromo
 
