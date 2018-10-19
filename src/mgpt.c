@@ -24,6 +24,7 @@ void MainLoop(void)
 %e %e %e %e %e %e %e %e %e %e\n"
 
 #define KMIN    0.00001
+#define FR0LCDM    1.0e-50
 local void computingQRs(void)
 {
     stream outstrQsRs;
@@ -32,6 +33,8 @@ local void computingQRs(void)
     real kBAOmin=0.005, kBAOmax=1.0, epsquadsave;
     int iBAOmin, iBAOmax;
     global_D2v2_ptr ptmp;
+    global_D3v2_ptr ptmpR1;
+    real fR0save;
 
     bTime = second();
 
@@ -39,7 +42,15 @@ local void computingQRs(void)
         ptmp = DsSecondOrder_func(KMIN, KMIN, KMIN);
         KA_LCDM = DA2D2(ptmp)/( (3.0/7.0)*Dpk1D2(ptmp)*Dpk2D2(ptmp) );
         KB_LCDM = KA_LCDM;
-        fprintf(stdout,"\n\nKA_LCDM, KB_LCDM: %g %g\n",KA_LCDM, KB_LCDM);
+//
+        fR0save=cmd.fR0;
+        cmd.fR0 = FR0LCDM;
+        ptmpR1 = DsThirdOrder_func(KMIN, KMIN, KMIN);
+        KR1_LCDM = (21.0/5.0)*D3symmD3(ptmpR1)
+        /( DpkD3(ptmpR1)*DppD3(ptmpR1)*DppD3(ptmpR1) );
+//
+        fprintf(stdout,"\n\nKA_LCDM, KB_LCDM: %g %g %g\n",KA_LCDM, KB_LCDM,KR1_LCDM);
+        cmd.fR0 = fR0save;
     }
 
     outstrQsRs = stropen(gd.fpfnamekfun,"w!");
@@ -93,6 +104,7 @@ local void computingQRs(void)
     fprintf(stdout,"\nTotal time to compute all k functions: %g sec.",second()-bTime);
 }
 #undef KMIN
+#undef FR0LCDM
 
 local void loopQsRs(stream outstr, int imin, int imax, real dk)
 {

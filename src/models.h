@@ -10,6 +10,7 @@ global int model_int_flag;
 
 global real KA_LCDM;
 global real KB_LCDM;
+global real KR1_LCDM;
 
 global void set_model(void);
 

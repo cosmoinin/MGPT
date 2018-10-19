@@ -915,8 +915,12 @@ global real funcR1int(real y)
     gd.p = rpow(10.0,y);
     fac = rpow(gd.p,3.0)*psInterpolation_nr(gd.p, kPS, pPS, nPSLT);
 
-    ptmp = DsThirdOrder_func(gd.x, gd.k, gd.p);
-    ftmp = (21.0/10.0)*D3symmD3(ptmp)/( DpkD3(ptmp)*DppD3(ptmp)*DppD3(ptmp) );
+    if (model_int_flag==LCDM) {
+        ftmp = KR1_LCDM;
+    } else {
+        ptmp = DsThirdOrder_func(gd.x, gd.k, gd.p);
+        ftmp = (21.0/10.0)*D3symmD3(ptmp)/( DpkD3(ptmp)*DppD3(ptmp)*DppD3(ptmp) );
+    }
 
     return fac*ftmp;
 }
@@ -1458,9 +1462,9 @@ global_QRs QsRs_functions_trapezoid3_LCDM(real eta, real ki)
     int i, j;
     real KR1, fac;
     global_D2v2_ptr ptmp;
-    global_D3v2_ptr ptmpR1;
+//    global_D3v2_ptr ptmpR1;
     real Dpkmin, Dpk;
-    //
+//
     real *xxGL, *wwGL;
     real kmin, kmax;
     
@@ -1477,9 +1481,9 @@ global_QRs QsRs_functions_trapezoid3_LCDM(real eta, real ki)
     real KA, KB, KQ1, KQ2, KQ3;
     real KAB;
     int Nx;
-    //
+//
     real ypi, dk;
-    //
+//
     real Q8p, Q8aA, Q8aB, KQ8;
     real Q9p, Q9aA, Q9aB, KQ9;
     real Q13p, Q13aA, Q13aB, KQ13;
@@ -1675,7 +1679,40 @@ global_QRs QsRs_functions_trapezoid3_LCDM(real eta, real ki)
     R1p2p *= (rpow(ki,3.0)/FOURPI2)*fac;
 //
 // LOOP FOR R1
-    R1p = RIp;
+    R1p = 0.0; R1aA = 0.0; R1aB = 0.0;
+// Addition to local GL quad...
+    Nx=10;
+    xxGL=dvector(1,Nx);
+    wwGL=dvector(1,Nx);
+    gauleg(-1.,1.,xxGL,wwGL,Nx);
+//
+    for (i=2; i<cmd.nquadSteps; i++) {
+        rr = kk[i]/ki;
+//
+//        for (j=1; j<=nGL(pGLRs)/2; j++) {
+//            xv = xGL(pGLRs)[j];
+//            w = wGL(pGLRs)[j];
+// Instead these:
+            for (j=1; j<=Nx/2; j++) {
+                xv = xxGL[j];
+                w = wwGL[j];
+//
+            KR1 = rsqr(rr)*KR1_LCDM;
+            psl = psInterpolation_nr(kk[i], kPS, pPS, nPSLT);
+            R1aB += w*KR1*psl;
+        }
+        R1p += 2.0*dkk[i]*( R1aA + R1aB )/(2.0*ki);
+        R1aA = R1aB;
+        R1aB = 0.0;
+    }
+    psl1 = psInterpolation_nr(ki, kPS, pPS, nPSLT);
+    R1p *= (rpow(ki,3.0)/FOURPI2)*psl1;
+//
+//    R1p = RIp;
+// Addition to local GL quad...
+    free_dvector(wwGL,1,Nx);
+    free_dvector(xxGL,1,Nx);
+//
 //
     etaQRs(QRstmp) = eta;
     kQRs(QRstmp)    = ki;
