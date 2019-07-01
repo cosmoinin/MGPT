@@ -16,7 +16,7 @@ string defv[] = {  ";"HEAD1": " HEAD2 "\n\t " HEAD3,
     "fnamePS=psLCDM.in",		    ";Input filename with the linear power spectrum table (k,P(k))",
     "kmin=1e-3",                    ";kmin to compute the power spectrum",
     "kmax=100",                     ";kmax to compute the power spectrum",
-    "Nk=250",                       ";Total number of k in the power spectrum",":nk",
+    "Nk=200",                       ";Total number of k in the power spectrum",":nk",
 //
 // CLPT correlation functions table:
     "rmin=50",                      ";rmin of the range for CLPT correlation functions",
@@ -48,7 +48,7 @@ string defv[] = {  ";"HEAD1": " HEAD2 "\n\t " HEAD3,
     "solverMethod=bsstep",	        ";Integration method to use", ":solver",
 //
 // Quadrature parameters:
-    "quadratureMethod=trapezoid",   ";Quadrature method to use", ":quadm",
+    "quadratureMethod=trapezoid3",   ";Quadrature method to use", ":quadm",
     "nquadSteps=200",               ";Number of k´s from the power spectrum table to integrate (trapezoid)",":nquad",
     "ngausslegpoints=16",           ";Number of Gauss-Legendre of integration points", ":nglpts",
     "epsquad=1.0e-6",               ";Quadrature tolerance error parameter (open Romberg method: romberg)",
