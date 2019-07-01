@@ -23,7 +23,7 @@ Specifically, it computes:
 
 - CLPT Lagrangian-biased tracers correlation function
 
-- A set of Q and R functions (extensions to those of Matsubara 2008b) from which other statistics, as leading bispectrum can be constructed. 
+- A set of Q and R functions (extensions to those of Matsubara 2008b) from which other statistics, as leading order bispectrum can be constructed. 
 
 The code units are Mpc/h. 
 
