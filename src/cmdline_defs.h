@@ -45,7 +45,7 @@ string defv[] = {  ";"HEAD1": " HEAD2 "\n\t " HEAD3,
     "epsSolver=1.0e-4",             ";Differential equations solver tolerance error parameter",":epssolver",
     "zout=0.0",                     ";Output redshift value",
     "maxnsteps=10000",              ";Maximum number of integration steps", ":maxn",
-    "solverMethod=bsstep",	        ";Integration method to use", ":solver",
+    "solverMethod=rkqs",	        ";Integration method to use", ":solver",
 //
 // Quadrature parameters:
     "quadratureMethod=trapezoid3",   ";Quadrature method to use", ":quadm",
