@@ -123,7 +123,9 @@ By default the range of wavenumbers is very large, because is necessary to compu
 /MGPT$ ./mgpt Nk=100 kmin=0.001 kmax=0.2
 ```
 
-so the output will contain 100 k-points equally spaced in log intervals, from k=0.001 to kmax=0.2 h/Mpc. If you want to survey more precisely the BAO scale do
+so the output will contain 100 k-points equally spaced in log intervals, from k=0.001 to kmax=0.2 h/Mpc. 
+
+If you want to survey with more accuracy the BAO signal in the power spectrum run
 
 ```
 /MGPT$ ./mgpt nquadSteps=400
