@@ -260,7 +260,7 @@ If you use this code please cite the following two papers:
 
 1. Alejandro Aviles and Jorge-Luis Cervantes-Cota [Phys. Rev. D 96, 123526 (2017)] https://arxiv.org/abs/1705.10719
 
-2. Alejandro Aviles, Mario Alberto Rodriguez-Meza, Josue De-Santiago, and Jorge-Luis Cervantes-Cota https://arxiv.org/abs/1809.07713
+2. Alejandro Aviles, Mario Alberto Rodriguez-Meza, Josue De-Santiago, and Jorge-Luis Cervantes-Cota [JCAP 11 (2018) 013] https://arxiv.org/abs/1809.07713
 
 
 For the theory in LCDM  see the following papers:
