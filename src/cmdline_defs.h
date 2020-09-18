@@ -16,7 +16,8 @@ string defv[] = {  ";"HEAD1": " HEAD2 "\n\t " HEAD3,
     "fnamePS=psLCDM.in",		    ";Input filename with the linear power spectrum table (k,P(k))",
     "kmin=1e-3",                    ";kmin to compute the power spectrum",
     "kmax=100",                     ";kmax to compute the power spectrum",
-    "Nk=200",                       ";Total number of k in the power spectrum",":nk",
+//    "Nk=200",                       ";Total number of k in the power spectrum",":nk",
+    "Nk=26",                       ";Total number of k to use per decade in the power spectrum",":nk",
 //
 // CLPT correlation functions table:
     "rmin=50",                      ";rmin of the range for CLPT correlation functions",
