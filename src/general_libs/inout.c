@@ -2,6 +2,9 @@
 	MODULE: inout.c					[General_libs]
 ==============================================================================*/
 
+// STATIC problem: gcc version 11
+#include "../globaldefs.h"
+
 #include "stdinc.h"
 #include "vectmath.h"
 #include "inout.h"
