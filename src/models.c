@@ -3,7 +3,7 @@
 ==============================================================================*/
 
 // STATIC problem: gcc version 11
-#define global
+//#define global
 #include "globaldefs.h"
 #include "protodefs.h"
 
