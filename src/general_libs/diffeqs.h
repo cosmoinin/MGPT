@@ -22,9 +22,12 @@ void rkqs(double y[], double dydx[], int n, double *x, double htry, double eps,
           double yscal[], double *hdid, double *hnext,
           void (*derivs)(double, double [], double []));
 
+// STATIC problem: gcc version 11
+/*
 double dxsav,*xp,**yp;
 int kmax,kount;
 int nrhs;
+*/
 
 
 #endif // ! _diffeqs_h
