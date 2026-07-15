@@ -7,7 +7,8 @@
 
 #define copyright	"Copyright (c) .... "
 
-long idum;				// seed for random generators
+// STATIC problem: gcc version 11
+//long idum;				// seed for random generators
 
 #if !defined(NULL)
 #define NULL 0L
