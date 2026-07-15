@@ -2,6 +2,7 @@
 	MODULE: models.c			[mgpt]
 ==============================================================================*/
 
+// STATIC problem: gcc version 11
 #define global
 #include "globaldefs.h"
 #include "protodefs.h"
