@@ -339,7 +339,9 @@ typedef struct {
     real *wgl;
 } global_GL, *global_GL_ptr;
 
-global_GL_ptr pGL;
+// STATIC problem: gcc version 11
+//global_GL_ptr pGL;
+global global_GL_ptr pGL;
 
 #define nGL(x)    (((global_GL_ptr) (x))->npts)
 #define x1GL(x)    (((global_GL_ptr) (x))->x1)
@@ -473,6 +475,23 @@ typedef struct {
 #define Lapxiclptcorrfun(x)    (((global_clptcorrfunctions_ptr) (x))->Lapxi)
 #define nabla4xiclptcorrfun(x)    (((global_clptcorrfunctions_ptr) (x))->nabla4xi)
 // END :: CLPT correlation auxiliary functions and structures
+
+// STATIC problem: gcc version 11
+// From inout.h
+global real *inout_xval;
+global real *inout_yval;
+global real *inout_zval;
+global real *inout_wval;
+
+// STATIC problem: gcc version 11
+// From diffeqs.h
+global double dxsav,*xp,**yp;
+global int kmax,kount;
+global int nrhs;
+
+// STATIC problem: gcc version 11
+// From stdinc.h
+global long idum;                // seed for random generators
 
 #endif // ! _globaldefs_h
 
