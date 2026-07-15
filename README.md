@@ -10,6 +10,8 @@ alejandro.aviles.conacyt@inin.gob.mx, avilescervantes@gmail.com
 
 #
 
+Note: updated in order to be compiled with new versions of gcc (like gcc-15)
+#
 
 MGPT (Modified Gravity Perturbation Theory) is a C code that computes 2-point statistics for LCDM model, DGP and Hu-Sawicky f(R) gravity. The source code can be easily modified to include other models. 
 
