@@ -1,4 +1,6 @@
 
+// STATIC problem: gcc version 11
+#include "../globaldefs.h"
 
 #include "stdinc.h"
 #include "mathfns.h"
