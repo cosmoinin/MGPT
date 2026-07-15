@@ -1,3 +1,5 @@
+// STATIC problem: gcc version 11
+#include "../globaldefs.h"
 
 // Incluido por haber puesto las funciones de bessel abajo ...
 //#include <math.h>
