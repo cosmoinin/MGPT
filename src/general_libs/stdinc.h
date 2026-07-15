@@ -15,7 +15,7 @@ long idum;				// seed for random generators
 
 #define local     static
 
-typedef short int bool;
+//typedef short int bool;
 
 #if !defined(TRUE)
 #define TRUE  ((bool) 1)
