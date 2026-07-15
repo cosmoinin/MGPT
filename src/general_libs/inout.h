@@ -86,10 +86,12 @@ void inout_InputData_3c(string filename, int col1, int col2, int col3,
                   int *npts);
 void inout_InputData_4c(string filename, int col1, int col2, int col3, int col4,
                         int *npts);
+/*
 real *inout_xval;
 real *inout_yval;
 real *inout_zval;
 real *inout_wval;
+*/
 
 // END: PARA IMPLEMENTAR LECTURA GENERAL DE ARCHIVOS DE DATOS CON FORMATO DE COLUMNAS
 
